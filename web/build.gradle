@@ -1,0 +1,26 @@
+
+dependencies {
+    compile project(':api')
+    runtime project(':api')
+}
+
+
+// Just a smoke test that using this option does not lead to any exception
+compileJava.options.compilerArgs = ['-Xlint:unchecked']
+
+
+task checkProjectDependency(dependsOn: project(':api').jar) << {
+    File cachedSharedJarDir = new File(gradle.gradleUserHomeDir, "cache/multiproject/shared/jars")
+    copy {
+        from project(':api').jar.archivePath
+        into cachedSharedJarDir
+    }
+    File sharedJar = configurations.compile.files.find { File file -> file.name.startsWith('api')}
+    assert sharedJar.absolutePath == project(':api').jar.archivePath.absolutePath
+}
+
+
+bootRun {
+    addResources = true
+}
+
