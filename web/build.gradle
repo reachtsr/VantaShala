@@ -1,7 +1,10 @@
 
 dependencies {
     compile project(':api')
+    compile project(':service')
     runtime project(':api')
+    runtime project(':service')
+    compile project(':common')
 }
 
 

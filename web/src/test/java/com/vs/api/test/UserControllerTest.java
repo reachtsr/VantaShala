@@ -1,7 +1,7 @@
 package com.vs.api.test;
 
 import com.jayway.restassured.RestAssured;
-import com.vs.bootstrap.Bootstrap;
+import com.vs.bootstrap.ApplicationBootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import static com.jayway.restassured.RestAssured.when;
  * Created by GeetaKrishna on 12/19/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Bootstrap.class)
+@SpringApplicationConfiguration(classes = ApplicationBootstrap.class)
 @WebAppConfiguration
 @Slf4j
 @IntegrationTest("server.port:0")
@@ -32,7 +32,7 @@ public class UserControllerTest {
     @Before
     public void setup() {
 
-        log.info("Seeting up Tests {}", port);
+        log.info("Setting up Tests {}", port);
 
         RestAssured.port = port;
         RestAssured.baseURI = "http://localhost";

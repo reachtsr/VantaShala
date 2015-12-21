@@ -1,24 +1,20 @@
 package com.vs.bootstrap;
 
+import com.vs.common.Bootstrap;
+import com.vs.service.bootstrap.ServiceBootstrap;
 import lombok.extern.slf4j.Slf4j;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 11/8/2015.
@@ -28,17 +24,23 @@ import java.util.Map;
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
+public class ApplicationBootstrap implements CommandLineRunner, ServletContextInitializer, Bootstrap {
 
-public class Bootstrap implements CommandLineRunner, ServletContextInitializer {
+    @Resource(name="serviceBootstrap")
+    private Bootstrap serviceBootstrap;
+
+    @Resource(name="APIBootstrap")
+    private Bootstrap apiBootstrap;
+
     public static void main(String[] args) {
 
-        ApplicationContext ctx = SpringApplication.run(Bootstrap.class, args);
+        ApplicationContext ctx = SpringApplication.run(ApplicationBootstrap.class, args);
 
         log.info("Scanning Initialized Beans...");
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames) {
-            log.trace(beanName);
+            log.info(beanName);
         }
         log.info("Scanning Initialized Beans...Done!");
         log.info("Hurray! Application Started. ");
@@ -47,12 +49,16 @@ public class Bootstrap implements CommandLineRunner, ServletContextInitializer {
     @Override
     public void run(String... args) throws Exception {
         log.info("After application initialized...");
+        initialize();
+    }
 
+    @Override
+    public void initialize() {
+        serviceBootstrap.initialize();
+        apiBootstrap.initialize();
         // Check for Mongo Collection
         // If none available create the Basic Collection for super admin
     }
-
-
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {

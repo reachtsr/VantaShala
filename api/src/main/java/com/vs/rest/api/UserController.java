@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
  * Created by GeetaKrishna on 12/14/2015.
  */
 @Component
-@Path("/hello")
+@Path("/user")
 @Slf4j
 public class UserController {
 
@@ -24,9 +24,12 @@ public class UserController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response hello() {
-        log.info("====> HELLO");
+    @Path("/helloUser")
+    public Response helloTest() {
+        log.info(" == Running Hello Test ==");
         return Response.status(200).build();
     }
+
+
 
 }

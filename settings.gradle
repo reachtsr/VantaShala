@@ -3,4 +3,6 @@ include 'api'
 include 'model'
 include 'web'
 include 'utils'
+include 'service'
+include 'common'
 

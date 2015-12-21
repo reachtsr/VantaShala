@@ -150,5 +150,7 @@
     <orderEntry type="library" name="Gradle: com.jayway.restassured:json-path:2.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.jayway.restassured:xml-path:2.8.0" level="project" />
     <orderEntry type="library" name="Gradle: com.jayway.restassured:rest-assured-common:2.8.0" level="project" />
+    <orderEntry type="module" module-name="service" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>

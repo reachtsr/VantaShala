@@ -1,5 +1,4 @@
 
-
 buildscript {
 
     project.ext {
@@ -25,6 +24,7 @@ allprojects {
 
 }
 
+
 subprojects {
 
     apply plugin: 'idea'
@@ -35,6 +35,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     dependencies {
+
         compile('org.springframework.boot:spring-boot-starter-aop')
         compile('org.springframework.boot:spring-boot-starter-cache')
         compile('org.springframework.boot:spring-boot-starter-data-mongodb')
@@ -47,7 +48,7 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter-validation')
         compile('org.springframework.boot:spring-boot-starter-velocity')
         compile('org.springframework.boot:spring-boot-starter-web')
-        compile 'com.jayway.restassured:rest-assured:2.8.0'
+        compile('com.jayway.restassured:rest-assured:2.8.0')
         compile('org.projectlombok:lombok:1.16.6')
         compile("org.springframework.boot:spring-boot-starter-actuator")
         testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -80,4 +81,52 @@ subprojects {
         gradleVersion = '2.9'
     }
 
+    test {
+        // this enables output in build/test-results directory
+        testLogging {
+            exceptionFormat "full"
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+        }
+    }
+
+    task listClasses << {
+        tree = fileTree('build/classes') {
+            include '**/*.class'
+        }
+        tree.each {File file ->
+            println relativePath(file)
+        }
+    }
+
+    task testJar(type: Jar) {
+        classifier = 'tests'
+        from sourceSets.test.output.classesDir
+    }
+
+    task show << {
+        println ""
+        println "-----------------------------------------------"
+        println "Project Name: " + projTitle
+        println "Version: " + projVersion
+        println "Home directory: "
+        println "Build output: " + relativePath(compileJava.destinationDir)
+        println "Resources output: " + relativePath(processResources.destinationDir)
+        println "Test output dir: " + relativePath(sourceSets.test.output.classesDir)
+        println "Test result dir: " + relativePath(testResultsDir)
+        println "Report dir: " + relativePath(testReportDir)
+        println "-----------------------------------------------"
+    }
+}
+
+subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
+task allJar( type: Jar, dependsOn: subprojects.tasks["testClasses"] ) {
+    baseName = 'allJar'
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.allArtifacts.files.collect {
+            zipTree(it)
+        }
+    }
+}
+artifacts {
+  //  archives allJar
 }
