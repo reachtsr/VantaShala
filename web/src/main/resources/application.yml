@@ -9,8 +9,19 @@ spring:
     application-path: /rest # Path that serves as the base URI for the application. Overrides the value of "@ApplicationPath" if specified.
     filter.order: 0 # Jersey filter chain order.
     type: servlet # Jersey integration type. Can be either "servlet" or "filter".
-    init.*: 
+    init.*:
+
+  data:
+    mongodb:
+      database: VantaShala
+      repositories.enabled: true
+
 server:
   context-path: /vs
+
+vs:
+  mongo:
+    userCollectionName: user
+    roleCollectionName: role
 
  # server.servlet-path=/some_context_for_spring_mvc

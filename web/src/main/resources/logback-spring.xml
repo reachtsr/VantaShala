@@ -38,6 +38,7 @@
     <logger name="org.quartz" level="ERROR" />
     <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="ERROR" />
     <logger name="org.springframework" level="ERROR"></logger>
+    <logger name="org.springframework.data" level="DEBUG"></logger>
     <logger name="org.springframework.web" level="ERROR"></logger>
     <logger name="org.springframework.boot" level="DEBUG"></logger>
     <logger name="org.springframework.jdbc.core" level="ERROR" />

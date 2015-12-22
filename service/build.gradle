@@ -4,7 +4,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':api')
+
     compile project(':model')
     compile project(':common')
     testCompile group: 'junit', name: 'junit', version: '4.11'

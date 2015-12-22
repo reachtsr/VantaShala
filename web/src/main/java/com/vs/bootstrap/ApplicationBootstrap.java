@@ -1,15 +1,14 @@
 package com.vs.bootstrap;
 
 import com.vs.common.Bootstrap;
-import com.vs.service.bootstrap.ServiceBootstrap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -24,6 +23,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
+@EnableMongoRepositories({"com.vs.service.repo"})
 public class ApplicationBootstrap implements CommandLineRunner, ServletContextInitializer, Bootstrap {
 
     @Resource(name="serviceBootstrap")
@@ -40,7 +40,7 @@ public class ApplicationBootstrap implements CommandLineRunner, ServletContextIn
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames) {
-            log.info(beanName);
+            log.trace(beanName);
         }
         log.info("Scanning Initialized Beans...Done!");
         log.info("Hurray! Application Started. ");

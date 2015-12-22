@@ -35,11 +35,11 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     dependencies {
-
+        compile("org.springframework.social:spring-social-facebook")
         compile('org.springframework.boot:spring-boot-starter-aop')
         compile('org.springframework.boot:spring-boot-starter-cache')
         compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-
+        compile('org.springframework.boot:spring-boot-configuration-processor')
         compile('org.springframework.boot:spring-boot-devtools')
         compile('org.springframework.boot:spring-boot-starter-jersey')
         compile('org.springframework.boot:spring-boot-starter-mail')
@@ -116,6 +116,8 @@ subprojects {
         println "Report dir: " + relativePath(testReportDir)
         println "-----------------------------------------------"
     }
+
+    compileJava.dependsOn(processResources)
 }
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path)}

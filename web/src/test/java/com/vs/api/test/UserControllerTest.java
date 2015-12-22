@@ -44,7 +44,7 @@ public class UserControllerTest {
 
         log.info("Running test {}", RestAssured.basePath);
         given().log().path();
-        when().get("/rest/hello").then().statusCode(HttpStatus.SC_OK);
+        when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
 
     }
 }
