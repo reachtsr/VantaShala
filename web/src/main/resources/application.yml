@@ -23,5 +23,6 @@ vs:
   mongo:
     userCollectionName: user
     roleCollectionName: role
-
+  uploads:
+    location: /fileUploads/
  # server.servlet-path=/some_context_for_spring_mvc

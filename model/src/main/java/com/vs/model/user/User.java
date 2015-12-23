@@ -16,31 +16,14 @@ public final class User {
     static final int MAX_LENGTH_KITCHEN_NAME = 120;
 
     @Id
+    private String userName;
     private String kitchenName;
     private String firstName;
     private String lastName;
     private Address personalAddress;
-    private Address pickupAddress;
+    private Address businessAddress;
     private String mobile;
     private Boolean enableTextMessaging = false;
     private Role role = Role.DEFAULT;
 }
 
-@Data
-class Address {
-    private String address1;
-    private String address2;
-    private String city;
-    private String state;
-    private String zipcode;
-}
-
-@Data
-@EqualsAndHashCode(callSuper=false)
-class PersonalAddress extends Address{
-}
-
-@Data
-@EqualsAndHashCode(callSuper=false)
-class PickupAddress extends  Address{
-}
