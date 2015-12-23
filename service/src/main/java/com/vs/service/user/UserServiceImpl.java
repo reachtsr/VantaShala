@@ -2,29 +2,29 @@ package com.vs.service.user;
 
 import com.vs.model.enums.Role;
 import com.vs.model.user.User;
-import com.vs.service.repo.UserRepository;
+import com.vs.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by GeetaKrishna on 12/22/2015.
  */
-
-public abstract class UserServiceImpl implements IUserService{
+@Slf4j
+public abstract class UserServiceImpl implements IUserService {
 
     private Role role = null;
 
     @Autowired
     private UserRepository userRepository;
 
-    public UserServiceImpl(Role role) throws  Exception{
+    public UserServiceImpl(Role role) throws Exception {
         this.role = role;
-        if(this.role == null) {
+        if (this.role == null) {
             throw new Exception("UserService - Role is NULL ");
         }
+        log.info("Role Assigned: {}", role.name());
     }
 
     @Override
@@ -49,27 +49,18 @@ public abstract class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User getUserByKitchenName(String name) {
+    public List<User> getUserByKitchenName(String name) {
         return userRepository.findByKitchenName(name);
     }
 
     @Override
-    public User getUserByUserName(String name) {
+    public List<User> getUserByUserName(String name) {
         return userRepository.findByUserName(name);
     }
 
     @Override
     public List<User> searchUser(String name) {
-        List<User> fUsers = getUserByFirstName(name);
-        List<User> lUsers = getUserByLastName(name);
-        User user = getUserByKitchenName(name);
-
-        List<User> users = new ArrayList<>();
-        users.addAll(lUsers);
-        users.addAll(fUsers);
-        users.add(user);
-
-        return users;
+        return userRepository.findByLastNameOrFirstNameOrKitchenNameOrUserNameAndRole(name, name,name,name,role);
     }
 
     @Override
@@ -87,4 +78,8 @@ public abstract class UserServiceImpl implements IUserService{
         return userRepository.countByLastNameAndRole(name, role);
     }
 
+    @Override
+    public int getUserCount() {
+        return userRepository.countByRole(role);
+    }
 }

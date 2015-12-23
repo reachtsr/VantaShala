@@ -1,4 +1,4 @@
-package com.vs.rest.api;
+package com.vs.rest.api.user;
 
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -16,13 +16,13 @@ import javax.ws.rs.core.Response;
  * Created by GeetaKrishna on 12/22/2015.
  */
 @Component
-@Path("/user/customer")
+@Path("/customer")
 @Slf4j
 public class CustomerController extends UserController{
 
 
     @Autowired
-    public CustomerController(@Qualifier("cookService") IUserService userService) {
+    public CustomerController(@Qualifier("customerService") IUserService userService) {
         super(userService);
     }
 
@@ -39,6 +39,13 @@ public class CustomerController extends UserController{
     }
 
     @GET
+    @Path("/count")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getUserCount() {
+        return super.getUserCount();
+    }
+
+    @GET
     @Path("/{name}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response searchUser(@PathParam("name") String name) {
@@ -49,8 +56,8 @@ public class CustomerController extends UserController{
     @GET
     @Path("/uname/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserByUserName(@PathParam("userName") String kitchenName) {
-        return super.getUserByUserName(kitchenName);
+    public Response getUserByUserName(@PathParam("userName") String userName) {
+        return super.getUserByUserName(userName);
     }
 
     @POST

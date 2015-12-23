@@ -23,7 +23,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
-@EnableMongoRepositories({"com.vs.service.repo"})
+@EnableMongoRepositories({"com.vs.repository"})
 public class ApplicationBootstrap implements CommandLineRunner, ServletContextInitializer, Bootstrap {
 
     @Resource(name="serviceBootstrap")

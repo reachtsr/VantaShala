@@ -1,4 +1,4 @@
-package com.vs.rest.api;
+package com.vs.rest.api.user;
 
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -9,13 +9,8 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Iterator;
@@ -52,14 +47,14 @@ public abstract class UserController {
 
     public Response getUserByKitchenName(String kitchenName) {
         log.info(" Retrieving Cook: {}", kitchenName);
-        User user = userService.getUserByKitchenName(kitchenName);
+        List<User> user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
         return Response.status(200).entity(user).build();
     }
 
     public Response getUserByUserName(String userName) {
         log.info(" Retrieving Cook: {}", userName);
-        User user = userService.getUserByUserName(userName);
+        List<User> user = userService.getUserByUserName(userName);
         log.info("UserDetails : {}", user);
         return Response.status(200).entity(user).build();
     }
@@ -140,4 +135,7 @@ public abstract class UserController {
         return Response.status(200).entity(status).build();
     }
 
+    public Response getUserCount(){
+        return Response.status(200).entity(userService.getUserCount()).build();
+    }
 }

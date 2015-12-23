@@ -15,11 +15,11 @@ public interface IUserService {
     public List<User> listUsers();
     public List<User> getUserByFirstName(String name);
     public List<User> getUserByLastName(String name);
-    public User getUserByKitchenName(String name);
-    public User getUserByUserName(String name);
+    public List<User> getUserByKitchenName(String name);
+    public List<User> getUserByUserName(String name);
     public List<User> searchUser(String name);
     public int getUserCountByKitchenName(String name);
     public int getUserCountByFirstName(String name);
     public int getUserCountByLastName(String name);
-
+    public int getUserCount();
 }

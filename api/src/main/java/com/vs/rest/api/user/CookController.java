@@ -1,4 +1,4 @@
-package com.vs.rest.api;
+package com.vs.rest.api.user;
 
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
  * Created by GeetaKrishna on 12/22/2015.
  */
 @Component
-@Path("/user/cook")
+@Path("/cook")
 @Slf4j
 public class CookController extends UserController {
 
@@ -42,6 +42,14 @@ public class CookController extends UserController {
     }
 
     @GET
+    @Path("/count")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getUserCount() {
+        return super.getUserCount();
+    }
+
+
+    @GET
     @Path("/{name}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response searchUser(@PathParam("name") String name) {
@@ -58,8 +66,8 @@ public class CookController extends UserController {
     @GET
     @Path("/uname/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserByUserName(@PathParam("userName") String kitchenName) {
-        return super.getUserByUserName(kitchenName);
+    public Response getUserByUserName(@PathParam("userName") String userName) {
+        return super.getUserByUserName(userName);
     }
 
     @POST
@@ -72,8 +80,8 @@ public class CookController extends UserController {
     @POST
     @Path("/upload/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadUserIds(@PathParam("userName") String kitchenName, @Context RequestContext request){
-        return super.uploadIds(kitchenName, request);
+    public Response uploadUserIds(@PathParam("userName") String userName, @Context RequestContext request){
+        return super.uploadIds(userName, request);
     }
 
 
