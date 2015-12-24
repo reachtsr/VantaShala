@@ -18,8 +18,7 @@ public interface UserRepository extends MongoRepository<User, String>{
     public List<User> findByLastNameAndRole(String firstName, Role role);
     public List<User> findByLastNameOrFirstNameOrKitchenNameOrUserNameAndRole(String lname, String fname,String kname,String uname, Role role);
     public List<User> findByLastName(String lastName);
-    public List<User> findByKitchenName(String kitchenName);
-    public int countByKitchenName(String name);
+
     public int countByLastName(String name);
     public int countByFirstName(String name);
     public int countByLastNameAndRole(String name, Role role);

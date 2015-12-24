@@ -2,6 +2,7 @@ package com.vs.service.user;
 
 import com.vs.model.enums.Role;
 import com.vs.model.user.User;
+import com.vs.repository.CookRepository;
 import com.vs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CookRepository cookRepository;
+
 
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
@@ -50,7 +55,7 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public List<User> getUserByKitchenName(String name) {
-        return userRepository.findByKitchenName(name);
+        return cookRepository.findByKitchenName(name);
     }
 
     @Override
@@ -65,7 +70,7 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public int getUserCountByKitchenName(String name) {
-        return userRepository.countByKitchenName(name);
+        return cookRepository.countByKitchenName(name);
     }
 
     @Override
