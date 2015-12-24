@@ -14,12 +14,13 @@ import java.util.Date;
 public class Menu {
 
     private String userName;
-    private String menuName;
+    private String name;
     private Item[] items;
     private Date startDate;
     private Date endDate;
-
     @Id
+    private String menuId;
+
     public String getMenuId(){
        return "MENU_"+userName+"_"+startDate+"_"+endDate;
     }

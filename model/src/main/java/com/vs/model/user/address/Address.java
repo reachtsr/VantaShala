@@ -1,4 +1,4 @@
-package com.vs.model.user;
+package com.vs.model.user.address;
 
 import lombok.Data;
 
@@ -11,5 +11,5 @@ public class Address {
     private String address2;
     private String city;
     private String state;
-    private String zipcode;
+    private String zipCode;
 }

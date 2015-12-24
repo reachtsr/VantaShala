@@ -29,7 +29,7 @@ public class AdminMenuController {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserMenus(){
+    public Response getAllUserMenus(){
         List<Menu> menus = menuService.getMenus();
         return CommonController.buildResponse(menus);
     }

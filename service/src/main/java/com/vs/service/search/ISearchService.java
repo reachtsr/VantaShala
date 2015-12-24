@@ -1,5 +1,6 @@
 package com.vs.service.search;
 
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 
 import java.util.List;
@@ -9,6 +10,6 @@ import java.util.List;
  */
 public interface ISearchService {
 
-    public List<User> findByBusinessAddressZipCode(String zipCode);
-    public List<User> findByBusinessAddressZipCodeRadius(String zipCode);
+    public List<Cook> findByBusinessAddressZipCode(String zipCode);
+    public List<Cook> findByBusinessAddressZipCodeRadius(String zipCode);
 }

@@ -1,8 +1,8 @@
 package com.vs.model.user;
 
 import com.vs.model.enums.Role;
+import com.vs.model.user.address.Address;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 
@@ -11,19 +11,22 @@ import org.springframework.data.annotation.Id;
  */
 @Slf4j
 @Data
-public final class User {
+public abstract class User {
 
     static final int MAX_LENGTH_KITCHEN_NAME = 120;
 
     @Id
     private String userName;
-    private String kitchenName;
+    private Role role = Role.DEFAULT;
     private String firstName;
     private String lastName;
-    private Address personalAddress;
-    private Address businessAddress;
+    private String email;
     private String mobile;
+    private Address personalAddress;
     private Boolean enableTextMessaging = false;
-    private Role role = Role.DEFAULT;
+
+    public void setRole(Role role){
+        this.role = role;
+    }
 }
 

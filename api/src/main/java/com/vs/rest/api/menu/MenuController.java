@@ -52,7 +52,7 @@ public class MenuController {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response createMenu(Menu menu){
         Preconditions.checkNotNull(menu.getUserName());
-        Preconditions.checkNotNull(menu.getMenuName());
+        Preconditions.checkNotNull(menu.getName());
         menuService.createUserMenu(menu);
         return CommonController.buildResponse("Menu Created");
     }
@@ -63,7 +63,7 @@ public class MenuController {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response updateMenu(Menu menu){
         Preconditions.checkNotNull(menu.getUserName());
-        Preconditions.checkNotNull(menu.getMenuName());
+        Preconditions.checkNotNull(menu.getName());
         Preconditions.checkArgument(menuService.menuExists(menu.getMenuId()));
         menuService.updateUserMenu(menu);
         return CommonController.buildResponse("Menu Updated");

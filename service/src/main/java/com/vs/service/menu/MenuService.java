@@ -3,12 +3,14 @@ package com.vs.service.menu;
 import com.vs.model.menu.Menu;
 import com.vs.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
  */
+@Service
 public class MenuService implements IMenuService {
 
     @Autowired

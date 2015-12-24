@@ -11,10 +11,10 @@ import java.util.List;
  */
 public interface MenuRepository extends MongoRepository<Menu, String> {
 
-    public List<Menu> findByUserNameAndName(String userName, String menuName);
+    public List<Menu> findByUserNameAndName(String userName, String name);
     public List<Menu> findByUserName(String userName);
     public Menu findByUserNameAndMenuId(String userName, String menuId);
-    public List<Menu> findByUserNameAndNameOrMenuId(String userName, String menuName, String menuId);
+    public List<Menu> findByUserNameAndNameOrMenuId(String userName, String name, String menuId);
     public Menu findByMenuId(String menuId);
     public List<Menu> findByName(String menuName);
     public boolean exists(String menuId);

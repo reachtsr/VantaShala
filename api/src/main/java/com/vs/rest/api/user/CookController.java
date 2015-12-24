@@ -1,5 +1,6 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +74,7 @@ public class CookController extends UserController {
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response createUser(User user){
+    public Response createUser(Cook user){
         return super.createUser(user);
     }
 
@@ -89,7 +90,7 @@ public class CookController extends UserController {
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void updateUser(@PathParam("userName") String userName, User user){
+    public void updateUser(@PathParam("userName") String userName, Cook user){
        super.updateUser(userName, user);
     }
 

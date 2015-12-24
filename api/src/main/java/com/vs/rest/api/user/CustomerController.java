@@ -1,5 +1,6 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.user.Customer;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +64,7 @@ public class CustomerController extends UserController{
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response createUser(User user){
+    public Response createUser(Customer user){
         return super.createUser(user);
     }
 
@@ -71,7 +72,7 @@ public class CustomerController extends UserController{
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void updateUser(@PathParam("userName") String userName, User user){
+    public void updateUser(@PathParam("userName") String userName, Customer user){
         super.updateUser(userName, user);
     }
 

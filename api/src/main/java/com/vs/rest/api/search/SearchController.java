@@ -1,5 +1,6 @@
 package com.vs.rest.api.search;
 
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.search.ISearchService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class SearchController {
     @Path("/{zipCode}")
     public void searchForCooksByZipCode(@PathParam("zipCode") String zipCode){
 
-        List<User> users = new ArrayList<>();
+        List<Cook> users = new ArrayList<>();
 
         try {
             users = searchService.findByBusinessAddressZipCodeRadius(zipCode);
