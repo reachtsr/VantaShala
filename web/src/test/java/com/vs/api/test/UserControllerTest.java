@@ -51,7 +51,7 @@ public class UserControllerTest {
         log.info("Listing Cooks {}", RestAssured.basePath);
         given().log().path();
         given().expect().statusCode(200).
-                when().get("/rest/cook/cook").then().assertThat().body("userName", equalTo("cook"));
+                when().get("/rest/cook/cook").then().assertThat().body("userName", equalTo("[cook]"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class UserControllerTest {
         log.info("Listing Cooks {}", RestAssured.basePath);
         given().log().path();
         given().expect().statusCode(200).
-                when().get("/rest/customer/customer").then().assertThat().body("userName", equalTo("customer"));
+                when().get("/rest/customer/customer").then().assertThat().body("userName", equalTo("[customer]"));
     }
 
 

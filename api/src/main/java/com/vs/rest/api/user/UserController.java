@@ -1,5 +1,6 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public abstract class UserController {
 
     public Response getUserByKitchenName(String kitchenName) {
         log.info(" Retrieving Cook: {}", kitchenName);
-        List<User> user = userService.getUserByKitchenName(kitchenName);
+        List<Cook> user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
         return Response.status(200).entity(user).build();
     }

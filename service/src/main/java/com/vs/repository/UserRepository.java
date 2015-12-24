@@ -16,7 +16,7 @@ public interface UserRepository extends MongoRepository<User, String>{
     public List<User> findByFirstName(String firstName);
     public List<User> findByFirstNameAndRole(String firstName, Role role);
     public List<User> findByLastNameAndRole(String firstName, Role role);
-    public List<User> findByLastNameOrFirstNameOrKitchenNameOrUserNameAndRole(String lname, String fname,String kname,String uname, Role role);
+
     public List<User> findByLastName(String lastName);
 
     public int countByLastName(String name);
@@ -25,7 +25,7 @@ public interface UserRepository extends MongoRepository<User, String>{
     public int countByFirstNameAndRole(String name, Role role);
     public int countByRole(Role role);
     public List<User> findByRole(String roleName);
-    public boolean exists(String kitchenName);
+    public boolean exists(String userName);
     public List<User> findByUserName(String userName);
-
+    public List<User> findByLastNameOrFirstNameOrUserNameAndRole(String lname, String fname, String uname, Role role);
 }

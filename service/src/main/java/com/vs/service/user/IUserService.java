@@ -1,5 +1,6 @@
 package com.vs.service.user;
 
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface IUserService {
     public List<User> listUsers();
     public List<User> getUserByFirstName(String name);
     public List<User> getUserByLastName(String name);
-    public List<User> getUserByKitchenName(String name);
+    public List<Cook> getUserByKitchenName(String name);
     public List<User> getUserByUserName(String name);
     public List<User> searchUser(String name);
     public int getUserCountByKitchenName(String name);

@@ -25,7 +25,7 @@ public class SearchController {
     ISearchService searchService;
 
     @Path("/{zipCode}")
-    public void searchForCooksByZipCode(@PathParam("zipCode") String zipCode){
+    public Response searchForCooksByZipCode(@PathParam("zipCode") String zipCode){
 
         List<Cook> users = new ArrayList<>();
 
@@ -36,6 +36,6 @@ public class SearchController {
 
             Response.status(200).entity("Invalid ZipCode").build();
         }
-        Response.status(200).entity(users).build();
+        return Response.status(200).entity(users).build();
     }
 }

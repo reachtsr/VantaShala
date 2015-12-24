@@ -1,9 +1,11 @@
 package com.vs.service.user;
 
 import com.vs.model.enums.Role;
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
 import com.vs.repository.UserRepository;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +15,7 @@ import java.util.List;
  * Created by GeetaKrishna on 12/22/2015.
  */
 @Slf4j
+@Data
 public abstract class UserServiceImpl implements IUserService {
 
     private Role role = null;
@@ -54,7 +57,7 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getUserByKitchenName(String name) {
+    public List<Cook> getUserByKitchenName(String name) {
         return cookRepository.findByKitchenName(name);
     }
 
@@ -63,9 +66,8 @@ public abstract class UserServiceImpl implements IUserService {
         return userRepository.findByUserName(name);
     }
 
-    @Override
     public List<User> searchUser(String name) {
-        return userRepository.findByLastNameOrFirstNameOrKitchenNameOrUserNameAndRole(name, name,name,name,role);
+        return userRepository.findByLastNameOrFirstNameOrUserNameAndRole(name, name, name, role);
     }
 
     @Override
