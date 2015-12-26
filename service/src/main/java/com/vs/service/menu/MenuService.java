@@ -1,8 +1,13 @@
 package com.vs.service.menu;
 
+import com.vs.model.enums.MenuStatus;
 import com.vs.model.menu.Menu;
 import com.vs.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +20,9 @@ public class MenuService implements IMenuService {
 
     @Autowired
     MenuRepository repository;
+
+    @Autowired
+    MongoTemplate template;
 
     @Override
     public void createUserMenu(Menu menu) {
@@ -70,5 +78,14 @@ public class MenuService implements IMenuService {
     @Override
     public Menu getMenuById(String menuId) {
         return repository.findByMenuId(menuId);
+    }
+
+    @Override
+    public void updateUserMenuStatus(String id, MenuStatus status) {
+
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = Update
+                .update("status", status);
+        this.template.findAndModify(query, update, Menu.class);
     }
 }

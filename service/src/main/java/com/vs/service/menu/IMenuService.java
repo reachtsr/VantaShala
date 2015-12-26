@@ -1,5 +1,6 @@
 package com.vs.service.menu;
 
+import com.vs.model.enums.MenuStatus;
 import com.vs.model.menu.Menu;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface IMenuService {
 
     public void createUserMenu(Menu menu);
     public void updateUserMenu(Menu menu);
+    public void updateUserMenuStatus(String id, MenuStatus status);
     public void deleteUserMenu(String userName, String menuId);
     public List<Menu> getUserMenus(String userName);
     public List<Menu> getUserMenuByName(String userName, String menuName);

@@ -2,9 +2,13 @@
 dependencies {
     compile project(':api')
     compile project(':service')
+    compile project(':common')
+    compile project(':utils')
+
+    runtime project(':common')
+    runtime project(':utils')
     runtime project(':api')
     runtime project(':service')
-    compile project(':common')
 }
 
 

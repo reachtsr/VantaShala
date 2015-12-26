@@ -1,5 +1,6 @@
 package com.vs.rest.api.menu;
 
+import com.vs.model.enums.MenuStatus;
 import com.vs.model.menu.Menu;
 import com.vs.model.user.User;
 import com.vs.rest.api.common.CommonController;
@@ -81,6 +82,15 @@ public class MenuController {
         return CommonController.buildResponse("Menu Deleted");
     }
 
-
+    @POST
+    @Path("status/{menuId}/{status}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response updateMenuStatus(@PathParam("menuId") String id, @PathParam("status") MenuStatus status){
+        Preconditions.checkNotNull(id);
+        Preconditions.checkNotNull(status);
+        menuService.updateUserMenuStatus(id, status);
+        return CommonController.buildResponse("Menu Created");
+    }
 
 }

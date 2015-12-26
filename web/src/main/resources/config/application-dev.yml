@@ -7,3 +7,14 @@ spring:
       host: localhost
       port: 27017
 
+vs:
+  email:
+    host: smtp.gmail.com
+    port: 587
+    userName: alertsoalerts
+    password: gopikrishna
+    from: VantaShala
+    mail.smtp.auth: true
+    mail.smtp.starttls.enable: true
+    mail.smtp.starttls.required: true
+    mail.smtp.debug: true

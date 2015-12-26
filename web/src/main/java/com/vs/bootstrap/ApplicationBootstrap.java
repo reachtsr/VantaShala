@@ -2,14 +2,15 @@ package com.vs.bootstrap;
 
 import com.vs.common.Bootstrap;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,7 +25,8 @@ import java.util.Arrays;
 @Slf4j
 @ComponentScan("com.vs")
 @EnableMongoRepositories({"com.vs.repository"})
-public class ApplicationBootstrap implements CommandLineRunner, ServletContextInitializer, Bootstrap {
+@EnableConfigurationProperties
+public class ApplicationBootstrap implements ServletContextInitializer, Bootstrap {
 
     @Resource(name="serviceBootstrap")
     private Bootstrap serviceBootstrap;
@@ -46,8 +48,8 @@ public class ApplicationBootstrap implements CommandLineRunner, ServletContextIn
         log.info("Hurray! Application Started. ");
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    @PostConstruct
+    public void init() {
         log.info("After application initialized...");
         initialize();
     }
@@ -64,4 +66,5 @@ public class ApplicationBootstrap implements CommandLineRunner, ServletContextIn
     public void onStartup(ServletContext servletContext) throws ServletException {
         log.info("Servlet Context: {} {}.", servletContext.getContextPath(), servletContext.getRealPath("/"));
     }
+
 }

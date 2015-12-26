@@ -21,8 +21,11 @@ server:
 
 vs:
   mongo:
-    userCollectionName: user
-    roleCollectionName: role
+    repos:
+      userCollectionName: user
+      roleCollectionName: role
+      orderStatusCollectionName: orderStatus
+      menuStatusCollectionName: menuStatus
   uploads:
     location: /fileUploads/
  # server.servlet-path=/some_context_for_spring_mvc

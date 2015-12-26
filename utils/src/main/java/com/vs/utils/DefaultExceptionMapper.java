@@ -1,5 +1,7 @@
 package com.vs.utils;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.ValidationException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
@@ -9,6 +11,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 /**
  * Created by GeetaKrishna on 12/1/2015.
  */
+@Component
 public class DefaultExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
