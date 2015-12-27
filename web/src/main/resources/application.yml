@@ -26,7 +26,7 @@ vs:
       roleCollectionName: role
       orderStatusCollectionName: orderStatus
       menuStatusCollectionName: menuStatus
-      menuStatusCollectionName: emailStatus
+      emailStatusCollectionName: emailStatus
       emailCollectionName: emails
   uploads:
     location: /fileUploads/
