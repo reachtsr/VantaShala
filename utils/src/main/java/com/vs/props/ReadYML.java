@@ -34,8 +34,8 @@ public class ReadYML{
     @PostConstruct
     public void init(){
         log.info("{} object initialized.", ReadYML.class.getName());
-        log.info("Read Email Properties: {}", emailProperties);
-        log.info("Read Repo Properties: {}", repoProperties);
+        log.debug("Read Email Properties: {}", emailProperties);
+        log.debug("Read Repo Properties: {}", repoProperties);
     }
     public ReadYML() {
 

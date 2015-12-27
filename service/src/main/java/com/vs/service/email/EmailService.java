@@ -47,7 +47,7 @@ public class EmailService extends CommonEmailService {
 
     }
 
-    public void sendMenuStatusUpdateEmail(Menu menu)  throws AddressException{
+    public void sendMenuStatusUpdateEmail(Menu menu) {
 
         String to = userRepository.findOne(menu.getUserName()).getEmail();
         Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
