@@ -1,6 +1,6 @@
 package com.vs.mail;
 
-import com.vs.common.AppConstants;
+import com.vs.common.constants.EmailConstants;
 import com.vs.props.ReadYML;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Properties;
 public class MailSender {
 
     @Autowired
-    ReadYML readYML;
+    private ReadYML readYML;
 
     public MailSender() {
         log.info("MailSender Initialized");
@@ -33,7 +33,7 @@ public class MailSender {
         mailProperties.putAll(readYML.getEmail());
 
         mailSender.setJavaMailProperties(mailProperties);
-        log.info("Mail Sender Initialized with host: {}", readYML.getEmail().get(AppConstants.EMAIL_HOST_NAME));
+        log.info("Mail Sender Initialized with host: {}", readYML.getEmail().get(EmailConstants.EMAIL_HOST_NAME));
         return mailSender;
     }
 

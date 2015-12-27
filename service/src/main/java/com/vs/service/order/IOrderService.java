@@ -12,7 +12,7 @@ public interface IOrderService {
 
     public Order createOrder(Order menu);
     public Order updateOrder(Order menu);
-    public void deleteOrder(String id);
+    public void cancelOrder(String id);
     public List<Order>  getOrders(String userName);
     public Order getOrderById(String id);
 }

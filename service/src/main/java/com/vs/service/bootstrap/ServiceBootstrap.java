@@ -1,8 +1,10 @@
 package com.vs.service.bootstrap;
 
 import com.mongodb.BasicDBObject;
-import com.vs.common.AppConstants;
 import com.vs.common.Bootstrap;
+import com.vs.common.constants.EmailConstants;
+import com.vs.common.constants.RepositoryConstants;
+import com.vs.model.enums.EmailStatus;
 import com.vs.model.enums.MenuStatus;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.enums.Role;
@@ -29,6 +31,8 @@ public class ServiceBootstrap implements Bootstrap{
     @Autowired
     ReadYML readYML;
 
+//    Todo Check unsent emails if there are any schedule them to send now and update the status in DB.
+
     public void initialize(){
         checkAndCreateCollections();
     }
@@ -53,6 +57,7 @@ public class ServiceBootstrap implements Bootstrap{
             createRoles();
             createMenuStatus();
             createOrderStatus();
+            createEmailStatus();
         }
     }
 
@@ -61,21 +66,28 @@ public class ServiceBootstrap implements Bootstrap{
         log.info("Roles {}",enums.toString());
         BasicDBObject roleObj = new BasicDBObject();
         roleObj.put("roles", enums);
-        template.insert(roleObj, readYML.getRepos().get(AppConstants.ROLE_COLLECTION_NAME));
+        template.insert(roleObj, readYML.getRepos().get(RepositoryConstants.ROLE_COLLECTION_NAME));
     }
     private void createMenuStatus(){
         String[] enums = Arrays.stream(MenuStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         log.info("Menu Status {}",enums.toString());
         BasicDBObject roleObj = new BasicDBObject();
         roleObj.put("menuStatus", enums);
-        template.insert(roleObj, readYML.getRepos().get(AppConstants.MENU_STATUS_COLLECTION_NAME));
+        template.insert(roleObj, readYML.getRepos().get(RepositoryConstants.MENU_STATUS_COLLECTION_NAME));
     }
     private void createOrderStatus(){
         String[] enums = Arrays.stream(OrderStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         log.info("Order Status {}",enums.toString());
         BasicDBObject roleObj = new BasicDBObject();
         roleObj.put("orderStatus", enums);
-        template.insert(roleObj, readYML.getRepos().get(AppConstants.ORDER_STATUS_COLLECTION_NAME));
+        template.insert(roleObj, readYML.getRepos().get(RepositoryConstants.ORDER_STATUS_COLLECTION_NAME));
+    }
+    private void createEmailStatus(){
+        String[] enums = Arrays.stream(EmailStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        log.info("Order Status {}",enums.toString());
+        BasicDBObject roleObj = new BasicDBObject();
+        roleObj.put("emailStatus", enums);
+        template.insert(roleObj, readYML.getRepos().get(RepositoryConstants.EMAIL_STATUS_COLLECTION_NAME));
     }
 
 }

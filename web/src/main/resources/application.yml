@@ -26,6 +26,17 @@ vs:
       roleCollectionName: role
       orderStatusCollectionName: orderStatus
       menuStatusCollectionName: menuStatus
+      menuStatusCollectionName: emailStatus
+      emailCollectionName: emails
   uploads:
     location: /fileUploads/
+  email:
+    from: VantaShala
+    fromOrderEmail: order@VantaShala.com
+    fromSupportEmail: support@VantaShala.com
+    fromContactEmail: contact@VantaShala.com
+    mail.smtp.auth: true
+    mail.smtp.starttls.enable: true
+    mail.smtp.starttls.required: true
+    mail.smtp.debug: true
  # server.servlet-path=/some_context_for_spring_mvc

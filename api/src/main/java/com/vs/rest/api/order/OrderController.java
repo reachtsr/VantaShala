@@ -67,7 +67,7 @@ public class OrderController {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteOrder(@PathParam("orderId") String orderId) {
         Preconditions.checkNotNull(orderId);
-        orderService.deleteOrder(orderId);
+        orderService.cancelOrder(orderId);
         return CommonController.buildResponse("Order Deleted");
     }
 

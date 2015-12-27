@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 /**
@@ -17,21 +18,27 @@ import java.util.HashMap;
 public class ReadYML{
 
     @Autowired
-    private EmailProperties emailPropertiesOri;
+    private EmailProperties emailProperties;
 
     @Autowired
-    private RepoProperties repoPropertiesOri;
+    private RepoProperties repoProperties;
 
     public HashMap<String, String> getEmail() {
-        return emailPropertiesOri.getEmail();
+        return emailProperties.getEmail();
     }
 
     public HashMap<String, String> getRepos() {
-        return repoPropertiesOri.getRepos();
+        return repoProperties.getRepos();
     }
 
+    @PostConstruct
+    public void init(){
+        log.info("{} object initialized.", ReadYML.class.getName());
+        log.info("Read Email Properties: {}", emailProperties);
+        log.info("Read Repo Properties: {}", repoProperties);
+    }
     public ReadYML() {
-        log.info("{} object created {}", ReadYML.class.getName());
+
     }
 }
 

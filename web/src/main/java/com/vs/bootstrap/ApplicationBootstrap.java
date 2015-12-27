@@ -1,7 +1,10 @@
 package com.vs.bootstrap;
 
 import com.vs.common.Bootstrap;
+import com.vs.mail.MailSender;
+import com.vs.service.email.EmailService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
@@ -9,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -26,6 +30,7 @@ import java.util.Arrays;
 @ComponentScan("com.vs")
 @EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
+@EnableScheduling
 public class ApplicationBootstrap implements ServletContextInitializer, Bootstrap {
 
     @Resource(name="serviceBootstrap")
@@ -33,6 +38,9 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
 
     @Resource(name="APIBootstrap")
     private Bootstrap apiBootstrap;
+
+    @Autowired
+    private EmailService emailService;
 
     public static void main(String[] args) {
 
@@ -60,6 +68,8 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         apiBootstrap.initialize();
         // Check for Mongo Collection
         // If none available create the Basic Collection for super admin
+
+        emailService.sendAppStatusEmail();
     }
 
     @Override

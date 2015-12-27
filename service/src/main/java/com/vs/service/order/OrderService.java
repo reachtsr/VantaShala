@@ -3,6 +3,7 @@ package com.vs.service.order;
 import com.vs.model.enums.MenuStatus;
 import com.vs.model.order.Order;
 import com.vs.repository.OrderRepository;
+import com.vs.service.email.EmailService;
 import com.vs.service.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    EmailService emailService;
 
     @Override
     public Order createOrder(Order order) {
@@ -31,8 +34,10 @@ public class OrderService implements IOrderService {
                     menuService.updateUserMenuStatus(menuId, MenuStatus.LOCKED);
                 }
         );
+        Order savedOrder = repository.save(order);
+        emailService.sendOrderCreateEmail(savedOrder);
 
-        return repository.save(order);
+        return savedOrder;
     }
 
     @Override
@@ -54,12 +59,16 @@ public class OrderService implements IOrderService {
             }
         );
 
+        emailService.sendOrderCreateEmail(nOrder);
+        emailService.sendMenuStatusUpdateEmail(nOrder.getOrdersTo());
+
         return nOrder;
 
     }
 
+    // ToDo Add email Services to all order updates.
     @Override
-    public void deleteOrder(String orderId) {
+    public void cancelOrder(String orderId) {
         repository.delete(orderId);
     }
 

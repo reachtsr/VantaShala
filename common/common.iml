@@ -153,5 +153,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-config:1.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-twitter:1.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.social:spring-social-linkedin:1.0.2.RELEASE" level="project" />
+    <orderEntry type="module" module-name="model" />
   </component>
 </module>
