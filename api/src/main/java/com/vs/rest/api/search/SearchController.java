@@ -25,7 +25,7 @@ public class SearchController {
     ISearchService searchService;
 
     @Path("/{zipCode}")
-    public Response searchForCooksByZipCode(@PathParam("zipCode") String zipCode){
+    public Response searchCooksByZipCode(@PathParam("zipCode") String zipCode){
 
         List<Cook> users = new ArrayList<>();
 
