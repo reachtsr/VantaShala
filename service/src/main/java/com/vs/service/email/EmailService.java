@@ -34,13 +34,14 @@ public class EmailService extends CommonEmailService {
         }
     }
 
-    public void sendAppStatusEmail()  throws AddressException{
+    public void sendAppStatusEmail() {
 
-        String to = "haigopi@gmail.com";
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
          try {
-            sendEmail.sendEmail(email);
+             String to = "haigopi@gmail.com";
+             Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+
+             sendEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -49,10 +50,11 @@ public class EmailService extends CommonEmailService {
 
     public void sendMenuStatusUpdateEmail(Menu menu) {
 
-        String to = userRepository.findOne(menu.getUserName()).getEmail();
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
+            String to = userRepository.findOne(menu.getUserName()).getEmail();
+            Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+
             sendEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
