@@ -10,7 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -24,7 +27,7 @@ import java.util.Arrays;
  * Created by GeetaKrishna on 11/8/2015.
  */
 
-
+//@TODO FIX ALL THE TESTS : BUILD THE APP AND THEY FAIL.
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
@@ -77,4 +80,11 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         log.info("Servlet Context: {} {}.", servletContext.getContextPath(), servletContext.getRealPath("/"));
     }
 
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("i18n/messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        return messageSource;
+    }
 }

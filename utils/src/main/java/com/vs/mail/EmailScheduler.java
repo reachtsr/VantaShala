@@ -52,18 +52,16 @@ public class EmailScheduler {
     // Todo move value to application yaml. @Scheduled(cron = "${cron.expression}")
     @Scheduled(fixedDelay = 10000)
     public synchronized void sendEmail() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
-
+        log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
         Iterator<Email> i = mailsToSend.iterator();
         while (i.hasNext()) {
             Email email = i.next();
             i.remove();
+            log.info("Sending email: {}", email);
             mailSender.javaMailSender().send(email.getJavaXMessage());
             email.setStatus(EmailStatus.SENT);
             mailsSent.add(email);
         }
-
-
     }
 
     // Todo move value to application yaml. @Scheduled(cron = "${cron.expression}")
@@ -71,13 +69,13 @@ public class EmailScheduler {
     // updateEmailStatus.updateStatus, already in place
     @Scheduled(fixedDelay = 30000)
     public synchronized void updateDB() {
-        System.out.println("The time is now " + dateFormat.format(new Date()));
+        log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
         Iterator<Email> i = mailsToSend.iterator();
         while (i.hasNext()) {
             Email email = i.next();
             i.remove();
             dbOperations.updateEmailStatus(email);
-
+            log.info("Email Sent Status Update: {}", email);
         }
     }
 

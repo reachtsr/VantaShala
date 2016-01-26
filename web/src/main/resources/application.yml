@@ -16,6 +16,21 @@ spring:
       database: VantaShala
       repositories.enabled: true
 
+  social:
+
+    facebook:
+      app-id: 1144441838907025
+      app-secret: 5efeb88dbcd8d94bdd576ca3990c657f
+
+    twitter:
+      app-id: 3MeOLDqCHWBbxIhDPX5OknIYM
+      app-secret: NVN3NmGaobsravXkcPe5CpDnwHOUifdKLggHAjb0NipkG6efwB
+
+    google:
+       app-id: 757001337265-7v4coh9fdfpu0dpbnd4pmjsr7a32lloj.apps.googleusercontent.com
+       app-secret: KvjbI-SXVKZWIKyUB4Aik1-9
+
+
 server:
   context-path: /vs
 
@@ -39,4 +54,5 @@ vs:
     mail.smtp.starttls.enable: true
     mail.smtp.starttls.required: true
     mail.smtp.debug: true
+
  # server.servlet-path=/some_context_for_spring_mvc

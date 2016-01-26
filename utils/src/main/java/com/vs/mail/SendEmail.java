@@ -49,9 +49,11 @@ public class SendEmail {
 
     public void sendEmail(Email email) throws MessagingException{
         helper.setTo(email.getTo());
-        helper.addAttachment(email.getAttachment(), new File(email.getAttachment()));
+        if(email.getAttachment()!=null) {
+            helper.addAttachment(email.getAttachment(), new File(email.getAttachment()));
+        }
         // use the true flag to indicate the text included is HTML
-        helper.setText(email.getMessage(), true);
+        helper.setText(email.getMessage(), Boolean.TRUE);
         helper.setFrom("<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM)+">"+email.getFromEmail());
         email.setJavaXMessage(message);
         emailScheduler.scheduleEmailToSend(email);
