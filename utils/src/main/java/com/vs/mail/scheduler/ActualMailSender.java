@@ -52,18 +52,12 @@ public class ActualMailSender {
         String from="";
         // FROM
         if(email.getFromEmail()!=null && !email.getFromEmail().toString().isEmpty()) {
-            from = email.getFromEmail().getAddress();
-
-        } else {
-            from = "<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM_TEXT)+">"+email.getFromEmail();
-        }
-
-        if(!from.isEmpty()) {
-            helper.setFrom(from);
+            from = "<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM_TEXT)+">"+email.getFromEmail().getAddress();
         } else {
             log.error("Invalid From Address");
             return;
         }
+        helper.setFrom(from);
 
         Boolean isToFound = Boolean.FALSE;
         // TO
