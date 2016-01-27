@@ -55,7 +55,6 @@ public class EmailScheduler {
         }
     }
 
-    // updateEmailStatus.updateStatus, already in place
     @Scheduled(fixedDelayString = "${vs.email.timer.updateDBTimer}")
     private synchronized void updateDB() {
         log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));

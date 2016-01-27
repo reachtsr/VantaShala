@@ -65,8 +65,10 @@ public class ActualMailSender {
                 isToFound = Boolean.TRUE;
             }
         } else {
-            helper.setTo(email.getTo());
-            isToFound = Boolean.TRUE;
+            if(email.getTo()!=null && !email.getTo().toString().isEmpty()) {
+                helper.setTo(email.getTo());
+                isToFound = Boolean.TRUE;
+            }
         }
 
         if(!isToFound) {
@@ -81,7 +83,7 @@ public class ActualMailSender {
 
 
         // MESSAGE TEXT: Use the true flag to indicate the text included is HTML
-        if(!email.getMessage().isEmpty()) {
+        if(email.getMessage()!=null && !email.getMessage().isEmpty()) {
             helper.setText(email.getMessage(), Boolean.TRUE);
         } else {
             log.error("Email Content to send not Found");
@@ -89,7 +91,7 @@ public class ActualMailSender {
         }
 
         // SUBJECT
-        if(!email.getSubject().isEmpty()) {
+        if(email.getSubject()!=null && !email.getSubject().isEmpty()) {
             helper.setSubject(email.getSubject());
         } else {
             log.error("Email Subject not Found");
@@ -97,7 +99,7 @@ public class ActualMailSender {
         }
 
         // REPLYTO
-        if(!email.getReplyTo().isEmpty()) {
+        if(email.getReplyTo()!=null && !email.getReplyTo().isEmpty()) {
             helper.setReplyTo(email.getReplyTo());
         } else {
             helper.setReplyTo(readYML.getEmail().get(EmailConstants.REPLYTO));
