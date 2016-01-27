@@ -5,10 +5,11 @@ package com.vs.common.constants;
  */
 public class EmailConstants {
     // These constacts exactly matches with yaml file keys. Don't change the values;
-    public static final String EMAIL_HOST_NAME = "host";
-    public static final String EMAIL_FROM = "from";
-    public static final String EMAIL_ORDER = "fromOrderEmail";
-    public static final String EMAIL_CONTACT = "fromContactEmail";
-    public static final String EMAIL_SUPPORT = "fromSupportEmail";
-    public static final String EMAIL_REPLYTO = "replyTo";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL_FROM_TEXT = "from";
+    public static final String FROM_ORDER = "fromOrderEmail";
+    public static final String FROM_CONTACT = "fromContactEmail";
+    public static final String FROM_SUPPORT = "fromSupportEmail";
+    public static final String REPLYTO = "replyTo";
+
 }

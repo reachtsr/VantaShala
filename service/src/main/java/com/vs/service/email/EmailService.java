@@ -24,7 +24,7 @@ public class EmailService extends CommonEmailService {
     public void sendOrderCreateEmail(Order order) {
         String to = userRepository.findOne(order.getOrderedBy()).getEmail();
 
-        Email email = getEmail(EmailConstants.EMAIL_ORDER, to, "Order Created", VMConstants.VM_SEND_EMAIL_NOTIFICATION, order);
+        Email email = getEmail(EmailConstants.FROM_ORDER, to, "Order Created", VMConstants.VM_SEND_EMAIL_NOTIFICATION, order);
 
         try {
             processEmail.sendEmail(email);
@@ -35,10 +35,9 @@ public class EmailService extends CommonEmailService {
 
     public void sendAppStatusEmail() {
 
-
          try {
              String to = "haigopi@gmail.com";
-             Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+             Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
              processEmail.sendEmail(email);
         } catch (MessagingException me) {
@@ -52,7 +51,7 @@ public class EmailService extends CommonEmailService {
 
         try {
             String to = userRepository.findOne(menu.getUserName()).getEmail();
-            Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+            Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
             processEmail.sendEmail(email);
         } catch (MessagingException me) {
@@ -62,7 +61,7 @@ public class EmailService extends CommonEmailService {
     public void sendMenuStatusUpdateEmail(String[] to) {
 
         // ToDo convert the usernames to emails. Query from DB.
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -74,7 +73,7 @@ public class EmailService extends CommonEmailService {
     public void sendOrderStatusUpdateEmail(Order order) {
 
         String to = userRepository.findOne(order.getOrderedBy()).getEmail();
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -88,7 +87,7 @@ public class EmailService extends CommonEmailService {
     public void sendContactusReplyEmail(String userName) {
 
         String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -101,7 +100,7 @@ public class EmailService extends CommonEmailService {
     public void sendSupportReplyEmail(String userName) {
 
         String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);

@@ -38,12 +38,10 @@ public class ActualMailSender {
         mailProperties.putAll(readYML.getEmail());
 
         javaMailSender.setJavaMailProperties(mailProperties);
-        javaMailSender.setUsername(readYML.getEmail().get(EmailConstants.EMAIL_HOST_NAME));
-        log.info("Mail Sender Initialized with host: {} - {}", readYML.getEmail().get(EmailConstants.EMAIL_HOST_NAME), javaMailSender.getHost());
+        javaMailSender.setPassword(readYML.getEmail().get(EmailConstants.PASSWORD));
 
-        log.info("Mail Sender initialized");
+        log.info("Mail Sender Initialized with host: {}", javaMailSender.getHost());
     }
-
 
     protected void sendEmail(Email email) throws MessagingException {
         message = javaMailSender.createMimeMessage();
@@ -57,7 +55,7 @@ public class ActualMailSender {
             from = email.getFromEmail().getAddress();
 
         } else {
-            from = "<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM)+">"+email.getFromEmail();
+            from = "<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM_TEXT)+">"+email.getFromEmail();
         }
 
         if(!from.isEmpty()) {
@@ -95,6 +93,14 @@ public class ActualMailSender {
             helper.setText(email.getMessage(), Boolean.TRUE);
         } else {
             log.error("Email Content to send not Found");
+            return;
+        }
+
+        // SUBJECT
+        if(!email.getSubject().isEmpty()) {
+            helper.setSubject(email.getSubject());
+        } else {
+            log.error("Email Subject not Found");
             return;
         }
 
