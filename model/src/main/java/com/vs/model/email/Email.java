@@ -56,8 +56,6 @@ public class Email {
         }
     }
 
-    private EmailStatus status;
+    private EmailStatus status = EmailStatus.SCHEDULED;
 
-    @Transient
-    private MimeMessage javaXMessage;
 }

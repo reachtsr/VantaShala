@@ -9,8 +9,8 @@ spring:
 
 vs:
   email:
-    host: smtp.gmail.com
-    port: 587
-    userName: alertsoalerts
+    mail.smtp.host: smtp.gmail.com
+    mail.smtp.port: 587
+    mail.smtp.user: alertsoalerts@gmail.com
     password: gopikrishna
 

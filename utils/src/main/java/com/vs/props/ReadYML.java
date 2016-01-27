@@ -37,9 +37,7 @@ public class ReadYML{
         log.debug("Read Email Properties: {}", emailProperties);
         log.debug("Read Repo Properties: {}", repoProperties);
     }
-    public ReadYML() {
 
-    }
 }
 
 @Component

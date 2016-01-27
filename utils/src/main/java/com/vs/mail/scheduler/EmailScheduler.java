@@ -1,4 +1,4 @@
-package com.vs.mail;
+package com.vs.mail.scheduler;
 
 import com.vs.model.email.Email;
 import com.vs.model.enums.EmailStatus;
@@ -9,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.mail.Message;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by GeetaKrishna on 12/26/2015.
@@ -26,41 +23,37 @@ public class EmailScheduler {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired
-    MailSender mailSender;
+    private ActualMailSender mailSender;
 
     @Autowired
-    EmailRepository emailRepository;
+    private EmailRepository emailRepository;
 
     @Autowired
-    DBOperations dbOperations;
+    private DBOperations dbOperations;
 
+    private Queue<Email> mailsToSend = new ConcurrentLinkedQueue<>();
+    private Queue<Email> mailsSent = new ConcurrentLinkedQueue<>();
 
-    List<Email> mailsToSend = new ArrayList<>();
-    List<Email> mailsSent = new ArrayList<>();
-
-    public void scheduleEmailToSend(Email email){
-
+    public void scheduleEmailToSend(Email _email){
         // First save to DB and cache them.
-        email.setStatus(EmailStatus.SCHEDULED);
-        Email nEmail = emailRepository.save(email);
-        mailsToSend.add(nEmail);
-
-        mailsSent.add(nEmail);
+        Email email = emailRepository.save(_email);
+        mailsToSend.add(email);
     }
 
 
     // Todo move value to application yaml. @Scheduled(cron = "${cron.expression}")
     @Scheduled(fixedDelay = 10000)
-    public synchronized void sendEmail() {
+    private synchronized void sendEmail() {
         log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
-        Iterator<Email> i = mailsToSend.iterator();
-        while (i.hasNext()) {
-            Email email = i.next();
-            i.remove();
-            log.info("Sending email: {}", email);
-            mailSender.javaMailSender().send(email.getJavaXMessage());
-            email.setStatus(EmailStatus.SENT);
-            mailsSent.add(email);
+        for (Email email; (email = mailsToSend.poll()) != null;){
+            try {
+                log.info("Sending email: {}", email);
+                mailSender.sendEmail(email);
+                email.setStatus(EmailStatus.SENT);
+                mailsSent.add(email);
+            }catch (Exception e) {
+                log.error(" Error while sending Email: {}", e);
+            }
         }
     }
 
@@ -68,15 +61,22 @@ public class EmailScheduler {
     // Todo update only required fiiled instead of entire document as below
     // updateEmailStatus.updateStatus, already in place
     @Scheduled(fixedDelay = 30000)
-    public synchronized void updateDB() {
+    private synchronized void updateDB() {
         log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
-        Iterator<Email> i = mailsToSend.iterator();
-        while (i.hasNext()) {
-            Email email = i.next();
-            i.remove();
+
+        for (Email email; (email = mailsSent.poll()) != null;){
             dbOperations.updateEmailStatus(email);
             log.info("Email Sent Status Update: {}", email);
         }
+
+    }
+
+    // @TODO Make it every 24 hours. Midnight @ PST
+    @Scheduled(fixedDelay = 30000)
+    private synchronized void archiveEmailEntries() {
+        log.debug("Archiving Send emails to another document {}",  dateFormat.format(new Date()));
+
+        //@TODO Complete this. Should be written on mongo side.
     }
 
 }

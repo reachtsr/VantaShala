@@ -6,3 +6,9 @@ spring:
     mongodb:
       host: localhost
       port: 27017
+vs:
+  email:
+    host: smtp.gmail.com
+    port: 587
+    username: alertsoalerts@gmail.com
+    password: gopikrishna

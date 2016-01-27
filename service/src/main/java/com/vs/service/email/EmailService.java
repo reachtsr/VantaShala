@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 /**
  * Created by GeetaKrishna on 12/26/2015.
@@ -28,7 +27,7 @@ public class EmailService extends CommonEmailService {
         Email email = getEmail(EmailConstants.EMAIL_ORDER, to, "Order Created", VMConstants.VM_SEND_EMAIL_NOTIFICATION, order);
 
         try {
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -41,7 +40,7 @@ public class EmailService extends CommonEmailService {
              String to = "haigopi@gmail.com";
              Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
-             sendEmail.sendEmail(email);
+             processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -55,7 +54,7 @@ public class EmailService extends CommonEmailService {
             String to = userRepository.findOne(menu.getUserName()).getEmail();
             Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -66,7 +65,7 @@ public class EmailService extends CommonEmailService {
         Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -78,7 +77,7 @@ public class EmailService extends CommonEmailService {
         Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -92,7 +91,7 @@ public class EmailService extends CommonEmailService {
         Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }
@@ -105,7 +104,7 @@ public class EmailService extends CommonEmailService {
         Email email = getEmail(EmailConstants.EMAIL_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            sendEmail.sendEmail(email);
+            processEmail.sendEmail(email);
         } catch (MessagingException me) {
             log.error(" Error Sending email {}", me);
         }

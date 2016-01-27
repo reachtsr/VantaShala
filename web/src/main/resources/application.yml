@@ -54,5 +54,6 @@ vs:
     mail.smtp.starttls.enable: true
     mail.smtp.starttls.required: true
     mail.smtp.debug: true
+    replyTo: support@VantaShala.com
 
  # server.servlet-path=/some_context_for_spring_mvc

@@ -1,7 +1,7 @@
 package com.vs.service.email;
 
 import com.vs.common.constants.VMConstants;
-import com.vs.mail.SendEmail;
+import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
 import com.vs.props.ReadYML;
 import com.vs.repository.UserRepository;
@@ -37,7 +37,7 @@ public abstract class CommonEmailService implements ApplicationContextAware {
     protected UserRepository userRepository;
 
     @Autowired
-    protected SendEmail sendEmail;
+    protected ProcessEmail processEmail;
 
     @Autowired
     protected ReadYML readYML;

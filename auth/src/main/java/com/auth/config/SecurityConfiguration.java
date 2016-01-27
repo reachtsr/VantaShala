@@ -125,6 +125,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/auth/**",
                         "/login",
                         "/error",
+                        "/rest/**",
                         "/signup"
 
                 ).permitAll()

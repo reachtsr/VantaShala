@@ -10,4 +10,5 @@ public class EmailConstants {
     public static final String EMAIL_ORDER = "fromOrderEmail";
     public static final String EMAIL_CONTACT = "fromContactEmail";
     public static final String EMAIL_SUPPORT = "fromSupportEmail";
+    public static final String EMAIL_REPLYTO = "replyTo";
 }
