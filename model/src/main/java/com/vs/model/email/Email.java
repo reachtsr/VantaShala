@@ -27,7 +27,6 @@ import java.util.List;
 @Component
 public class Email {
 
-
     @Id
     String _id;
 
@@ -41,9 +40,15 @@ public class Email {
 
     private List<InternetAddress> toList = new ArrayList<>();
 
+    @NotNull
+    @NotBlank
     private String message;
+
+    @NotNull
+    @NotBlank
     private String subject;
 
+    private String replyTo;
     private String attachment;
 
     public void setTo(String to) throws AddressException{

@@ -40,9 +40,7 @@ public class EmailScheduler {
         mailsToSend.add(email);
     }
 
-
-    // Todo move value to application yaml. @Scheduled(cron = "${cron.expression}")
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelayString = "${vs.email.timer.scanTimer}")
     private synchronized void sendEmail() {
         log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
         for (Email email; (email = mailsToSend.poll()) != null;){
@@ -57,10 +55,8 @@ public class EmailScheduler {
         }
     }
 
-    // Todo move value to application yaml. @Scheduled(cron = "${cron.expression}")
-    // Todo update only required fiiled instead of entire document as below
     // updateEmailStatus.updateStatus, already in place
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(fixedDelayString = "${vs.email.timer.updateDBTimer}")
     private synchronized void updateDB() {
         log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
 
@@ -68,15 +64,14 @@ public class EmailScheduler {
             dbOperations.updateEmailStatus(email);
             log.info("Email Sent Status Update: {}", email);
         }
-
     }
 
-    // @TODO Make it every 24 hours. Midnight @ PST
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(cron = "${vs.email.timer.dbArchive}")
     private synchronized void archiveEmailEntries() {
         log.debug("Archiving Send emails to another document {}",  dateFormat.format(new Date()));
 
-        //@TODO Complete this. Should be written on mongo side.
+        //@TODO Complete this. Should be written on mongo side. Write a Function or procedure on mongo db to move the sent items from
+        // email document to emailArchive document.
     }
 
 }

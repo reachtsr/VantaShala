@@ -27,8 +27,6 @@ public class ActualMailSender {
     private ReadYML readYML;
 
     private JavaMailSenderImpl javaMailSender;
-    private MimeMessageHelper helper;
-    private MimeMessage message;
 
     @PostConstruct
     private void init() throws MessagingException {
@@ -44,8 +42,8 @@ public class ActualMailSender {
     }
 
     protected void sendEmail(Email email) throws MessagingException {
-        message = javaMailSender.createMimeMessage();
-        helper = new MimeMessageHelper(message, true);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         log.info("Mail Props: {}", javaMailSender.getJavaMailProperties());
 
@@ -96,6 +94,13 @@ public class ActualMailSender {
         } else {
             log.error("Email Subject not Found");
             return;
+        }
+
+        // REPLYTO
+        if(!email.getReplyTo().isEmpty()) {
+            helper.setReplyTo(email.getReplyTo());
+        } else {
+            helper.setReplyTo(readYML.getEmail().get(EmailConstants.REPLYTO));
         }
 
         // SEND THE MESSAGE

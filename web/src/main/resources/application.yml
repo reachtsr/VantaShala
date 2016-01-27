@@ -42,7 +42,8 @@ vs:
       orderStatusCollectionName: orderStatus
       menuStatusCollectionName: menuStatus
       emailStatusCollectionName: emailStatus
-      emailCollectionName: emails
+      emailCollectionName: email
+      archivedEmailCollectionName: archivedEmail
   uploads:
     location: /fileUploads/
   email:
@@ -55,5 +56,9 @@ vs:
     mail.smtp.starttls.required: true
     mail.smtp.debug: true
     replyTo: support@VantaShala.com
+    timer:
+      scanTimer: 10000 # Scan the Q and send the email.
+      updateDBTimer: 30000 # Update the status of sent email in the database from the Queue.
+      dbArchive: 0 0 4 * * ? # Runs every day at 4:00 AM on Server Time.
 
  # server.servlet-path=/some_context_for_spring_mvc
