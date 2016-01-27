@@ -24,9 +24,6 @@ import java.util.Map;
 @Slf4j
 public abstract class CommonEmailService implements ApplicationContextAware {
 
-//    TODo Schedule an email delivery - Remove as part of method execution and schedule a task.
-//      ToDo once the email sent - Save it to DB
-
     //ToDo Add Customer to Cook email communication.
     private ApplicationContext applicationContext;
 
