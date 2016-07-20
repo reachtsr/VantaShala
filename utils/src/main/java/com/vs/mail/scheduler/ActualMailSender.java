@@ -5,6 +5,7 @@ import com.vs.model.email.Email;
 import com.vs.props.ReadYML;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,9 @@ public class ActualMailSender {
     private ReadYML readYML;
 
     private JavaMailSenderImpl javaMailSender;
+
+    @Value("${vs.email.send}")
+    private boolean sendMail;
 
     @PostConstruct
     private void init() throws MessagingException {
@@ -106,6 +110,10 @@ public class ActualMailSender {
         }
 
         // SEND THE MESSAGE
-        javaMailSender.send(message);
+        if(sendMail) {
+            javaMailSender.send(message);
+        } else {
+            log.info("DEV ENV SET EMAIL TO SEND IF NEEDED");
+        }
     }
     }

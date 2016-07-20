@@ -10,9 +10,6 @@ dependencies {
 }
 
 
-// Just a smoke test that using this option does not lead to any exception
-compileJava.options.compilerArgs = ['-Xlint:unchecked']
-
 task spiJar(type: Jar) {
     appendix = 'spi'
     from sourceSets.main.output
@@ -36,13 +33,4 @@ artifacts {
     archives dist
 }
 
-task checkProjectDependency(dependsOn: project(':model').jar) << {
-    File cachedSharedJarDir = new File(gradle.gradleUserHomeDir, "cache/multiproject/shared/jars")
-    copy {
-        from project(':model').jar.archivePath
-        into cachedSharedJarDir
-    }
-    File sharedJar = configurations.compile.files.find { File file -> file.name.startsWith('model')}
-    assert sharedJar.absolutePath == project(':model').jar.archivePath.absolutePath
-}
 

@@ -45,7 +45,7 @@ public class EmailScheduler {
         //log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
         for (Email email; (email = mailsToSend.poll()) != null;){
             try {
-                log.info("Sending email: {}", email);
+                log.info("Sending Email To: {}", email.getTo());
                 mailSender.sendEmail(email);
                 email.setStatus(EmailStatus.SENT);
                 mailsSent.add(email);
@@ -61,7 +61,7 @@ public class EmailScheduler {
 
         for (Email email; (email = mailsSent.poll()) != null;){
             dbOperations.updateEmailStatus(email);
-            log.info("Updating Email Sent Status into DB: {}", email);
+            log.info("Updating Email Sent Status into DB: {}", email.get_id());
         }
     }
 

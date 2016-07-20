@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
-@EnableMongoRepositories({"com.vs.repository"})
+@EnableMongoRepositories({"com.vs.repository", "com.vs.auth.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
 public class ApplicationBootstrap implements ServletContextInitializer, Bootstrap {
@@ -54,18 +55,22 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         for (String beanName : beanNames) {
             log.trace(beanName);
         }
+
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+
         log.info("Scanning Initialized Beans...Done!");
         log.info("Hurray! Application Started. ");
     }
 
     @PostConstruct
     public void init() {
-        log.info("After application initialized...");
+        log.info("ApplicationBootstrap Loaded.");
         initialize();
     }
 
     @Override
     public void initialize() {
+        log.info("Initializing Services...");
         serviceBootstrap.initialize();
         apiBootstrap.initialize();
         // Check for Mongo Collection

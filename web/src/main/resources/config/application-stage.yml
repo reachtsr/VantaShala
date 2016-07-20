@@ -12,3 +12,4 @@ vs:
     port: 587
     username: alertsoalerts@gmail.com
     password: gopikrishna
+    send: true

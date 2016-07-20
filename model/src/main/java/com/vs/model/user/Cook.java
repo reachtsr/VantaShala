@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper=false)
 public final class Cook extends User{
 
-
     public Cook(){
         super.setRole(Role.COOK);
     }
@@ -24,4 +23,6 @@ public final class Cook extends User{
 
     private Address businessAddress;
     private String businessPhone;
+
+
 }
