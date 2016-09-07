@@ -18,6 +18,6 @@ public class JerseyConfig extends ResourceConfig {
         register(RequestContextFilter.class);
         packages("com.vs");
 //        @TODO move com.vs to application yml
-        register(LoggingFilter.class);
+//        register(LoggingFilter.class);
     }
 }

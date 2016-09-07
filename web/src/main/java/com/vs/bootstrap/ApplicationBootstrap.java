@@ -58,13 +58,13 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
 
-        log.info("Scanning Initialized Beans...Done!");
-        log.info("Hurray! Application Started. ");
+        log.info("Scanning Initialized Beans...Completed!");
+        log.info(" ****   Hurray! Application Started.   ****");
     }
 
     @PostConstruct
     public void init() {
-        log.info("ApplicationBootstrap Loaded.");
+        log.debug("ApplicationBootstrap Loaded.");
         initialize();
     }
 

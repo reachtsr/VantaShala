@@ -7,6 +7,8 @@ import com.vs.model.user.Customer;
 import com.vs.model.user.address.Address;
 import com.vs.model.user.address.BusinessAddress;
 import com.vs.model.user.address.PersonalAddress;
+import lombok.Data;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;
@@ -15,7 +17,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import javax.ws.rs.core.MediaType;
 import static com.jayway.restassured.RestAssured.expect;
@@ -24,11 +28,9 @@ import static org.hamcrest.Matchers.*;
 /**
  * Created by GeetaKrishna on 12/19/2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationBootstrap.class)
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
-@IntegrationTest("server.port:0")
 public class UserControllerTest {
 
     @Value("${local.server.port}")   // 6
