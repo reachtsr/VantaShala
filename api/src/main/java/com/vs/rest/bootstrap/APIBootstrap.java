@@ -9,9 +9,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class APIBootstrap implements Bootstrap{
+public class APIBootstrap implements Bootstrap {
 
-    @Override
     public void initialize() {
         log.info("Initializing the API Service...");
     }

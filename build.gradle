@@ -2,7 +2,7 @@
 buildscript {
 
     project.ext {
-        springBootVersion = '1.3.6.RELEASE'
+        springBootVersion = '1.4.0.RELEASE'
     }
 
     dependencies {
@@ -18,11 +18,7 @@ allprojects {
     group = 'com.vs'
     version = '0.0.1-SNAPSHOT'
 
-    configurations {
-        provided.all*.exclude group: 'javax.servlet'
-    }
     task hello << {task -> println "I'm $task.project.name "}
-
 }
 
 subprojects {
@@ -32,8 +28,6 @@ subprojects {
     apply plugin: 'java'
 
     apply plugin: 'spring-boot'
-    apply plugin: "io.spring.dependency-management"
-
     dependencies {
         compile("com.google.guava:guava:19.0")
         compile("commons-beanutils:commons-beanutils:1.9.2")
@@ -52,7 +46,7 @@ subprojects {
         compile('org.springframework.boot:spring-boot-devtools')
         compile('org.springframework.boot:spring-boot-starter-jersey')
         compile('org.springframework.boot:spring-boot-starter-mail')
-        compile('org.springframework.session:spring-session')
+        //compile('org.springframework.session:spring-session')
         compile('org.springframework.boot:spring-boot-starter-social-facebook')
         compile('org.springframework.boot:spring-boot-starter-validation')
         compile('org.springframework.boot:spring-boot-starter-velocity')
@@ -72,19 +66,11 @@ subprojects {
         testCompile "junit:junit:4.12"
     }
 
-    configurations {
-        provided.all*.exclude group: 'javax.servlet'
-    }
-
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
     repositories {
         mavenCentral()
-    }
-
-    jar {
-        manifest.attributes provider: 'gradle'
     }
 
     if(!project.name.startsWith("web")) {

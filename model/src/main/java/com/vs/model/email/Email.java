@@ -1,5 +1,6 @@
 package com.vs.model.email;
 
+
 import com.vs.model.enums.EmailStatus;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
