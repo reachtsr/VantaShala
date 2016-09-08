@@ -62,7 +62,7 @@ public abstract class UserController {
 
     public Response createUser(User user){
 
-        log.info("Create Cook - Cook Details: {}", user);
+        log.info("Create User - User Details: {}", user);
         userService.saveUser(user);
         return Response.status(200).build();
     }

@@ -85,7 +85,6 @@ public class CookController extends UserController {
         return super.uploadIds(userName, request);
     }
 
-
     @PUT
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

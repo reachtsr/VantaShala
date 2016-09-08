@@ -1,5 +1,6 @@
 package com.vs.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vs.model.enums.Role;
 import com.vs.model.user.address.Address;
 import lombok.Data;
@@ -36,6 +37,7 @@ public abstract class User implements SocialUserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         log.info("ROLE ADDED : {}", role.name());
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>(1);
@@ -45,13 +47,14 @@ public abstract class User implements SocialUserDetails {
 
     @Override
     public String getUserId() {
-        return getUserId();
+        return userName;
     }
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return "ABCD";
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

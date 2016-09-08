@@ -26,7 +26,6 @@ public abstract class UserServiceImpl implements IUserService {
     @Autowired
     private CookRepository cookRepository;
 
-
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
         if (this.role == null) {

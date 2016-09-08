@@ -105,7 +105,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         http
-                //.csrf().disable()
+                .csrf().disable()
                 .anonymous().and()
                 .formLogin()
                // .successHandler(new AuthSuccess())
