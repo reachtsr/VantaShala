@@ -12,7 +12,8 @@ import java.util.List;
 
 public interface IUserService {
 
-    public void saveUser(User user);
+    public void createUser(User user);
+    public void updateUser(User user);
     public List<User> listUsers();
     public List<User> getUserByFirstName(String name);
     public List<User> getUserByLastName(String name);

@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 @EqualsAndHashCode(callSuper=false)
-public final class Customer extends User{
+public final class Customer extends User {
 
     public Customer(){
         super.setRole(Role.CUSTOMER);

@@ -16,6 +16,11 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.core.context.SecurityContextHolder;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -90,5 +95,26 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         messageSource.setBasename("i18n/messages");
         messageSource.setUseCodeAsDefaultMessage(true);
         return messageSource;
+    }
+
+    @Bean
+    public Docket newsApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("greetings")
+                .apiInfo(apiInfo())
+                .select()
+                .paths(PathSelectors.regex("vs/*"))
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("VantaShala.com, Feel Healthy and Happy")
+                .description("API Description")
+                .termsOfServiceUrl("http:/vanatashala.com/software/sla/sladb.nsf/sla/bm?Open")
+                .license("Contact Us for any License")
+                .licenseUrl("https://github.com/IBM-Bluemix/news-aggregator/blob/master/LICENSE")
+                .version("1.0")
+                .build();
     }
 }

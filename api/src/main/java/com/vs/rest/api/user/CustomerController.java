@@ -3,10 +3,13 @@ package com.vs.rest.api.user;
 import com.vs.model.user.Customer;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
@@ -19,8 +22,7 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("/customer")
 @Slf4j
-public class CustomerController extends UserController{
-
+public class CustomerController extends UserController {
 
     @Autowired
     public CustomerController(@Qualifier("customerService") IUserService userService) {
@@ -29,37 +31,16 @@ public class CustomerController extends UserController{
 
     @PostConstruct
     public void init() {
-        log.info("{} Created.", CustomerController.class.getName());
-    }
-
-    @GET
-    @Path("/list")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response listAllUsers() {
-        return super.listUsers();
-    }
-
-    @GET
-    @Path("/count")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserCount() {
-        return super.getUserCount();
-    }
-
-    @GET
-    @Path("/{name}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response searchUser(@PathParam("name") String name) {
-        return super.searchUser(name);
+        log.info("{} Initiated.", this.getClass().getName());
     }
 
 
-    @GET
-    @Path("/uname/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserByUserName(@PathParam("userName") String userName) {
-        return super.getUserByUserName(userName);
-    }
+    @ApiOperation(value = "Create Customer", nickname = "createCustomer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
+
 
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -68,6 +49,15 @@ public class CustomerController extends UserController{
         return super.createUser(user);
     }
 
+    @ApiOperation(value = "Update Customer", nickname = "updateCustomer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
+
     @PUT
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -75,6 +65,16 @@ public class CustomerController extends UserController{
     public void updateUser(@PathParam("userName") String userName, Customer user){
         super.updateUser(userName, user);
     }
+
+
+    @ApiOperation(value = "Disable Customer", nickname = "disableCustomer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.DELETE, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
 
     @DELETE
     @Path("/{userName}")

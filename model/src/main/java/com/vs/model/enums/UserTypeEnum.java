@@ -5,6 +5,6 @@ package com.vs.model.enums;
  */
 public enum UserTypeEnum {
 
-    CUSTOMER, SELLER, SUPERADMIN
+    CUSTOMER, COOK, ADMIN
 
 }

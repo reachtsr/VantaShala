@@ -35,10 +35,17 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void saveUser(User user) {
+    public void createUser(User user) {
+        //user.setRole(role);
+        userRepository.insert(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
         //user.setRole(role);
         userRepository.save(user);
     }
+
 
     @Override
     public List<User> listUsers() {

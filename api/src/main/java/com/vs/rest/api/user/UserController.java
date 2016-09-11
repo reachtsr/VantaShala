@@ -1,5 +1,6 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.enums.UserTypeEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -33,15 +34,15 @@ public abstract class UserController {
         this.userService = service;
     }
 
-     public Response listUsers() {
+    public Response listUsers() {
         log.info(" Listing all cooks ");
         List<User> cooks = userService.listUsers();
         return Response.status(200).entity(cooks).build();
     }
 
-    public Response searchUser(String name) {
-        log.info(" Searching Cook based on: {}", name);
-        List<User> users = userService.searchUser(name);
+    public Response searchUser(String search, UserTypeEnum user) {
+        log.info(" Searching Cook based on: {}", search);
+        List<User> users = userService.searchUser(search);
         log.info("No of Users found: {}", users.size());
         return Response.status(200).entity(users).build();
     }
@@ -60,59 +61,56 @@ public abstract class UserController {
         return Response.status(200).entity(user).build();
     }
 
-    public Response createUser(User user){
+    public Response createUser(User user) {
 
         log.info("Create User - User Details: {}", user);
-        userService.saveUser(user);
-        return Response.status(200).build();
+        try {
+            userService.createUser(user);
+            return Response.status(200).build();
+        }
+        catch (Exception e) {
+            return Response.ok("").build();
+        }
     }
 
-    public void updateUser(String userName, User user){
-
+    public void updateUser(String userName, User user) {
         log.info("Update Cook: {} - Cook Details: {}", userName, user);
-        userService.saveUser(user);
+        userService.updateUser(user);
     }
 
-    public void deleteUser( String userName){
+    public void deleteUser(String userName) {
 
         log.info("Delete Cook : {}", userName);
         //userService.saveCook(user);
     }
 
 
-    public Response uploadIds( String userName, RequestContext request){
+    public Response addImages(String userName, RequestContext request) {
 
         String status = "File Uploaded.";
-        if (ServletFileUpload.isMultipartContent(request))
-        {
+        if (ServletFileUpload.isMultipartContent(request)) {
             final FileItemFactory factory = new DiskFileItemFactory();
             final ServletFileUpload fileUpload = new ServletFileUpload(factory);
-            try
-            {
+            try {
                 /*
                  * parseRequest returns a list of FileItem
                  * but in old (pre-java5) style
                  */
                 final List items = fileUpload.parseRequest(request);
 
-                if (items != null)
-                {
+                if (items != null) {
                     final Iterator iter = items.iterator();
-                    while (iter.hasNext())
-                    {
+                    while (iter.hasNext()) {
                         final FileItem item = (FileItem) iter.next();
                         final String itemName = item.getName();
                         final String fieldName = item.getFieldName();
                         final String fieldValue = item.getString();
 
-                        if (item.isFormField())
-                        {
+                        if (item.isFormField()) {
 
                             System.out.println("Field Name: " + fieldName + ", Field Value: " + fieldValue);
                             System.out.println("Candidate Name: " + fieldValue);
-                        }
-                        else
-                        {
+                        } else {
                             final File savedFile = new File(UPLOAD_LOCATION + File.separator
                                     + itemName);
                             System.out.println("Saving the file: " + savedFile.getName());
@@ -121,14 +119,10 @@ public abstract class UserController {
 
                     }
                 }
-            }
-            catch (FileUploadException fue)
-            {
+            } catch (FileUploadException fue) {
                 status = fue.getMessage();
                 fue.printStackTrace();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 status = e.getMessage();
                 e.printStackTrace();
             }
@@ -136,7 +130,7 @@ public abstract class UserController {
         return Response.status(200).entity(status).build();
     }
 
-    public Response getUserCount(){
+    public Response getUserCount() {
         return Response.status(200).entity(userService.getUserCount()).build();
     }
 }

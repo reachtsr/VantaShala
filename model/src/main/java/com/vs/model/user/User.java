@@ -6,6 +6,7 @@ import com.vs.model.user.address.Address;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.social.security.SocialUserDetails;
@@ -27,6 +28,8 @@ public abstract class User implements SocialUserDetails {
     private Role role = Role.DEFAULT;
     private String firstName;
     private String lastName;
+
+    @Indexed(unique = true)
     private String email;
     private String mobile;
     private Address personalAddress;
@@ -81,6 +84,9 @@ public abstract class User implements SocialUserDetails {
         return userName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
 
 }
 

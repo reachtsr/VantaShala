@@ -3,11 +3,14 @@ package com.vs.rest.api.user;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
@@ -31,77 +34,82 @@ public class CookController extends UserController {
 
     @PostConstruct
     public void init() {
-       log.info("{} Created.", CookController.class.getName());
+        log.info("{} Initiated.", this.getClass().getName());
     }
 
-
-    @GET
-    @Path("/list")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response listAllUsers() {
-        return super.listUsers();
-    }
-
-    @GET
-    @Path("/count")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserCount() {
-        return super.getUserCount();
-    }
-
-
-    @GET
-    @Path("/{name}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response searchUser(@PathParam("name") String name) {
-        return super.searchUser(name);
-    }
-
-    @GET
-    @Path("/kitchenName/{kitchenName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUser(@PathParam("kitchenName") String kitchenName) {
-        return super.getUserByKitchenName(kitchenName);
-    }
-
-    @GET
-    @Path("/uname/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserByUserName(@PathParam("userName") String userName) {
-        return super.getUserByUserName(userName);
-    }
+    @ApiOperation(value = "Create Cook", nickname = "createCook")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
 
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response createUser(Cook user){
+    public Response createCook(Cook user){
         return super.createUser(user);
     }
+
+
+
+
+
+    @ApiOperation(value = "Upload Image", nickname = "uploadImage")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.POST, path="/upload/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
 
     @POST
     @Path("/upload/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadUserIds(@PathParam("userName") String userName, @Context RequestContext request){
-        return super.uploadIds(userName, request);
+    public Response uploadImages(@PathParam("userName") String userName, @Context RequestContext request){
+        return super.addImages(userName, request);
     }
+
+
+
+
+
+    @ApiOperation(value = "Update Cook", nickname = "updateCook")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
 
     @PUT
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void updateUser(@PathParam("userName") String userName, Cook user){
+    public void updateCook(@PathParam("userName") String userName, Cook user){
        super.updateUser(userName, user);
     }
+
+
+
+
+
+    @ApiOperation(value = "Disable Cook", nickname = "disableCook")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.DELETE, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
 
     @DELETE
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void deleteUser(@PathParam("userName") String userName){
-       super.deleteUser(userName);
+    public void disableCook(@PathParam("userName") String userName){
+        super.deleteUser(userName);
     }
-
-
-
 
 }

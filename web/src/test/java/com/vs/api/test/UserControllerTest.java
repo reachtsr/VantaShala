@@ -45,8 +45,14 @@ public class UserControllerTest {
     @Value("${local.server.port}")   // 6
             int port;
 
-    private String cook_id = "COOK_"+UUID.randomUUID().toString();
-    private String customer_id = "CUSTOMER_"+UUID.randomUUID().toString();
+    private static String cook_id = "COOK_"+UUID.randomUUID().toString();
+    private static String customer_id = "CUSTOMER_"+UUID.randomUUID().toString();
+    private static String kitchen_id = "KITCHEN_"+UUID.randomUUID().toString();
+
+    private static String cookEmail = UUID.randomUUID().toString()+"_cook@cook.com";
+    private static String customerEmail = UUID.randomUUID().toString()+"_customer@customer.com";
+
+
 
     @Before
     public void setup() {
@@ -58,8 +64,7 @@ public class UserControllerTest {
         given().log().all();
     }
 
-    @Test
-    public void test1_createCook() throws Exception {
+    private Cook createCook() throws Exception {
 
         log.info("Create Cook {}", RestAssured.basePath);
         given().log().path();
@@ -80,19 +85,17 @@ public class UserControllerTest {
         cook.setBusinessAddress(businessAddress);
         cook.setFirstName("Gopi");
         cook.setLastName("Kancharla");
-        cook.setKitchenName("VantaShala");
+        cook.setKitchenName(kitchen_id);
         cook.setMobile("23123332312");
         cook.setUserName(cook_id);
         cook.setBusinessPhone("21321312321");
-        cook.setEmail("cook@cook.com");
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+        cook.setEmail(cookEmail);
+
+        return cook;
 
     }
 
-    @Test
-    public void test2_createCustomer() throws Exception {
-
+    private Customer createCutomer(){
         log.info("Running test {}", RestAssured.basePath);
         given().log().path();
 
@@ -110,28 +113,55 @@ public class UserControllerTest {
         user.setLastName("Kancharla");
         user.setMobile("23123332312");
         user.setUserName(customer_id);
-        user.setEmail("customer@customer.com");
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        user.setEmail(customerEmail);
+
+        return user;
+    }
+
+
+    @Test
+    public void test1_negativeCreateCook() throws Exception {
+
+        Cook cook = createCook();
+        cook.setUserName(UUID.randomUUID().toString());
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
         // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
 
     }
 
     @Test
-    public void test3_listCook() throws Exception {
+    public void test1_createCook() throws Exception {
 
-        log.info("Listing Cooks {}", RestAssured.basePath);
-        given().log().path();
-        given().expect().statusCode(200).
-                when().get("cook/"+cook_id).then().assertThat().body("userName", equalTo("[cook]"));
+        Cook cook = createCook();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
+        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+
     }
 
     @Test
-    public void test4_listCustomer() throws Exception {
+    public void test1_negetive_createCook() throws Exception {
 
-        log.info("Listing Cooks {}", RestAssured.basePath);
-        given().log().path();
-        given().expect().statusCode(200).
-                when().get("customer/"+customer_id).then().assertThat().body("userName", equalTo("[customer]"));
+        Cook cook = createCook();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
+        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+
+    }
+
+    @Test
+    public void test2_createCustomer() throws Exception {
+
+        Customer user = createCutomer();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+
+    }
+    @Test
+    public void test3_negetive_createCustomer() throws Exception {
+
+        Customer user = createCutomer();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+
     }
 
 }
