@@ -109,7 +109,7 @@ public class CookController extends UserController {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void disableCook(@PathParam("userName") String userName){
-        super.deleteUser(userName);
+        super.disableUser(userName);
     }
 
 }

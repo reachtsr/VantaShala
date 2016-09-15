@@ -1,6 +1,7 @@
 package com.vs.service.user;
 
 import com.vs.model.enums.Role;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
@@ -8,6 +9,7 @@ import com.vs.repository.UserRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -36,63 +38,58 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public void createUser(User user) {
-        //user.setRole(role);
         userRepository.insert(user);
     }
 
     @Override
     public void updateUser(User user) {
-        //user.setRole(role);
         userRepository.save(user);
     }
 
+    @Override
+    public Cook getUserByKitchenName(String name) {
+        return cookRepository.findByKitchenName(name).get(0);
+    }
+
+    @Override
+    public User getUserByUserName(String name) {
+        return userRepository.findByUserName(name).get(0);
+    }
+
+    @Override
+    public void disableUser(String userName) {
+        userRepository.findByUserName(userName).get(0).setStatus(UserStatusEnum.INACTIVE);
+    }
+
+    @Override
+    public long getUserCount() {
+        return userRepository.count();
+    }
+
+    @Override
+    public int getUserCount(Role role) {
+        return userRepository.countByRole(role);
+    }
+
+    @Override
+    public List<User> listUsers(Role role) {
+        return userRepository.findByRole(role);
+    }
 
     @Override
     public List<User> listUsers() {
-        return userRepository.findByRole(role.name());
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> getUserByFirstName(String name) {
-        return userRepository.findByFirstNameAndRole(name, role);
+    public List<User> findUser(String searchString, Role role) {
+        return userRepository.findByLastNameOrFirstNameOrUserNameAndRole(searchString, searchString, searchString, role);
     }
 
     @Override
-    public List<User> getUserByLastName(String name) {
-        return userRepository.findByLastNameAndRole(name, role);
+    public List<User> findUser(String searchString) {
+        return userRepository.findByLastNameOrFirstNameOrUserName(searchString, searchString, searchString);
     }
 
-    @Override
-    public List<Cook> getUserByKitchenName(String name) {
-        return cookRepository.findByKitchenName(name);
-    }
 
-    @Override
-    public List<User> getUserByUserName(String name) {
-        return userRepository.findByUserName(name);
-    }
-
-    public List<User> searchUser(String name) {
-        return userRepository.findByLastNameOrFirstNameOrUserNameAndRole(name, name, name, role);
-    }
-
-    @Override
-    public int getUserCountByKitchenName(String name) {
-        return cookRepository.countByKitchenName(name);
-    }
-
-    @Override
-    public int getUserCountByFirstName(String name) {
-        return userRepository.countByFirstNameAndRole(name, role);
-    }
-
-    @Override
-    public int getUserCountByLastName(String name) {
-        return userRepository.countByLastNameAndRole(name, role);
-    }
-
-    @Override
-    public int getUserCount() {
-        return userRepository.countByRole(role);
-    }
 }

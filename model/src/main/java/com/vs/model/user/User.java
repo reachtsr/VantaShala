@@ -2,11 +2,13 @@ package com.vs.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vs.model.enums.Role;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.address.Address;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.social.security.SocialUserDetails;
@@ -19,6 +21,7 @@ import java.util.HashSet;
  */
 @Slf4j
 @Data
+@Document
 public abstract class User implements SocialUserDetails {
 
     static final int MAX_LENGTH_KITCHEN_NAME = 120;
@@ -33,6 +36,7 @@ public abstract class User implements SocialUserDetails {
     private String email;
     private String mobile;
     private Address personalAddress;
+    private UserStatusEnum status;
     private Boolean enableTextMessaging = false;
 
     public void setRole(Role role){

@@ -1,16 +1,17 @@
 package com.vs.rest.api.search;
 
 import com.vs.model.user.Cook;
-import com.vs.model.user.User;
 import com.vs.service.search.ISearchService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,21 +22,44 @@ import java.util.List;
 @Slf4j
 public class SearchController {
 
-    @Autowired
     ISearchService searchService;
 
-    @Path("/{zipCode}")
-    public Response searchCooksByZipCode(@PathParam("zipCode") String zipCode){
+    @PostConstruct
+    public void init() {
+        log.info("{} Initiated.", this.getClass().getName());
+    }
 
-        List<Cook> users = new ArrayList<>();
-
-        try {
-            users = searchService.findByBusinessAddressZipCodeRadius(zipCode);
-        }
-        catch (NumberFormatException nfe) {
-
-            Response.status(200).entity("Invalid ZipCode").build();
-        }
+    @GET
+    @Path("cooks/{zip}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response findCooksByZIP(@PathParam("zip") String zip) {
+        List<Cook> users = searchService.findCooksByZIP(zip);
         return Response.status(200).entity(users).build();
     }
+
+    @GET
+    @Path("customers/{zip}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response findCustomersByZIP(@PathParam("zip") String zip) {
+        List<Cook> users = searchService.findCooksByZIP(zip);
+        return Response.status(200).entity(users).build();
+    }
+
+    @GET
+    @Path("cooks/currentLocation/{zip}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response findCooksByCurrentLocation(@PathParam("zip") String zip) {
+        List<Cook> users = searchService.findCooksByCurrentLocation(zip);
+        return Response.status(200).entity(users).build();
+    }
+
+    @GET
+    @Path("customers/currentLocation/{zip}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response findCustomersByCurrentLocation(@PathParam("zip") String zip) {
+        List<Cook> users = searchService.findCustomersByCurrentLocation(zip);
+        return Response.status(200).entity(users).build();
+    }
+
+
 }

@@ -12,29 +12,15 @@ import java.util.List;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
-    public List<User> findByFirstName(String firstName);
-
-    public List<User> findByFirstNameAndRole(String firstName, Role role);
-
-    public List<User> findByLastNameAndRole(String firstName, Role role);
-
-    public List<User> findByLastName(String lastName);
-
-    public int countByLastName(String name);
-
-    public int countByFirstName(String name);
-
-    public int countByLastNameAndRole(String name, Role role);
-
-    public int countByFirstNameAndRole(String name, Role role);
-
     public int countByRole(Role role);
 
-    public List<User> findByRole(String roleName);
+    public List<User> findByRole(Role role);
 
     public boolean exists(String userName);
 
     public List<User> findByUserName(String userName);
 
     public List<User> findByLastNameOrFirstNameOrUserNameAndRole(String lname, String fname, String uname, Role role);
+
+    public List<User> findByLastNameOrFirstNameOrUserName(String lname, String fname, String uname);
 }

@@ -1,7 +1,6 @@
 package com.vs.rest.api.user.admin;
 
-import com.vs.model.enums.UserTypeEnum;
-import com.vs.rest.api.user.CustomerController;
+import com.vs.model.enums.Role;
 import com.vs.rest.api.user.UserController;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ import javax.ws.rs.core.Response;
 public class AdminController extends UserController {
 
     @Autowired
-    public AdminController(@Qualifier IUserService userService) {
+    public AdminController(@Qualifier("adminService") IUserService userService) {
         super(userService);
     }
 
@@ -32,33 +31,32 @@ public class AdminController extends UserController {
         log.info("{} Initiated.", this.getClass().getName());
     }
 
-
     @GET
-    @Path("/uname/{userName}")
+    @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getUserByUserName(@PathParam("userName") String userName) {
         return super.getUserByUserName(userName);
     }
 
     @GET
-    @Path("/list/{userName}")
+    @Path("/kitchenName/{kitchenName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response listCook(@PathParam("userName") String name) {
-        return super.listUsers();
+    public Response getCook(@PathParam("kitchenName") String kitchenName) {
+        return super.getCookByKitchenName(kitchenName);
     }
 
     @GET
     @Path("/list/cooks")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listCooks() {
-        return super.listUsers();
+        return super.listUsers(Role.COOK);
     }
 
     @GET
     @Path("/list/customers")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listCustomers() {
-        return super.listUsers();
+        return super.listUsers(Role.CUSTOMER);
     }
 
     @GET
@@ -69,32 +67,55 @@ public class AdminController extends UserController {
     }
 
     @GET
-    @Path("/count")
+    @Path("/find/cook/{searchString}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserCount() {
-        return super.getUserCount();
+    public Response findCookBySearchString(@PathParam("searchString") String searchString) {
+        return super.findUserBySearchString(searchString, Role.COOK);
     }
 
     @GET
-    @Path("/kitchenName/{kitchenName}")
+    @Path("/find/customer/{searchString}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUser(@PathParam("kitchenName") String kitchenName) {
-        return super.getUserByKitchenName(kitchenName);
+    public Response findCustomerBySearchString(@PathParam("searchString") String searchString) {
+        return super.findUserBySearchString(searchString, Role.CUSTOMER);
+    }
+
+
+    @GET
+    @Path("/find/{searchString}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response findUserBySearchString(@PathParam("searchString") String searchString) {
+        return super.findUserBySearchString(searchString);
+    }
+
+    @GET
+    @Path("cook/count")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getCooksCount() {
+        return super.getUserCount(Role.COOK);
+    }
+
+    @GET
+    @Path("customer/count")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getCustomersCount() {
+        return super.getUserCount(Role.CUSTOMER);
+    }
+
+
+    @GET
+    @Path("/count")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllUserCount() {
+        return super.getAllUserCount();
     }
 
     @DELETE
-        @Path("/{userName}")
-        @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-        @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-        public void deleteUser(@PathParam("userName") String userName){
-            super.deleteUser(userName);
-    }
-
-    @GET
-    @Path("/{name}")
+    @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response searchUser(@PathParam("name") String name) {
-        return super.searchUser(name, UserTypeEnum.CUSTOMER);
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public void deleteUser(@PathParam("userName") String userName) {
+        super.disableUser(userName);
     }
 
 }

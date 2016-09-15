@@ -1,6 +1,6 @@
 package com.vs.rest.api.user;
 
-import com.vs.model.enums.UserTypeEnum;
+import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -34,29 +34,44 @@ public abstract class UserController {
         this.userService = service;
     }
 
-    public Response listUsers() {
+    // List Specific type of usres
+    public Response listUsers(Role role) {
         log.info(" Listing all cooks ");
-        List<User> cooks = userService.listUsers();
-        return Response.status(200).entity(cooks).build();
+        List<User> users = userService.listUsers(role);
+        return Response.status(200).entity(users).build();
     }
 
-    public Response searchUser(String search, UserTypeEnum user) {
+    // List all Users
+    public Response listUsers() {
+        log.info(" Listing all cooks ");
+        List<User> users = userService.listUsers();
+        return Response.status(200).entity(users).build();
+    }
+
+    public Response findUserBySearchString(String search, Role role) {
         log.info(" Searching Cook based on: {}", search);
-        List<User> users = userService.searchUser(search);
+        List<User> users = userService.findUser(search, role);
         log.info("No of Users found: {}", users.size());
         return Response.status(200).entity(users).build();
     }
 
-    public Response getUserByKitchenName(String kitchenName) {
+    public Response findUserBySearchString(String search) {
+        log.info(" Searching Cook based on: {}", search);
+        List<User> users = userService.findUser(search);
+        log.info("No of Users found: {}", users.size());
+        return Response.status(200).entity(users).build();
+    }
+
+    public Response getCookByKitchenName(String kitchenName) {
         log.info(" Retrieving Cook: {}", kitchenName);
-        List<Cook> user = userService.getUserByKitchenName(kitchenName);
+        Cook user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
         return Response.status(200).entity(user).build();
     }
 
     public Response getUserByUserName(String userName) {
         log.info(" Retrieving Cook: {}", userName);
-        List<User> user = userService.getUserByUserName(userName);
+        User user = userService.getUserByUserName(userName);
         log.info("UserDetails : {}", user);
         return Response.status(200).entity(user).build();
     }
@@ -78,10 +93,10 @@ public abstract class UserController {
         userService.updateUser(user);
     }
 
-    public void deleteUser(String userName) {
+    public void disableUser(String userName) {
 
         log.info("Delete Cook : {}", userName);
-        //userService.saveCook(user);
+        userService.disableUser(userName);
     }
 
 
@@ -130,7 +145,11 @@ public abstract class UserController {
         return Response.status(200).entity(status).build();
     }
 
-    public Response getUserCount() {
+    public Response getAllUserCount() {
         return Response.status(200).entity(userService.getUserCount()).build();
+    }
+
+    public Response getUserCount(Role role) {
+        return Response.status(200).entity(userService.getUserCount(role)).build();
     }
 }

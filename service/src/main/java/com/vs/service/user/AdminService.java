@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
  * Created by GeetaKrishna on 12/22/2015.
  */
 @Service
-public class CookService extends UserServiceImpl {
+public class AdminService extends UserServiceImpl {
 
-    public CookService() throws Exception {
-        super(Role.COOK);
+    public AdminService() throws Exception {
+        super(Role.ADMIN);
     }
 
 //    public List<User> searchCook(String name) {

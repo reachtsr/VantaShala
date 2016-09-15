@@ -1,5 +1,6 @@
 package com.vs.service.user;
 
+import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 
@@ -12,16 +13,20 @@ import java.util.List;
 
 public interface IUserService {
 
+    // Common
     public void createUser(User user);
     public void updateUser(User user);
+    public void disableUser(String user);
+    public User getUserByUserName(String name);
     public List<User> listUsers();
-    public List<User> getUserByFirstName(String name);
-    public List<User> getUserByLastName(String name);
-    public List<Cook> getUserByKitchenName(String name);
-    public List<User> getUserByUserName(String name);
-    public List<User> searchUser(String name);
-    public int getUserCountByKitchenName(String name);
-    public int getUserCountByFirstName(String name);
-    public int getUserCountByLastName(String name);
-    public int getUserCount();
+    public List<User> listUsers(Role role);
+    public long getUserCount();
+    public int getUserCount(Role role);
+    public List<User> findUser(String searchString);
+    public List<User> findUser(String searchString, Role role);
+
+
+    // COOK
+    public Cook getUserByKitchenName(String kitchenName);
+
 }

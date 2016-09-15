@@ -81,7 +81,7 @@ public class CustomerController extends UserController {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteUser(@PathParam("userName") String userName){
-        super.deleteUser(userName);
+        super.disableUser(userName);
     }
 
 }

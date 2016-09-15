@@ -120,16 +120,6 @@ public class UserControllerTest {
 
 
     @Test
-    public void test1_negativeCreateCook() throws Exception {
-
-        Cook cook = createCook();
-        cook.setUserName(UUID.randomUUID().toString());
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
-
-    }
-
-    @Test
     public void test1_createCook() throws Exception {
 
         Cook cook = createCook();
@@ -138,8 +128,20 @@ public class UserControllerTest {
 
     }
 
+
     @Test
-    public void test1_negetive_createCook() throws Exception {
+    public void test2_createCreateCookWithSameKitchenName() throws Exception {
+
+        Cook cook = createCook();
+        cook.setUserName(UUID.randomUUID().toString());
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
+        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+
+    }
+
+
+    @Test
+    public void test3_tryDuplicateCook() throws Exception {
 
         Cook cook = createCook();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
@@ -148,7 +150,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void test2_createCustomer() throws Exception {
+    public void test4_createCustomer() throws Exception {
 
         Customer user = createCutomer();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
@@ -156,7 +158,7 @@ public class UserControllerTest {
 
     }
     @Test
-    public void test3_negetive_createCustomer() throws Exception {
+    public void test5_tryDuplicateCustomer() throws Exception {
 
         Customer user = createCutomer();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
