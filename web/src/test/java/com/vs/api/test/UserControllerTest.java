@@ -52,8 +52,6 @@ public class UserControllerTest {
     private static String cookEmail = UUID.randomUUID().toString()+"_cook@cook.com";
     private static String customerEmail = UUID.randomUUID().toString()+"_customer@customer.com";
 
-
-
     @Before
     public void setup() {
 
@@ -124,7 +122,7 @@ public class UserControllerTest {
 
         Cook cook = createCook();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+        //when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
 
     }
 

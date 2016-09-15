@@ -39,7 +39,7 @@ public abstract class User implements SocialUserDetails {
     private UserStatusEnum status;
     private Boolean enableTextMessaging = false;
 
-    public void setRole(Role role){
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -61,7 +61,6 @@ public abstract class User implements SocialUserDetails {
     public String getPassword() {
         return "ABCD";
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

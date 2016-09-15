@@ -79,13 +79,10 @@ public abstract class UserController {
     public Response createUser(User user) {
 
         log.info("Create User - User Details: {}", user);
-        try {
+
             userService.createUser(user);
             return Response.status(200).build();
-        }
-        catch (Exception e) {
-            return Response.ok("").build();
-        }
+
     }
 
     public void updateUser(String userName, User user) {
