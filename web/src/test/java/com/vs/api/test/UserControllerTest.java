@@ -2,36 +2,27 @@ package com.vs.api.test;
 
 import com.jayway.restassured.RestAssured;
 import com.vs.bootstrap.ApplicationBootstrap;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.Customer;
 import com.vs.model.user.address.Address;
 import com.vs.model.user.address.BusinessAddress;
 import com.vs.model.user.address.PersonalAddress;
-import lombok.Data;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.ws.rs.core.MediaType;
-
 import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by GeetaKrishna on 12/19/2015.
@@ -40,27 +31,7 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ApplicationBootstrap.class)
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserControllerTest {
-
-    @Value("${local.server.port}")   // 6
-            int port;
-
-    private static String cook_id = "COOK_"+UUID.randomUUID().toString();
-    private static String customer_id = "CUSTOMER_"+UUID.randomUUID().toString();
-    private static String kitchen_id = "KITCHEN_"+UUID.randomUUID().toString();
-
-    private static String cookEmail = UUID.randomUUID().toString()+"_cook@cook.com";
-    private static String customerEmail = UUID.randomUUID().toString()+"_customer@customer.com";
-
-    @Before
-    public void setup() {
-
-        RestAssured.port = port;
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.basePath = "/vs/rest/";
-        log.info("Setting up Tests {} - {}", port, RestAssured.DEFAULT_PATH);
-        given().log().all();
-    }
+public class UserControllerTest extends BaseControllerTest {
 
     private Cook createCook() throws Exception {
 
@@ -93,7 +64,7 @@ public class UserControllerTest {
 
     }
 
-    private Customer createCutomer(){
+    private Customer createCutomer() {
         log.info("Running test {}", RestAssured.basePath);
         given().log().path();
 
@@ -116,52 +87,84 @@ public class UserControllerTest {
         return user;
     }
 
-
     @Test
-    public void test1_createCook() throws Exception {
+    public void a1_createCook() throws Exception {
 
         Cook cook = createCook();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
         //when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
-
     }
 
-
     @Test
-    public void test2_createCreateCookWithSameKitchenName() throws Exception {
-
+    public void a2_createCreateCookWithSameKitchenName() throws Exception {
         Cook cook = createCook();
         cook.setUserName(UUID.randomUUID().toString());
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
-
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
     }
 
-
     @Test
-    public void test3_tryDuplicateCook() throws Exception {
-
+    public void a3_tryDuplicateCook() throws Exception {
         Cook cook = createCook();
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
-
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
     }
 
     @Test
-    public void test4_createCustomer() throws Exception {
-
+    public void a4_createCustomer() throws Exception {
         Customer user = createCutomer();
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
-
     }
+
     @Test
-    public void test5_tryDuplicateCustomer() throws Exception {
+    public void a5_tryDuplicateCustomer() throws Exception {
 
         Customer user = createCutomer();
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
         // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
+    }
 
+    @Test
+    public void a6_findCookByKitcheName() throws Exception {
+        given().pathParam("kitchenName", kitchen_id).get("/cook/kitchenName/{kitchenName}").then().body("kitchenName", equalTo(kitchen_id)).log().all();
+    }
+
+    @Test
+    public void a7_disableUserCook() throws Exception {
+        expect().statusCode(200).given().pathParam("userName", cook_id).put("/secret/{userName}/disable").then().log().all();
+    }
+
+    @Test
+    public void a8_disableUserVerifyCook() throws Exception {
+        given().pathParam("userName", cook_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+    }
+
+    @Test
+    public void a9_enableUserCook() throws Exception {
+        expect().statusCode(200).given().pathParam("userName", cook_id).put("/secret/{userName}/enable").then().log().all();
+    }
+
+    @Test
+    public void b1_enableUserVerifyCook() throws Exception {
+        given().pathParam("userName", cook_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+    }
+
+    @Test
+    public void b2_disableUserCustomer() throws Exception {
+        expect().statusCode(200).given().pathParam("userName", customer_id).put("/secret/{userName}/disable").then().log().all();
+    }
+
+    @Test
+    public void b3_disableUserVerifyCustomer() throws Exception {
+        given().pathParam("userName", customer_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+    }
+
+    @Test
+    public void b4_enableUserCustomer() throws Exception {
+        expect().statusCode(200).given().pathParam("userName", customer_id).put("/secret/{userName}/enable").then().log().all();
+    }
+
+    @Test
+    public void b5_enableUserVerifyCustomer() throws Exception {
+        given().pathParam("userName", customer_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
     }
 
 }

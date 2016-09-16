@@ -66,22 +66,4 @@ public class CustomerController extends UserController {
         super.updateUser(userName, user);
     }
 
-
-    @ApiOperation(value = "Disable Customer", nickname = "disableCustomer")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.DELETE, path="/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
-
-    @DELETE
-    @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void deleteUser(@PathParam("userName") String userName){
-        super.disableUser(userName);
-    }
-
 }

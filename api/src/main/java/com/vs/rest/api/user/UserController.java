@@ -1,6 +1,7 @@
 package com.vs.rest.api.user;
 
 import com.vs.model.enums.Role;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
@@ -90,10 +91,10 @@ public abstract class UserController {
         userService.updateUser(user);
     }
 
-    public void disableUser(String userName) {
+    public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) {
 
         log.info("Delete Cook : {}", userName);
-        userService.disableUser(userName);
+        userService.enableOrDisableUser(userName, userStatusEnum);
     }
 
 

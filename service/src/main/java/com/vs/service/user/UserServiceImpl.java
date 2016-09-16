@@ -9,6 +9,9 @@ import com.vs.repository.UserRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -57,9 +60,10 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void disableUser(String userName) {
-        userRepository.findByUserName(userName).get(0).setStatus(UserStatusEnum.INACTIVE);
+    public void enableOrDisableUser(String userName, UserStatusEnum userStatus) {
+        userRepository.findByUserName(userName).get(0).setStatus(userStatus);
     }
+
 
     @Override
     public long getUserCount() {

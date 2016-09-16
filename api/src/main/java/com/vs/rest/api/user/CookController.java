@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response;
 @Slf4j
 public class CookController extends UserController {
 
-
     @Autowired
     public CookController(@Qualifier("cookService") IUserService userService) {
         super(userService);
@@ -50,10 +49,6 @@ public class CookController extends UserController {
         return super.createUser(user);
     }
 
-
-
-
-
     @ApiOperation(value = "Upload Image", nickname = "uploadImage")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -69,10 +64,6 @@ public class CookController extends UserController {
     public Response uploadImages(@PathParam("userName") String userName, @Context RequestContext request){
         return super.addImages(userName, request);
     }
-
-
-
-
 
     @ApiOperation(value = "Update Cook", nickname = "updateCook")
     @ApiResponses(value = {
@@ -91,25 +82,22 @@ public class CookController extends UserController {
        super.updateUser(userName, user);
     }
 
-
-
-
-
-    @ApiOperation(value = "Disable Cook", nickname = "disableCook")
+    @ApiOperation(value = "Find Cook by Kitchen Name", response = Cook.class, nickname = "kitchName")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.DELETE, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.DELETE, path="/kitchenName/{kitchenName}", produces = MediaType.APPLICATION_JSON)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
     })
 
-    @DELETE
-    @Path("/{userName}")
+    @GET
+    @Path("/kitchenName/{kitchenName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void disableCook(@PathParam("userName") String userName){
-        super.disableUser(userName);
+    public Response getCook(@PathParam("kitchenName") String kitchenName) {
+        return super.getCookByKitchenName(kitchenName);
     }
+
+
 
 }

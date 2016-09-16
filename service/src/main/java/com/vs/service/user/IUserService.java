@@ -1,6 +1,7 @@
 package com.vs.service.user;
 
 import com.vs.model.enums.Role;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 
@@ -16,7 +17,7 @@ public interface IUserService {
     // Common
     public void createUser(User user);
     public void updateUser(User user);
-    public void disableUser(String user);
+    public void enableOrDisableUser(String user, UserStatusEnum userStatusEnum);
     public User getUserByUserName(String name);
     public List<User> listUsers();
     public List<User> listUsers(Role role);

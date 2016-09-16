@@ -1,12 +1,16 @@
 package com.vs.rest.api.user.admin;
 
 import com.vs.model.enums.Role;
+import com.vs.model.enums.UserStatusEnum;
 import com.vs.rest.api.user.UserController;
 import com.vs.service.user.IUserService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
@@ -39,13 +43,6 @@ public class AdminController extends UserController {
     }
 
     @GET
-    @Path("/kitchenName/{kitchenName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getCook(@PathParam("kitchenName") String kitchenName) {
-        return super.getCookByKitchenName(kitchenName);
-    }
-
-    @GET
     @Path("/list/cooks")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listCooks() {
@@ -62,7 +59,7 @@ public class AdminController extends UserController {
     @GET
     @Path("/list/users")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response listAllUsres() {
+    public Response listAllUsers() {
         return super.listUsers();
     }
 
@@ -110,12 +107,37 @@ public class AdminController extends UserController {
         return super.getAllUserCount();
     }
 
-    @DELETE
-    @Path("/{userName}")
+    @ApiOperation(value = "Disable Cook", nickname = "enableUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
+
+    @PUT
+    @Path("/{userName}/disable")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void deleteUser(@PathParam("userName") String userName) {
-        super.disableUser(userName);
+    public void disableUser(@PathParam("userName") String userName){
+        super.enableOrDisableUser(userName, UserStatusEnum.INACTIVE);
     }
 
+
+    @ApiOperation(value = "Enable Cook", nickname = "enableUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
+    })
+    @PUT
+    @Path("/{userName}/enable")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public void enableUser(@PathParam("userName") String userName){
+        super.enableOrDisableUser(userName, UserStatusEnum.ACTIVE);
+    }
 }

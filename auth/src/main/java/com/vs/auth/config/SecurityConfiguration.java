@@ -125,6 +125,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/error",
                         "/css/**",
+                        "/vs/**",
                         "/rest/**",
                         "/assets/**",
                         "/signup",

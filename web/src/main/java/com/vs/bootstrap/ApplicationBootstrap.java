@@ -111,9 +111,8 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         return new ApiInfoBuilder()
                 .title("VantaShala.com, Feel Healthy and Happy")
                 .description("API Description")
-                .termsOfServiceUrl("http:/vanatashala.com/software/sla/sladb.nsf/sla/bm?Open")
-                .license("Contact Us for any License")
-                .licenseUrl("https://github.com/IBM-Bluemix/news-aggregator/blob/master/LICENSE")
+                .termsOfServiceUrl("http:/vanatashala.com/terms.html")
+                .license("Contact Us")
                 .version("1.0")
                 .build();
     }
