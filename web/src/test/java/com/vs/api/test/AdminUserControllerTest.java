@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ApplicationBootstrap.class)
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AdminControllerTest extends BaseControllerTest {
+public class AdminUserControllerTest extends BaseControllerTest {
 
     @Test
     public void a1_listCooks() throws Exception {

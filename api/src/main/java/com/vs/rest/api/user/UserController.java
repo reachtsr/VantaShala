@@ -44,42 +44,43 @@ public abstract class UserController extends BaseController {
     public Response listUsers(Role role) {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers(role);
-        return Response.status(200).entity(users).build();
+        return buildResponse(users);
     }
 
     // List all Users
     public Response listUsers() {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers();
-        return Response.status(200).entity(users).build();
+        return buildResponse(users);
     }
 
     public Response findUserBySearchString(String search, Role role) {
         log.info(" Searching Cook based on: {}", search);
         List<User> users = userService.findUser(search, role);
         log.info("No of Users found: {}", users.size());
-        return Response.status(200).entity(users).build();
+        return buildResponse(users);
     }
 
     public Response findUserBySearchString(String search) {
         log.info(" Searching Cook based on: {}", search);
         List<User> users = userService.findUser(search);
         log.info("No of Users found: {}", users.size());
-        return Response.status(200).entity(users).build();
+        return buildResponse(users);
     }
 
     public Response getCookByKitchenName(String kitchenName) {
         log.info(" Retrieving Cook: {}", kitchenName);
         Cook user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
-        return Response.status(200).entity(user).build();
+        return buildResponse(user);
+
     }
 
     public Response getUserByUserName(String userName) {
         log.info(" Retrieving Cook: {}", userName);
         User user = userService.getUserByUserName(userName);
         log.info("UserDetails : {}", user);
-        return Response.status(200).entity(user).build();
+        return buildResponse(user);
     }
 
     public Response createUser(User user) {

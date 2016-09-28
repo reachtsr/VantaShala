@@ -1,4 +1,4 @@
-package com.vs.rest.api.user.admin;
+package com.vs.rest.api.admin;
 
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
@@ -21,12 +21,13 @@ import javax.ws.rs.core.Response;
  * Created by GeetaKrishna on 9/11/2016.
  */
 @Component
-@Path("/secret")
+@Path("/admn/user")
 @Slf4j
-public class AdminController extends UserController {
+@Api(value = "/admn/user", description = "Admin User Controller")
+public class AdminUserController extends UserController {
 
     @Autowired
-    public AdminController(@Qualifier("adminService") IUserService userService) {
+    public AdminUserController(@Qualifier("adminService") IUserService userService) {
         super(userService);
     }
 

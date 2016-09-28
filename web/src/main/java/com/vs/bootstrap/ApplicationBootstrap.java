@@ -38,14 +38,13 @@ import java.util.Arrays;
  * Created by GeetaKrishna on 11/8/2015.
  */
 
-//@TODO FIX ALL THE TESTS : BUILD THE APP AND THEY FAIL.
+
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
 @EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
-//@EnableSwagger2
 public class ApplicationBootstrap extends SpringBootServletInitializer implements Bootstrap {
 
     @Resource(name="serviceBootstrap")

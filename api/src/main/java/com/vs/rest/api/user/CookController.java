@@ -37,7 +37,6 @@ public class CookController extends UserController {
         log.info("{} Initiated.", this.getClass().getName());
     }
 
-
     @ApiOperation(value = "Create Cook", nickname = "createCook")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),

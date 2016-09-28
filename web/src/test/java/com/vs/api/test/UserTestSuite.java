@@ -7,6 +7,6 @@ import org.junit.runners.Suite;
  * Created by GeetaKrishna on 9/15/2016.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ UserControllerTest.class, AdminControllerTest.class })
+@Suite.SuiteClasses({ UserControllerTest.class, AdminUserControllerTest.class })
 public class UserTestSuite {
 }
