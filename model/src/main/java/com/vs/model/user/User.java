@@ -9,9 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,7 +19,7 @@ import java.util.HashSet;
 @Slf4j
 @Data
 @Document
-public abstract class User implements SocialUserDetails {
+public abstract class User {
 
     static final int MAX_LENGTH_KITCHEN_NAME = 120;
 
@@ -43,46 +40,37 @@ public abstract class User implements SocialUserDetails {
         this.role = role;
     }
 
-    @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        log.info("ROLE ADDED : {}", role.name());
-        Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>(1);
-        authorities.add(new SimpleGrantedAuthority(role.name()));
-        return authorities;
-    }
 
-    @Override
     public String getUserId() {
         return userName;
     }
 
-    @Override
+
     public String getPassword() {
         return "ABCD";
     }
 
-    @Override
+
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override
+
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override
+
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override
+
     public boolean isEnabled() {
         return true;
     }
 
-    @Override
+
     public String getUsername() {
         return userName;
     }

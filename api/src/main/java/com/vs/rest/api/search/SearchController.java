@@ -1,7 +1,9 @@
 package com.vs.rest.api.search;
 
 import com.vs.model.user.Cook;
+import com.vs.rest.api.BaseController;
 import com.vs.service.search.ISearchService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,8 @@ import java.util.List;
 @Component
 @Path("/search")
 @Slf4j
-public class SearchController {
+@Api(value = "/search", description = "Big Data Search")
+public class SearchController extends BaseController {
 
     ISearchService searchService;
 
@@ -60,6 +63,4 @@ public class SearchController {
         List<Cook> users = searchService.findCustomersByCurrentLocation(zip);
         return Response.status(200).entity(users).build();
     }
-
-
 }

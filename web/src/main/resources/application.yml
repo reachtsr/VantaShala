@@ -1,6 +1,7 @@
 spring:
   profiles.active: dev
-
+  application:
+    name: VANTASHALA
   velocity:
     cache: true
     resource-loader-path : classpath:/config/vm/
@@ -8,7 +9,7 @@ spring:
   jersey:
     application-path: /rest # Path that serves as the base URI for the application. Overrides the value of "@ApplicationPath" if specified.
     filter.order: 0 # Jersey filter chain order.
-    type: servlet # Jersey integration type. Can be either "servlet" or "filter".
+    type: filter # Jersey integration type. Can be either "servlet" or "filter".
     init.*:
 
   data:
@@ -62,4 +63,11 @@ vs:
       updateDBTimer: 30000 # Update the status of sent email in the database from the Queue.
       dbArchive: 0 0 4 * * ? # Runs every day at 4:00 AM on Server Time.
 
- # server.servlet-path=/some_context_for_spring_mvc
+endpoints:
+   enabled: true
+   info:
+     enabled: true
+   health:
+     enabled: true
+   metrics:
+     enabled: true

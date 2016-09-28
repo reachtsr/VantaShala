@@ -1,0 +1,17 @@
+spring:
+  main:
+    banner-mode: "off"
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+
+vs:
+  email:
+    host: in.mailjet.com
+    port: 587
+    username: 8394886f02b223478a77157741f574b0
+    password: 4c51ed05b195547506c69524b7ee6c27
+    send: true
+

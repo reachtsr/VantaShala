@@ -9,6 +9,7 @@ import javax.ws.rs.ext.Provider;
 public class CustomReasonPhraseExceptionMapper implements ExceptionMapper<CustomReasonPhraseException> {
 
 	public Response toResponse(CustomReasonPhraseException bex) {
+		bex.printStackTrace();
 		return Response.status(new CustomReasonPhraseExceptionStatusType(Status.BAD_REQUEST))
 				.entity("Exception: " + bex.getMessage())
 				.build();

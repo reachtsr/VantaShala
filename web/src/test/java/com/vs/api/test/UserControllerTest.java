@@ -11,6 +11,7 @@ import com.vs.model.user.address.PersonalAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -122,7 +123,8 @@ public class UserControllerTest extends BaseControllerTest {
         // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
     }
 
-    @Test
+//    @Test
+//    @Ignore
     public void a6_findCookByKitcheName() throws Exception {
         given().pathParam("kitchenName", kitchen_id).get("/cook/kitchenName/{kitchenName}").then().body("kitchenName", equalTo(kitchen_id)).log().all();
     }

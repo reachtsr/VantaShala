@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("/customer")
 @Slf4j
+@Api(value = "/customer", description = "Customer Controller")
 public class CustomerController extends UserController {
 
     @Autowired
@@ -43,8 +44,7 @@ public class CustomerController extends UserController {
 
 
     @POST
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response createUser(Customer user){
         return super.createUser(user);
     }
@@ -60,8 +60,6 @@ public class CustomerController extends UserController {
 
     @PUT
     @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void updateUser(@PathParam("userName") String userName, Customer user){
         super.updateUser(userName, user);
     }

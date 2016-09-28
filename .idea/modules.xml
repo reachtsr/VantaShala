@@ -6,9 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_main.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_test.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_test.iml" group="api" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth.iml" group="auth" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_main.iml" group="auth" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth/auth_test.iml" group="auth" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_main.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_test.iml" group="common" />

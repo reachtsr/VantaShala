@@ -3,7 +3,7 @@ apply plugin: 'war'
 
 dependencies {
     compile project(':api')
-    compile project(':auth')
+//    compile project(':auth')
     compile project(':service')
     compile project(':common')
     compile project(':utils')

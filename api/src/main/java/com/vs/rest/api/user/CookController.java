@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("/cook")
 @Slf4j
+@Api(value = "/cook", description = "Cook Controller")
 public class CookController extends UserController {
 
     @Autowired
@@ -36,6 +37,7 @@ public class CookController extends UserController {
         log.info("{} Initiated.", this.getClass().getName());
     }
 
+
     @ApiOperation(value = "Create Cook", nickname = "createCook")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -43,8 +45,7 @@ public class CookController extends UserController {
     @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
 
     @POST
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response createCook(Cook user){
         return super.createUser(user);
     }
@@ -76,8 +77,6 @@ public class CookController extends UserController {
 
     @PUT
     @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void updateCook(@PathParam("userName") String userName, Cook user){
        super.updateUser(userName, user);
     }
@@ -93,7 +92,6 @@ public class CookController extends UserController {
 
     @GET
     @Path("/kitchenName/{kitchenName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getCook(@PathParam("kitchenName") String kitchenName) {
         return super.getCookByKitchenName(kitchenName);
     }

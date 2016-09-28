@@ -4,7 +4,9 @@ import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
+import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileItemFactory;
@@ -14,6 +16,9 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Iterator;
@@ -24,7 +29,7 @@ import java.util.List;
  */
 
 @Slf4j
-public abstract class UserController {
+public abstract class UserController extends BaseController {
 
     @Value("${vs.uploads.location}")
     protected static String UPLOAD_LOCATION;

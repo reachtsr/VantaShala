@@ -5,6 +5,7 @@ import com.vs.model.order.Order;
 import com.vs.rest.api.common.CommonController;
 import com.vs.service.menu.MenuService;
 import com.vs.service.order.OrderService;
+import io.swagger.annotations.Api;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.List;
 @Component
 @Path("/order/")
 @Slf4j
+@Api(value = "/order/", description = "Operations about Orders")
 public class OrderController {
 
 

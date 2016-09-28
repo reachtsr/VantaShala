@@ -16,7 +16,7 @@ import javax.ws.rs.ext.Provider;
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
  
 	public Response toResponse(Throwable ex) {
-		
+		ex.printStackTrace();
 		ErrorMessage errorMessage = new ErrorMessage();		
 		setHttpStatus(ex, errorMessage);
 		errorMessage.setCode(AppConstants.GENERIC_APP_ERROR_CODE);

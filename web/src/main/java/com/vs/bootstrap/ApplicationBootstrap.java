@@ -2,12 +2,17 @@ package com.vs.bootstrap;
 
 import com.vs.common.Bootstrap;
 import com.vs.service.email.EmailService;
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.listing.ApiListingResource;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +20,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.core.context.SecurityContextHolder;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
+//import org.springframework.web.WebApplicationInitializer;
+//import springfox.documentation.builders.ApiInfoBuilder;
+//import springfox.documentation.builders.PathSelectors;
+//import springfox.documentation.builders.RequestHandlerSelectors;
+//import springfox.documentation.service.ApiInfo;
+//import springfox.documentation.spi.DocumentationType;
+//import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -36,10 +42,11 @@ import java.util.Arrays;
 @SpringBootApplication
 @Slf4j
 @ComponentScan("com.vs")
-@EnableMongoRepositories({"com.vs.repository", "com.vs.auth.repository"})
+@EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
-public class ApplicationBootstrap implements ServletContextInitializer, Bootstrap {
+//@EnableSwagger2
+public class ApplicationBootstrap extends SpringBootServletInitializer implements Bootstrap {
 
     @Resource(name="serviceBootstrap")
     private Bootstrap serviceBootstrap;
@@ -52,7 +59,7 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
 
     public static void main(String[] args) {
 
-        ApplicationContext ctx = SpringApplication.run(ApplicationBootstrap.class, args);
+        ApplicationContext ctx = new ApplicationBootstrap().configure(new SpringApplicationBuilder(ApplicationBootstrap.class)).run(args);
 
         log.info("Scanning Initialized Beans...");
         String[] beanNames = ctx.getBeanDefinitionNames();
@@ -61,10 +68,15 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
             log.trace(beanName);
         }
 
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+        //SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
 
         log.info("Scanning Initialized Beans...Completed!");
         log.info(" ****   Hurray! Application Started.   ****");
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ApplicationBootstrap.class);
     }
 
     @PostConstruct
@@ -95,25 +107,5 @@ public class ApplicationBootstrap implements ServletContextInitializer, Bootstra
         messageSource.setBasename("i18n/messages");
         messageSource.setUseCodeAsDefaultMessage(true);
         return messageSource;
-    }
-
-    @Bean
-    public Docket newsApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("greetings")
-                .apiInfo(apiInfo())
-                .select()
-                .paths(PathSelectors.regex("vs/*"))
-                .build();
-    }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("VantaShala.com, Feel Healthy and Happy")
-                .description("API Description")
-                .termsOfServiceUrl("http:/vanatashala.com/terms.html")
-                .license("Contact Us")
-                .version("1.0")
-                .build();
     }
 }
