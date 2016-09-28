@@ -1,9 +1,7 @@
 package com.vs.rest.api.order;
 
-import com.vs.model.enums.MenuStatus;
 import com.vs.model.order.Order;
-import com.vs.rest.api.common.CommonController;
-import com.vs.service.menu.MenuService;
+import com.vs.rest.api.BaseController;
 import com.vs.service.order.OrderService;
 import io.swagger.annotations.Api;
 import jersey.repackaged.com.google.common.base.Preconditions;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,8 +22,7 @@ import java.util.List;
 @Path("/order/")
 @Slf4j
 @Api(value = "/order/", description = "Operations about Orders")
-public class OrderController {
-
+public class OrderController extends BaseController {
 
     @Autowired
     private OrderService orderService;
@@ -38,16 +34,16 @@ public class OrderController {
     public Response getOrders(@PathParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
         List<Order> orders = orderService.getOrders(userName);
-        return CommonController.buildResponse(orders);
+        return buildResponse(orders);
     }
 
     @POST
     @Path("/{userName}")
-    public Response createOrder(@PathParam("userName") String userName,  Order order) {
+    public Response createOrder(@PathParam("userName") String userName, Order order) {
         Preconditions.checkNotNull(order.getOrderedBy());
         order.setOrderedBy(userName);
         Order nOrder = orderService.createOrder(order);
-        return CommonController.buildResponse(nOrder);
+        return buildResponse(nOrder);
     }
 
     @PUT
@@ -59,7 +55,7 @@ public class OrderController {
         Preconditions.checkNotNull(orderService.exists(orderId));
         order.setId(orderId);
         orderService.updateOrder(order);
-        return CommonController.buildResponse("");
+        return buildResponse("");
     }
 
 
@@ -70,7 +66,7 @@ public class OrderController {
     public Response deleteOrder(@PathParam("orderId") String orderId) {
         Preconditions.checkNotNull(orderId);
         orderService.cancelOrder(orderId);
-        return CommonController.buildResponse("Order Deleted");
+        return buildResponse("Order Deleted");
     }
 
 }
