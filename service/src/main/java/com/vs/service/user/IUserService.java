@@ -17,7 +17,7 @@ public interface IUserService {
     // Common
     public void createUser(User user);
     public void updateUser(User user);
-    public void enableOrDisableUser(String user, UserStatusEnum userStatusEnum);
+    public void enableOrDisableUser(String user, UserStatusEnum userStatusEnum) throws Exception ;
     public User getUserByUserName(String name);
     public List<User> listUsers();
     public List<User> listUsers(Role role);

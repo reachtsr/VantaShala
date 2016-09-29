@@ -56,14 +56,15 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserByUserName(String name) {
-        return userRepository.findByUserName(name).get(0);
+        return userRepository.findOne(name);
     }
 
     @Override
-    public void enableOrDisableUser(String userName, UserStatusEnum userStatus) {
-        userRepository.findByUserName(userName).get(0).setStatus(userStatus);
+    public void enableOrDisableUser(String userName, UserStatusEnum userStatus) throws Exception {
+        User user = userRepository.findOne(userName);
+        user.setStatus(userStatus);
+        userRepository.save(user);
     }
-
 
     @Override
     public long getUserCount() {

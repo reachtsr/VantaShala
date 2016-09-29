@@ -18,7 +18,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     public boolean exists(String userName);
 
-    public List<User> findByUserName(String userName);
+    public User findOne(String id);
 
     public List<User> findByLastNameOrFirstNameOrUserNameAndRole(String lname, String fname, String uname, Role role);
 

@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 @Path("/admn/menu")
 @Slf4j
-@Api(value = "/admn/menu", description = "Admin Search Controller")
+@Api(value = "Menu Administration", description = "Admin Search Controller")
 public class AdminMenuController extends BaseController {
 
     @Autowired

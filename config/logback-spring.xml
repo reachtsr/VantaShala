@@ -46,6 +46,7 @@
     <logger name="org.springframework.security" level="ERROR"></logger>
 
     <logger name="org.springframework.jdbc.core" level="ERROR" />
+    <logger name="org.springframework.data" level="DEBUG" />
     <logger name="org.springframework.jdbc.core.JdbcTemplate" level="ERROR" />
     <logger name="org.springframework.scheduling.quartz" level="ERROR" />
     <logger name="org.hibernate" level="ERROR" />

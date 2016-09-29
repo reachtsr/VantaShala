@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("/admn/user")
 @Slf4j
-@Api(value = "/admn/user", description = "Admin User Controller")
+@Api(value = "User Administration", description = "Admin User Controller")
 public class AdminUserController extends UserController {
 
     @Autowired
@@ -121,7 +121,7 @@ public class AdminUserController extends UserController {
     @Path("/{userName}/disable")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void disableUser(@PathParam("userName") String userName){
+    public void disableUser(@PathParam("userName") String userName) throws Exception {
         super.enableOrDisableUser(userName, UserStatusEnum.INACTIVE);
     }
 
@@ -138,7 +138,7 @@ public class AdminUserController extends UserController {
     @Path("/{userName}/enable")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public void enableUser(@PathParam("userName") String userName){
+    public void enableUser(@PathParam("userName") String userName) throws Exception {
         super.enableOrDisableUser(userName, UserStatusEnum.ACTIVE);
     }
 }

@@ -1,6 +1,7 @@
 package com.vs.api.test;
 
 import com.jayway.restassured.RestAssured;
+import com.mongodb.DuplicateKeyException;
 import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
@@ -103,7 +104,7 @@ public class UserControllerTest extends BaseControllerTest {
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void a3_tryDuplicateCook() throws Exception {
         Cook cook = createCook();
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
@@ -115,58 +116,56 @@ public class UserControllerTest extends BaseControllerTest {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void a5_tryDuplicateCustomer() throws Exception {
 
         Customer user = createCutomer();
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
-        // when().get("/rest/user/helloUser").then().statusCode(HttpStatus.SC_OK);
     }
 
-//    @Test
-//    @Ignore
+    @Test
     public void a6_findCookByKitcheName() throws Exception {
-        given().pathParam("kitchenName", kitchen_id).get("/cook/kitchenName/{kitchenName}").then().body("kitchenName", equalTo(kitchen_id)).log().all();
+        given().pathParam("kitchenName", kitchen_id).get("/cook/kitchenName/{kitchenName}").then().assertThat().body("kitchenName", equalTo(kitchen_id)).log().all();
     }
 
     @Test
     public void a7_disableUserCook() throws Exception {
-        expect().statusCode(200).given().pathParam("userName", cook_id).put("/secret/{userName}/disable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", cook_id).put("/admn/user/{userName}/disable").then().log().all();
     }
 
     @Test
     public void a8_disableUserVerifyCook() throws Exception {
-        given().pathParam("userName", cook_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+        given().pathParam("userName", cook_id).get("/admn/user/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
     }
 
     @Test
     public void a9_enableUserCook() throws Exception {
-        expect().statusCode(200).given().pathParam("userName", cook_id).put("/secret/{userName}/enable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", cook_id).put("/admn/user/{userName}/enable").then().log().all();
     }
 
     @Test
     public void b1_enableUserVerifyCook() throws Exception {
-        given().pathParam("userName", cook_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+        given().pathParam("userName", cook_id).get("/admn/user/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
     }
 
     @Test
     public void b2_disableUserCustomer() throws Exception {
-        expect().statusCode(200).given().pathParam("userName", customer_id).put("/secret/{userName}/disable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", customer_id).put("/admn/user/{userName}/disable").then().log().all();
     }
 
     @Test
     public void b3_disableUserVerifyCustomer() throws Exception {
-        given().pathParam("userName", customer_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+        given().pathParam("userName", customer_id).get("/admn/user/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
     }
 
     @Test
     public void b4_enableUserCustomer() throws Exception {
-        expect().statusCode(200).given().pathParam("userName", customer_id).put("/secret/{userName}/enable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", customer_id).put("/admn/user/{userName}/enable").then().log().all();
     }
 
     @Test
     public void b5_enableUserVerifyCustomer() throws Exception {
-        given().pathParam("userName", customer_id).get("/secret/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE)).log().all();
+        given().pathParam("userName", customer_id).get("/admn/user/{userName}").then().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
     }
 
 }

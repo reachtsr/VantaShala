@@ -33,6 +33,8 @@ public abstract class BaseControllerTest {
         RestAssured.basePath = "/vs/rest/";
         log.info("Setting up Tests {} - {}", port, RestAssured.DEFAULT_PATH);
         given().log().all();
+
+        log.info("Cook Id: {} Customer Id: {} Kitchen Id: {} Cook Email: {}, Customer Email: {}", cook_id, customer_id, kitchen_id, cookEmail,customerEmail);
     }
 
 }

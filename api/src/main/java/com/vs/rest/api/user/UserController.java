@@ -97,9 +97,9 @@ public abstract class UserController extends BaseController {
         userService.updateUser(user);
     }
 
-    public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) {
+    public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) throws Exception {
 
-        log.info("Delete Cook : {}", userName);
+        log.info("Disabling Cook : {}", userName);
         userService.enableOrDisableUser(userName, userStatusEnum);
     }
 
