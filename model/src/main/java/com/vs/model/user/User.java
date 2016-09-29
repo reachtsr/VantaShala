@@ -40,44 +40,5 @@ public abstract class User {
         this.role = role;
     }
 
-
-    public String getUserId() {
-        return userName;
-    }
-
-
-    public String getPassword() {
-        return "ABCD";
-    }
-
-
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-
-    public boolean isEnabled() {
-        return true;
-    }
-
-
-    public String getUsername() {
-        return userName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
 }
 

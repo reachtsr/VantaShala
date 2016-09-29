@@ -6,7 +6,6 @@ import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileItemFactory;
@@ -16,9 +15,6 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Iterator;
@@ -86,9 +82,9 @@ public abstract class UserController extends BaseController {
     public Response createUser(User user) {
 
         log.info("Create User - User Details: {}", user);
+        userService.createUser(user);
 
-            userService.createUser(user);
-            return Response.status(200).build();
+        return Response.status(200).build();
 
     }
 

@@ -10,10 +10,8 @@ import java.util.List;
  */
 public interface CookRepository extends MongoRepository<Cook, String> {
 
+    List<Cook> findByFirstName(String fName);
+    List<Cook> findByKitchenName(String kitchenName);
     int countByKitchenName(String name);
 
-    //@Query("{ 'kitchenName' : ?0 }")
-    List<Cook> findByKitchenName(String kitchenName);
-
-    //public List<User> findByLastNameOrFirstNameOrKitchenNameOrUserNameAndRole(String lname, String fname,String kname,String uname, Role role);
 }

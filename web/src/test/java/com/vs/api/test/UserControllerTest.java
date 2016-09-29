@@ -3,6 +3,7 @@ package com.vs.api.test;
 import com.jayway.restassured.RestAssured;
 import com.mongodb.DuplicateKeyException;
 import com.vs.bootstrap.ApplicationBootstrap;
+import com.vs.common.errorHandling.AppException;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.Customer;
@@ -12,7 +13,6 @@ import com.vs.model.user.address.PersonalAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -104,7 +104,7 @@ public class UserControllerTest extends BaseControllerTest {
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test
     public void a3_tryDuplicateCook() throws Exception {
         Cook cook = createCook();
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
@@ -113,14 +113,14 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void a4_createCustomer() throws Exception {
         Customer user = createCutomer();
-        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(user).log().all().when().post("customer/");
     }
 
-    @Test(expected = DuplicateKeyException.class)
+    @Test
     public void a5_tryDuplicateCustomer() throws Exception {
 
         Customer user = createCutomer();
-        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(user).when().post("customer/");
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(user).when().log().all().post("customer/");
     }
 
     @Test

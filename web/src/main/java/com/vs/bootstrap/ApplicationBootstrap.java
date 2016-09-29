@@ -70,7 +70,9 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
         //SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
 
         log.info("Scanning Initialized Beans...Completed!");
+        log.info(" ****   ****************************   ****");
         log.info(" ****   Hurray! Application Started.   ****");
+        log.info(" ****   ****************************   ****");
     }
 
     @Override

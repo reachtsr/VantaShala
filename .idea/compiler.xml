@@ -29,6 +29,8 @@
       <module name="model_test" target="1.8" />
       <module name="service_main" target="1.8" />
       <module name="service_test" target="1.8" />
+      <module name="test_main" target="1.8" />
+      <module name="test_test" target="1.8" />
       <module name="utils_main" target="1.8" />
       <module name="utils_test" target="1.8" />
       <module name="web_main" target="1.8" />
