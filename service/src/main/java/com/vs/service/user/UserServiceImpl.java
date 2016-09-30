@@ -4,15 +4,13 @@ import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
+import com.vs.model.user.User;
+import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
 import com.vs.repository.UserRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -30,6 +28,7 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Autowired
     private CookRepository cookRepository;
+
 
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
@@ -51,7 +50,17 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public Cook getUserByKitchenName(String name) {
-        return cookRepository.findByKitchenName(name).get(0);
+        List<Cook> list = cookRepository.findByKitchenName(name, Role.COOK);
+        return list.get(0);
+    }
+
+    @Override
+    public List<User> getCookByFirstName(String name){
+        return userRepository.findByFirstName(name, Role.COOK);
+    }
+    @Override
+    public List<User> getCustomerByFirstName(String name){
+        return userRepository.findByFirstName(name, Role.CUSTOMER);
     }
 
     @Override
@@ -72,7 +81,7 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int getUserCount(Role role) {
+    public long getUserCount(Role role) {
         return userRepository.countByRole(role);
     }
 

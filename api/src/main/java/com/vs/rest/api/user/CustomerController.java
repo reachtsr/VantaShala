@@ -54,9 +54,6 @@ public class CustomerController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
 
     @PUT
     @Path("/{userName}")

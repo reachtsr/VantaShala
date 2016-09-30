@@ -26,5 +26,4 @@ public class DBOperations {
         mongoOperations.updateFirst(new Query(Criteria.where("_id").is(email.get_id())),
                 Update.update("status", email.getStatus()), Email.class);
     }
-
 }

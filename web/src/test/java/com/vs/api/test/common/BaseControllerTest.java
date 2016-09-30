@@ -1,11 +1,9 @@
-package com.vs.api.test;
+package com.vs.api.test.common;
 
 import com.jayway.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -18,13 +16,6 @@ public abstract class BaseControllerTest {
     @Value("${local.server.port}")
     int port;
 
-    protected static String cook_id = "COOK_" + UUID.randomUUID().toString();
-    protected static String customer_id = "CUSTOMER_" + UUID.randomUUID().toString();
-    protected static String kitchen_id = "KITCHEN_" + UUID.randomUUID().toString();
-
-    protected static String cookEmail = UUID.randomUUID().toString() + "_cook@cook.com";
-    protected static String customerEmail = UUID.randomUUID().toString() + "_customer@customer.com";
-
     @Before
     public void setup() {
 
@@ -34,7 +25,7 @@ public abstract class BaseControllerTest {
         log.info("Setting up Tests {} - {}", port, RestAssured.DEFAULT_PATH);
         given().log().all();
 
-        log.info("Cook Id: {} Customer Id: {} Kitchen Id: {} Cook Email: {}, Customer Email: {}", cook_id, customer_id, kitchen_id, cookEmail,customerEmail);
+        log.info("Cook Id: {} Customer Id: {} Kitchen Id: {} Cook Email: {}, Customer Email: {}", ConstantsGenerator.COOK_ID, ConstantsGenerator.CUSTOMER_ID, ConstantsGenerator.KITCHEN_ID, ConstantsGenerator.COOK_EMAIL, ConstantsGenerator.CUSTOMER_EMAIL);
     }
 
 }

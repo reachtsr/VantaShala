@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
  * Created by GeetaKrishna on 9/11/2016.
  */
 @Component
-@Path("/admn/user")
+@Path("/admn")
 @Slf4j
 @Api(value = "User Administration", description = "Admin User Controller")
 public class AdminUserController extends UserController {
@@ -93,6 +93,22 @@ public class AdminUserController extends UserController {
         return super.getUserCount(Role.COOK);
     }
 
+
+    @GET
+    @Path("customer/{name}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getCustomerByFirstNamme(@PathParam("name") String name) {
+        return super.findUserByFirstName(name, Role.CUSTOMER);
+    }
+
+    @GET
+    @Path("cook/{name}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getCookByFirstNamme(@PathParam("name") String name) {
+        return super.findUserByFirstName(name, Role.COOK);
+    }
+
+
     @GET
     @Path("customer/count")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -108,14 +124,11 @@ public class AdminUserController extends UserController {
         return super.getAllUserCount();
     }
 
-    @ApiOperation(value = "Disable Cook", nickname = "enableUser")
+    @ApiOperation(value = "Disable User", nickname = "enableUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
 
     @PUT
     @Path("/{userName}/disable")
@@ -126,14 +139,12 @@ public class AdminUserController extends UserController {
     }
 
 
-    @ApiOperation(value = "Enable Cook", nickname = "enableUser")
+    @ApiOperation(value = "Enable User", nickname = "enableUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
+
     @PUT
     @Path("/{userName}/enable")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

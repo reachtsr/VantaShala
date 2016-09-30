@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
-    public int countByRole(Role role);
+    public long countByRole(Role role);
 
     public List<User> findByRole(Role role);
 
@@ -23,4 +23,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     public List<User> findByLastNameOrFirstNameOrUserNameAndRole(String lname, String fname, String uname, Role role);
 
     public List<User> findByLastNameOrFirstNameOrUserName(String lname, String fname, String uname);
+
+    List<User> findByFirstName(String fName, Role role);
 }

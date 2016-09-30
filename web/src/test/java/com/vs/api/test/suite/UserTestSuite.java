@@ -1,5 +1,7 @@
-package com.vs.api.test;
+package com.vs.api.test.suite;
 
+import com.vs.api.test.AdminUserControllerTest;
+import com.vs.api.test.UserControllerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

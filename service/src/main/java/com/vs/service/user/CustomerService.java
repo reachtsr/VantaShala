@@ -12,6 +12,4 @@ public class CustomerService extends UserServiceImpl {
     public CustomerService() throws Exception {
         super(Role.CUSTOMER);
     }
-
-
 }

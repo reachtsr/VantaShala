@@ -2,7 +2,6 @@ package com.vs.rest.api.user;
 
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
-import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
@@ -17,8 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/14/2015.
@@ -51,29 +52,40 @@ public abstract class UserController extends BaseController {
     }
 
     public Response findUserBySearchString(String search, Role role) {
-        log.info(" Searching Cook based on: {}", search);
+        log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search, role);
         log.info("No of Users found: {}", users.size());
         return buildResponse(users);
     }
 
     public Response findUserBySearchString(String search) {
-        log.info(" Searching Cook based on: {}", search);
+        log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search);
         log.info("No of Users found: {}", users.size());
         return buildResponse(users);
     }
 
     public Response getCookByKitchenName(String kitchenName) {
-        log.info(" Retrieving Cook: {}", kitchenName);
-        Cook user = userService.getUserByKitchenName(kitchenName);
+        log.info(" Retrieving User: {}", kitchenName);
+        User user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
         return buildResponse(user);
+    }
 
+    public Response findUserByFirstName(String name, Role role) {
+        log.info(" Searching User by FirstName : {}", name);
+
+        if (role == Role.COOK) {
+            List<User> users = userService.getCookByFirstName(name);
+            return buildResponse(users);
+        } else {
+            List<User> users = userService.getCustomerByFirstName(name);
+            return buildResponse(users);
+        }
     }
 
     public Response getUserByUserName(String userName) {
-        log.info(" Retrieving Cook: {}", userName);
+        log.info(" Retrieving User: {}", userName);
         User user = userService.getUserByUserName(userName);
         log.info("UserDetails : {}", user);
         return buildResponse(user);
@@ -89,13 +101,13 @@ public abstract class UserController extends BaseController {
     }
 
     public void updateUser(String userName, User user) {
-        log.info("Update Cook: {} - Cook Details: {}", userName, user);
+        log.info("Update User: {} - User Details: {}", userName, user);
         userService.updateUser(user);
     }
 
     public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) throws Exception {
 
-        log.info("Disabling Cook : {}", userName);
+        log.info("Disabling User : {}", userName);
         userService.enableOrDisableUser(userName, userStatusEnum);
     }
 
@@ -146,10 +158,18 @@ public abstract class UserController extends BaseController {
     }
 
     public Response getAllUserCount() {
-        return Response.status(200).entity(userService.getUserCount()).build();
+        long count = userService.getUserCount();
+        return Response.status(200).entity(getCountMap(count)).build();
     }
 
     public Response getUserCount(Role role) {
-        return Response.status(200).entity(userService.getUserCount(role)).build();
+        long count = userService.getUserCount(role);
+        return Response.status(200).entity(getCountMap(count)).build();
+    }
+
+    private Map<String, Long> getCountMap(long count){
+        Map<String, Long> map = new HashMap<>();
+        map.put("count", count);
+        return map;
     }
 }

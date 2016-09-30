@@ -44,7 +44,6 @@ public class CookController extends UserController {
     @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
 
     @POST
-
     public Response createCook(Cook user){
         return super.createUser(user);
     }
@@ -54,9 +53,6 @@ public class CookController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.POST, path="/upload/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
 
     @POST
     @Path("/upload/{userName}")
@@ -70,9 +66,6 @@ public class CookController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
 
     @PUT
     @Path("/{userName}")
@@ -85,16 +78,10 @@ public class CookController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(method = RequestMethod.DELETE, path="/kitchenName/{kitchenName}", produces = MediaType.APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "User's name", required = true, dataType = "string", paramType = "path")
-    })
 
     @GET
     @Path("/kitchenName/{kitchenName}")
     public Response getCook(@PathParam("kitchenName") String kitchenName) {
         return super.getCookByKitchenName(kitchenName);
     }
-
-
-
 }

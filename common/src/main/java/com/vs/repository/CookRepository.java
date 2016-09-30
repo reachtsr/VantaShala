@@ -1,5 +1,6 @@
 package com.vs.repository;
 
+import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -10,8 +11,7 @@ import java.util.List;
  */
 public interface CookRepository extends MongoRepository<Cook, String> {
 
-    List<Cook> findByFirstName(String fName);
-    List<Cook> findByKitchenName(String kitchenName);
-    int countByKitchenName(String name);
+    List<Cook> findByKitchenName(String kitchenName, Role role);
+    int countByKitchenName(String name, Role role);
 
 }
