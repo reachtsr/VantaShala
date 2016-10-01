@@ -1,7 +1,9 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
+import com.vs.props.ReadYML;
 import com.vs.service.user.IUserService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,7 @@ public class CookController extends UserController {
         super(userService);
     }
 
+
     @PostConstruct
     public void init() {
         log.info("{} Initiated.", this.getClass().getName());
@@ -55,10 +58,10 @@ public class CookController extends UserController {
     @RequestMapping(method = RequestMethod.POST, path="/upload/{userName}", produces = MediaType.APPLICATION_JSON)
 
     @POST
-    @Path("/upload/{userName}")
+    @Path("/upload/profie/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImages(@PathParam("userName") String userName, @Context RequestContext request){
-        return super.addImages(userName, request);
+        return super.addImages(userName, request, FileUploadTypeEnum.PROFILE_PICTURE);
     }
 
     @ApiOperation(value = "Update Cook", nickname = "updateCook")

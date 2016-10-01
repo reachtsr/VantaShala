@@ -1,8 +1,10 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.User;
+import com.vs.props.ReadYML;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +14,7 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -28,16 +30,16 @@ import java.util.Map;
 @Slf4j
 public abstract class UserController extends BaseController {
 
-    @Value("${vs.uploads.location}")
-    protected static String UPLOAD_LOCATION;
+    protected IUserService userService;
 
-    IUserService userService;
+    @Autowired
+    protected ReadYML readYML;
 
     public UserController(IUserService service) {
         this.userService = service;
     }
 
-    // List Specific type of usres
+    // List Specific type of users
     public Response listUsers(Role role) {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers(role);
@@ -112,7 +114,7 @@ public abstract class UserController extends BaseController {
     }
 
 
-    public Response addImages(String userName, RequestContext request) {
+    public Response addImages(String userName, RequestContext request, FileUploadTypeEnum fileUploadTypeEnum) {
 
         String status = "File Uploaded.";
         if (ServletFileUpload.isMultipartContent(request)) {
@@ -134,16 +136,14 @@ public abstract class UserController extends BaseController {
                         final String fieldValue = item.getString();
 
                         if (item.isFormField()) {
-
-                            System.out.println("Field Name: " + fieldName + ", Field Value: " + fieldValue);
-                            System.out.println("Candidate Name: " + fieldValue);
+                            log.info("Field Name: {}, Field Value: ", fieldName, fieldValue);
+                            log.info("Candidate Name: {}", fieldValue);
                         } else {
-                            final File savedFile = new File(UPLOAD_LOCATION + File.separator
+                            final File savedFile = new File(readYML.getFileUploadProperties(fileUploadTypeEnum, userName) + File.separator
                                     + itemName);
-                            System.out.println("Saving the file: " + savedFile.getName());
+                            log.info("Saving the file:  {]", savedFile.getName());
                             item.write(savedFile);
                         }
-
                     }
                 }
             } catch (FileUploadException fue) {
@@ -167,7 +167,7 @@ public abstract class UserController extends BaseController {
         return Response.status(200).entity(getCountMap(count)).build();
     }
 
-    private Map<String, Long> getCountMap(long count){
+    private Map<String, Long> getCountMap(long count) {
         Map<String, Long> map = new HashMap<>();
         map.put("count", count);
         return map;

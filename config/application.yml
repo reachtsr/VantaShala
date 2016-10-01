@@ -46,7 +46,10 @@ vs:
       archivedEmailCollectionName: archivedEmail
       userStatusCollectionName: userStatus
   uploads:
-    location: /fileUploads/
+      location:
+        base: /fileUploads/
+        profilePic: /profile/
+        menuItemPic: /menuItem/
   email:
     from: VantaShala
     fromOrderEmail: order@VantaShala.com

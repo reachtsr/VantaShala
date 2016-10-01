@@ -20,13 +20,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by GeetaKrishna on 12/19/2015.
@@ -174,6 +173,21 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void b5_enableUserVerifyCustomer() throws Exception {
         given().pathParam("userName", ConstantsGenerator.CUSTOMER_ID).get("/admn/{userName}").then().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
+    }
+
+    @Test
+    public void b6_uploadCookProfilePic() throws Exception {
+
+        log.info("Execution path: {}", System.getProperty("user.dir"));
+        String filePath = System.getProperty("user.dir") + "/web/src/test/resources/gopi.jpg";
+        filePath = filePath.replace("\\", "/");
+        given().pathParam("userName", ConstantsGenerator.COOK_ID).
+                multiPart(new File(filePath)).
+                expect().
+                body("fileUploadResult", is("OK")).
+                when().
+                post("/cook/upload/profie/{userName}");
+
     }
 
 }
