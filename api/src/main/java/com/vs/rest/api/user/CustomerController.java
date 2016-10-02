@@ -40,11 +40,9 @@ public class CustomerController extends UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
-
 
     @POST
-
+    @Path("/")
     public Response createUser(Customer user){
         return super.createUser(user);
     }
@@ -53,7 +51,6 @@ public class CustomerController extends UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
 
     @PUT
     @Path("/{userName}")

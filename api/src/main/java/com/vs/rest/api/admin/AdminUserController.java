@@ -143,7 +143,6 @@ public class AdminUserController extends UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
 
     @PUT
     @Path("/{userName}/enable")

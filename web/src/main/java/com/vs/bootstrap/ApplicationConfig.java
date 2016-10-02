@@ -6,6 +6,7 @@ import io.swagger.jaxrs.listing.SwaggerSerializers;
 import io.swagger.jersey.config.JerseyJaxrsConfig;
 import io.swagger.models.Info;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;
@@ -29,11 +30,12 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Configuration
 @EnableSwagger2
-public class JerseyConfig extends ResourceConfig {
+public class ApplicationConfig extends ResourceConfig {
 
-    public JerseyConfig() {
+    public ApplicationConfig() {
         log.info("Registering Jersey Configuration");
         register(RequestContextFilter.class);
+        register(MultiPartFeature.class);
         packages("com.vs");
     }
 

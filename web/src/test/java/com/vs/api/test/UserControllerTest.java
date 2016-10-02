@@ -186,7 +186,7 @@ public class UserControllerTest extends BaseControllerTest {
                 expect().
                 body("fileUploadResult", is("OK")).
                 when().
-                post("/cook/upload/profie/{userName}");
+                post("/cook/upload/profile/{userName}");
 
     }
 

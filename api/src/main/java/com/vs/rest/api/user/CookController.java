@@ -2,19 +2,19 @@ package com.vs.rest.api.user;
 
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.user.Cook;
-import com.vs.model.user.User;
-import com.vs.props.ReadYML;
 import com.vs.service.user.IUserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -34,7 +34,6 @@ public class CookController extends UserController {
         super(userService);
     }
 
-
     @PostConstruct
     public void init() {
         log.info("{} Initiated.", this.getClass().getName());
@@ -44,10 +43,9 @@ public class CookController extends UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.POST, path="/", produces = MediaType.APPLICATION_JSON)
 
     @POST
-    public Response createCook(Cook user){
+    public Response createCook(Cook user) {
         return super.createUser(user);
     }
 
@@ -55,33 +53,29 @@ public class CookController extends UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.POST, path="/upload/{userName}", produces = MediaType.APPLICATION_JSON)
 
     @POST
-    @Path("/upload/profie/{userName}")
+    @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadImages(@PathParam("userName") String userName, @Context RequestContext request){
-        return super.addImages(userName, request, FileUploadTypeEnum.PROFILE_PICTURE);
+    public Response uploadImages(@PathParam("userName") String userName) throws Exception {
+        return super.addImages(userName, FileUploadTypeEnum.PROFILE_PICTURE);
     }
 
     @ApiOperation(value = "Update Cook", nickname = "updateCook")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.PUT, path="/{userName}", produces = MediaType.APPLICATION_JSON)
 
     @PUT
     @Path("/{userName}")
-    public void updateCook(@PathParam("userName") String userName, Cook user){
-       super.updateUser(userName, user);
+    public void updateCook(@PathParam("userName") String userName, Cook user) {
+        super.updateUser(userName, user);
     }
 
     @ApiOperation(value = "Find Cook by Kitchen Name", response = Cook.class, nickname = "kitchName")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(method = RequestMethod.DELETE, path="/kitchenName/{kitchenName}", produces = MediaType.APPLICATION_JSON)
-
     @GET
     @Path("/kitchenName/{kitchenName}")
     public Response getCook(@PathParam("kitchenName") String kitchenName) {
