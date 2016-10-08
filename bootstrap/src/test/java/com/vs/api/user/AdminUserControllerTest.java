@@ -1,7 +1,7 @@
-package com.vs.api.test;
+package com.vs.api.user;
 
 import com.jayway.restassured.RestAssured;
-import com.vs.api.test.common.BaseControllerTest;
+import com.vs.api.common.BaseControllerTest;
 import com.vs.bootstrap.ApplicationBootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.FixMethodOrder;

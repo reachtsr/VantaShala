@@ -1,4 +1,4 @@
-package com.vs.api.test.common;
+package com.vs.api.common;
 
 import java.util.UUID;
 

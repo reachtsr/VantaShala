@@ -1,8 +1,8 @@
-package com.vs.api.test;
+package com.vs.api.user;
 
 import com.jayway.restassured.RestAssured;
-import com.vs.api.test.common.BaseControllerTest;
-import com.vs.api.test.common.ConstantsGenerator;
+import com.vs.api.common.BaseControllerTest;
+import com.vs.api.common.ConstantsGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;

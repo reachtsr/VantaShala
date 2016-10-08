@@ -3,22 +3,13 @@ package com.vs.bootstrap;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
-import io.swagger.jersey.config.JerseyJaxrsConfig;
 import io.swagger.models.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
@@ -46,6 +37,7 @@ public class ApplicationConfig extends ResourceConfig {
         register(WadlResource.class);
 
         swaggerConfiguration();
+        System.setProperty("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
     }
     // Jersey Swagger Configuration
     private void swaggerConfiguration() {

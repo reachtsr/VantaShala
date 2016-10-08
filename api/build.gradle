@@ -1,36 +1,36 @@
-configurations {
-    spi
-}
+//configurations {
+//    spi
+//}
 
 dependencies {
     compile project(':model')
     compile project(':utils')
     compile project(':common')
     compile project(':service')
+    //testCompile project(':bootstrap')
 }
 
-
-task spiJar(type: Jar) {
-    appendix = 'spi'
-    from sourceSets.main.output
-    include 'com/vs/rest/api/'
-}
-
-artifacts {
-    spi spiJar
-}
-
-task dist(type: Zip) {
-    dependsOn spiJar
-    from 'src/dist'
-    into('libs') {
-        from spiJar.archivePath
-        from configurations.runtime
-    }
-}
-
-artifacts {
-    archives dist
-}
+//task spiJar(type: Jar) {
+//    appendix = 'spi'
+//    from sourceSets.main.output
+//    include 'com/vs/rest/api/'
+//}
+//
+//artifacts {
+//    spi spiJar
+//}
+//
+//task dist(type: Zip) {
+//    dependsOn spiJar
+//    from 'src/dist'
+//    into('libs') {
+//        from spiJar.archivePath
+//        from configurations.runtime
+//    }
+//}
+//
+//artifacts {
+//    archives dist
+//}
 
 

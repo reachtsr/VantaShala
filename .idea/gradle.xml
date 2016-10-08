@@ -6,12 +6,13 @@
         <option name="createEmptyContentRootDirectories" value="true" />
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="X:/gradle-3.0" />
+        <option name="gradleHome" value="X:/gradle-3.1-bin" />
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api" />
+            <option value="$PROJECT_DIR$/bootstrap" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/model" />
             <option value="$PROJECT_DIR$/service" />

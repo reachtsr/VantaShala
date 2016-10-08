@@ -34,12 +34,6 @@ public abstract class UserController extends BaseController {
     @Autowired
     protected ReadYML readYML;
 
-    @Context
-    HttpServletRequest request;
-
-    @Context
-    HttpServletResponse response;
-
     public UserController(IUserService service) {
         this.userService = service;
     }
@@ -119,7 +113,8 @@ public abstract class UserController extends BaseController {
     }
 
 
-    public Response addImages(String userName, FileUploadTypeEnum fileUploadTypeEnum) throws Exception {
+    public Response addImages(String userName, FileUploadTypeEnum fileUploadTypeEnum, HttpServletRequest request,
+                              HttpServletResponse response) throws Exception {
 
         // checks if the request actually contains upload file
         if (!ServletFileUpload.isMultipartContent(request)) {
@@ -176,8 +171,7 @@ public abstract class UserController extends BaseController {
                 }
             }
         } catch (Exception ex) {
-            request.setAttribute("message",
-                    "There was an error: " + ex.getMessage());
+            ex.printStackTrace();
         }
 
         return Response.status(200).entity(getStatusMap("SUCCESS")).build();

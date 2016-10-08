@@ -2,16 +2,16 @@
 apply plugin: 'war'
 
 dependencies {
-    compile project(':api')
+    //compile project(':api')
 //    compile project(':auth')
-    compile project(':service')
-    compile project(':common')
-    compile project(':utils')
+    //compile project(':service')
+    //compile project(':common')
+    //compile project(':utils')
 
-    runtime project(':common')
-    runtime project(':utils')
-    runtime project(':api')
-    runtime project(':service')
+    //runtime project(':common')
+    //runtime project(':utils')
+    //runtime project(':api')
+    //runtime project(':service')
 }
 
 bootRun {

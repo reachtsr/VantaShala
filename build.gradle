@@ -4,21 +4,21 @@ buildscript {
     project.ext {
         springBootVersion = '1.4.1.RELEASE'
     }
-
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
     repositories {
         mavenCentral()
     }
+
 }
 
 allprojects {
-
     group = 'com.vs'
     version = '0.0.1-SNAPSHOT'
 
     task hello << {task -> println "I'm $task.project.name "}
+
 }
 
 subprojects {
@@ -27,6 +27,13 @@ subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'java'
     apply plugin: 'spring-boot'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         compile("com.google.guava:guava:19.0")
@@ -57,6 +64,10 @@ subprojects {
         compile 'org.glassfish.jersey.media:jersey-media-multipart:2.+'
         compile 'org.springframework.boot:spring-boot-devtools'
 
+        compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.1.7'
+        compile group: 'org.apache.cxf', name: 'cxf-core', version: '3.1.7'
+
+
         testCompile('com.jayway.restassured:rest-assured:2.8.0')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
@@ -64,27 +75,18 @@ subprojects {
         testCompile "junit:junit:4.12"
     }
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
-    repositories {
-        mavenCentral()
-    }
-
-    if(!project.name.startsWith("web")) {
-        println "Disabling BootRepackage for : "+project.name
+    if(!project.name.startsWith("bootstrap")) {
+        println "Disabling BootRepackage for : " + project.name
         bootRepackage.enabled = false;
-    }
-
-    task wrapper(type: Wrapper) {
-        gradleVersion = '2.14'
+    } else {
+        println "BootRepackage Enabled for : " + project.name
+        bootRepackage.enabled = true;
     }
 
     task show << {
         println ""
         println "-----------------------------------------------"
-        println "Project Name: " + projTitle
-        println "Version: " + projVersion
         println "Home directory: "
         println "Build output: " + relativePath(compileJava.destinationDir)
         println "Resources output: " + relativePath(processResources.destinationDir)
@@ -96,7 +98,9 @@ subprojects {
 
     compileJava.dependsOn(processResources)
 
-
 }
+
+
+
 
 

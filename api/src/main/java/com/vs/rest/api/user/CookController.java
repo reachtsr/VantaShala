@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 
 /**
  * Created by GeetaKrishna on 12/22/2015.
@@ -28,6 +31,11 @@ import javax.ws.rs.core.Response;
 @Slf4j
 @Api(value = "/cook", description = "Cook Controller")
 public class CookController extends UserController {
+
+    @Context
+    private HttpServletRequest request;
+    @Context
+    private HttpServletResponse response;
 
     @Autowired
     public CookController(@Qualifier("cookService") IUserService userService) {
@@ -54,11 +62,19 @@ public class CookController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
 
+
+//    public Response uploadImages(@PathParam("userName") String userName) throws Exception {
+//        return super.addImages(userName, FileUploadTypeEnum.PROFILE_PICTURE, request,
+//                response);
+//    }
+
     @POST
     @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadImages(@PathParam("userName") String userName) throws Exception {
-        return super.addImages(userName, FileUploadTypeEnum.PROFILE_PICTURE);
+    public Response uploadPdfFile(@FormDataParam("file") InputStream file,
+                                  @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
+        log.info("TEST");
+        return null;
     }
 
     @ApiOperation(value = "Update Cook", nickname = "updateCook")

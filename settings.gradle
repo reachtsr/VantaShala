@@ -5,4 +5,5 @@ include 'web'
 include 'utils'
 include 'service'
 include 'common'
+include 'bootstrap'
 

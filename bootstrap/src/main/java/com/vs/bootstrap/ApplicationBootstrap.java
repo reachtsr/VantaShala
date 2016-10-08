@@ -2,15 +2,10 @@ package com.vs.bootstrap;
 
 import com.vs.common.Bootstrap;
 import com.vs.service.email.EmailService;
-import io.swagger.jaxrs.config.BeanConfig;
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
@@ -20,19 +15,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-//import org.springframework.web.WebApplicationInitializer;
-//import springfox.documentation.builders.ApiInfoBuilder;
-//import springfox.documentation.builders.PathSelectors;
-//import springfox.documentation.builders.RequestHandlerSelectors;
-//import springfox.documentation.service.ApiInfo;
-//import springfox.documentation.spi.DocumentationType;
-//import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.Arrays;
+
+
 
 /**
  * Created by GeetaKrishna on 11/8/2015.

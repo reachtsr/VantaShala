@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 @Path("/menu")
 @Slf4j
-public class MenuController extends BaseController{
+public class MenuController extends BaseController {
 
     @Autowired
     IMenuService menuService;
@@ -42,7 +42,6 @@ public class MenuController extends BaseController{
         List<Menu> menus = menuService.getUserMenuByNameOrId(userName, menuNameOrId);
         return buildResponse(menus);
     }
-
 
     @POST
     @Path("/{userName}")

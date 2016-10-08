@@ -6,6 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_main.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_test.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_test.iml" group="api" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap.iml" filepath="$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap.iml" group="bootstrap" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap_main.iml" filepath="$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap_main.iml" group="bootstrap" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap_test.iml" filepath="$PROJECT_DIR$/.idea/modules/bootstrap/bootstrap_test.iml" group="bootstrap" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_main.iml" group="common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/common_test.iml" group="common" />

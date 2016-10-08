@@ -1,4 +1,4 @@
-package com.vs.api.test.common;
+package com.vs.api.common;
 
 import com.jayway.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;

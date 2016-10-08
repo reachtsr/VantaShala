@@ -1,0 +1,30 @@
+
+repositories {
+    mavenCentral()
+}
+
+task createStartScripts(type: CreateStartScripts) {
+
+    classpath = files('../config/*')
+}
+
+dependencies {
+
+    compile project(':common')
+    compile project(':api')
+    compile project(':model')
+    compile project(':service')
+    compile project(':web')
+    compile project(':utils')
+
+    runtime project(':common')
+    runtime project(':api')
+    runtime project(':model')
+    runtime project(':service')
+    runtime project(':web')
+    runtime project(':utils')
+    runtime files('../config')
+    runtime files('config')
+    runtime files('config/')
+    runtime files('config')
+}
