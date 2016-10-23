@@ -27,7 +27,6 @@ public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
 
-
     @GET
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

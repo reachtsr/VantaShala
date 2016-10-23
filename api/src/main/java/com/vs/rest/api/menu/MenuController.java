@@ -44,12 +44,14 @@ public class MenuController extends BaseController {
     }
 
     @POST
-    @Path("/{userName}")
+        @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response createMenu(Menu menu) {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
+        Preconditions.checkNotNull(menu.getStartDate());
+        Preconditions.checkNotNull(menu.getEndDate());
         menuService.createUserMenu(menu);
         return buildResponse("Menu Created");
     }
@@ -71,7 +73,7 @@ public class MenuController extends BaseController {
     @Path("/{userName}/{menuId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteMenu(@PathParam("userName") String userName, @PathParam("menuId") String menuId) {
+    public Response deleteMenu(@PathParam("userName") String userName, @PathParam("menuId") String menuId) throws Exception {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
         menuService.deleteUserMenu(userName, menuId);

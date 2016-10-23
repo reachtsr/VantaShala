@@ -35,7 +35,12 @@ public class MenuService implements IMenuService {
     }
 
     @Override
-    public void deleteUserMenu(String userName, String menuId) {
+    public void deleteUserMenu(String userName, String menuId) throws Exception {
+
+        Menu menu = repository.findByMenuId(menuId);
+        if(menu.getStatus() == MenuStatus.LOCKED){
+            throw new Exception("DELETE NOT ALLOWED. MENU  IS LOCKED. USERS PLACED ORDERS");
+        }
         repository.delete(menuId);
     }
 
