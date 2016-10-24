@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by GeetaKrishna on 12/24/2015.
  */
 @Data
-@Document
+@Document(collection="user")
 public final class Cook extends User {
 
     public Cook() {

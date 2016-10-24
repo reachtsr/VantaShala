@@ -179,7 +179,7 @@ public class UserControllerTest extends BaseControllerTest {
     public void b6_uploadCookProfilePic() throws Exception {
 
         log.info("Execution path: {}", System.getProperty("user.dir"));
-        String filePath = System.getProperty("user.dir") + "/web/src/test/resources/gopi.jpg";
+        String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
         filePath = filePath.replace("\\", "/");
         given().pathParam("userName", ConstantsGenerator.COOK_ID).
                 multiPart(new File(filePath)).

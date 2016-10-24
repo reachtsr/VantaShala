@@ -1,7 +1,10 @@
 package com.vs.api;
 
 import com.mongodb.MongoClient;
+import com.vs.model.enums.Role;
 import com.vs.model.menu.Menu;
+import com.vs.model.user.Cook;
+import com.vs.repository.CookRepository;
 import com.vs.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -27,8 +30,16 @@ public class IndependentTest {
 
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private CookRepository cookRepository;
 
     @Test
+    public void m2() {
+
+        List<Cook> cook = cookRepository.findByKitchenName("KITCHEN_b9044429-7e1d-4bc2-a69e-358cf23fa237", Role.COOK);
+        log.info("===>{} - {}", cook.size(), cook);
+    }
+
     public void m1() {
 
         boolean exists = menuRepository.exists("MENU_806a0d55-d1d7-4f89-ace3-d7a9138e7498");
