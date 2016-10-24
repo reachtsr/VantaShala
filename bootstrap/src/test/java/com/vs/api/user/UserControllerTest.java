@@ -131,7 +131,7 @@ public class UserControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void a6_findCookByKitcheName() throws Exception {
+    public void a6_findCookByKitchenName() throws Exception {
         given().pathParam("kitchenName", ConstantsGenerator.KITCHEN_ID).get("/cook/kitchenName/{kitchenName}").then().assertThat().body("kitchenName", equalTo(ConstantsGenerator.KITCHEN_ID)).log().all();
     }
 

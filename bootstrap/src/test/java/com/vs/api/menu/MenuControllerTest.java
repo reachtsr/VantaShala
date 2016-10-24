@@ -27,6 +27,7 @@ import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasItem;
 
 /**
  * Created by GeetaKrishna on 10/7/2016.
@@ -37,6 +38,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuControllerTest extends BaseControllerTest {
+
 
     private Menu createMenu() {
         Menu menu = new Menu();
@@ -96,28 +98,28 @@ public class MenuControllerTest extends BaseControllerTest {
 
     @Test
     public void a5_retriveMenuBasedOnUserIdAndMenuId() throws Exception {
-        given().get("/menu/{userName}/{menuId}", ConstantsGenerator.COOK_ID, ConstantsGenerator.MENU_ID).then().contentType(ContentType.JSON).log().all().
+        given().pathParam("userName", ConstantsGenerator.COOK_ID).pathParam("menuId", ConstantsGenerator.MENU_ID).get("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all().
                 body("size()", equalTo(1)).log().all();
     }
 
     @Test
     public void a6_updateMenuStatus() throws Exception {
-        expect().statusCode(200).given().post("/status/{menuId}/{status}", ConstantsGenerator.MENU_ID, MenuStatus.LOCKED).then().contentType(ContentType.JSON).log().all();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("menuId", ConstantsGenerator.MENU_ID).pathParam("status", MenuStatus.LOCKED).post("/menu/status/{menuId}/{status}").then().contentType(ContentType.JSON).log().all();
     }
 
     @Test
-    public void a7_deleteMenuStatus() throws Exception {
-        expect().statusCode(500).given().post("/status/{menuId}/{status}", ConstantsGenerator.MENU_ID, MenuStatus.LOCKED).then().contentType(ContentType.JSON).log().all();
+    public void a7_deleteMenu() throws Exception {
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.COOK_ID).pathParam("menuId", ConstantsGenerator.MENU_ID).delete("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all();
     }
 
     @Test
     public void a8_updateMenuStatus() throws Exception {
-        expect().statusCode(200).given().post("/status/{menuId}/{status}", ConstantsGenerator.MENU_ID, MenuStatus.ACTIVE).then().contentType(ContentType.JSON).log().all();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("menuId", ConstantsGenerator.MENU_ID).pathParam("status", MenuStatus.ACTIVE).post("/menu/status/{menuId}/{status}").then().contentType(ContentType.JSON).log().all();
     }
 
     @Test
-    public void a9_deleteMenuStatus() throws Exception {
-        expect().statusCode(200).given().post("/status/{menuId}/{status}", ConstantsGenerator.MENU_ID, MenuStatus.LOCKED).then().contentType(ContentType.JSON).log().all();
+    public void a9_deleteMenu() throws Exception {
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.COOK_ID).pathParam("menuId", ConstantsGenerator.MENU_ID).delete("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all();
     }
 
     @Test
@@ -134,29 +136,29 @@ public class MenuControllerTest extends BaseControllerTest {
         Menu menu = createMenu();
         menu.setName("UPDATED_NAME");
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.COOK_ID).
-                body(createMenu()).log().all().when().put("/menu/{userName}");
+                body(menu).log().all().when().put("/menu/{userName}");
 
     }
 
     @Test
     public void b12_retriveMenuBasedOnUserIdAndMenuId() throws Exception {
-        given().get("/menu/{userName}/{menuId}", ConstantsGenerator.COOK_ID, ConstantsGenerator.MENU_ID).then().contentType(ContentType.JSON).log().all().
+        given().pathParam("userName",ConstantsGenerator.COOK_ID).pathParam("menuId", ConstantsGenerator.MENU_ID).get("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all().
                 body("size()", equalTo(1)).log().all();
     }
 
     @Test
-    public void b13_retriveMenuBasedOnUserIdAndMenuId() throws Exception {
-        given().get("/menu/{userName}/{menuId}", ConstantsGenerator.COOK_ID, ConstantsGenerator.MENU_ID).then().contentType(ContentType.JSON).log().all().
-                body("name", equalTo("UPDATED_NAME")).log().all();
+    public void b13_menuUpdateName() throws Exception {
+        given().pathParam("userName", ConstantsGenerator.COOK_ID).pathParam("menuId", ConstantsGenerator.MENU_ID).get("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all().
+                body("name", hasItem("UPDATED_NAME")).log().all();
     }
 
     @Test
     public void b14_createMenu() throws Exception {
         log.info("Creating Menu {}", RestAssured.basePath);
         Menu menu = createMenu();
-        menu.setMenuId(UUID.randomUUID().toString());
+        menu.setMenuId("MENU_"+UUID.randomUUID().toString());
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.COOK_ID).
-                body(createMenu()).log().all().when().post("/menu/{userName}");
+                body(menu).log().all().when().post("/menu/{userName}");
 
     }
 

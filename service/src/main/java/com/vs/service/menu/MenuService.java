@@ -26,7 +26,7 @@ public class MenuService implements IMenuService {
 
     @Override
     public void createUserMenu(Menu menu) {
-        repository.save(menu);
+        repository.insert(menu);
     }
 
     @Override
@@ -38,7 +38,10 @@ public class MenuService implements IMenuService {
     public void deleteUserMenu(String userName, String menuId) throws Exception {
 
         Menu menu = repository.findByMenuId(menuId);
-        if(menu.getStatus() == MenuStatus.LOCKED){
+        if(menu == null) {
+            throw new Exception("No Menu found");
+        }
+        if(menu.getStatus() == MenuStatus.LOCKED || menu.getStatus() == MenuStatus.EXPIRED){
             throw new Exception("DELETE NOT ALLOWED. MENU  IS LOCKED. USERS PLACED ORDERS");
         }
         repository.delete(menuId);
@@ -57,7 +60,7 @@ public class MenuService implements IMenuService {
 
     @Override
     public List<Menu> getUserMenuByNameOrId(String userName, String menuNameOrId) {
-       return repository.findByUserNameAndNameOrMenuId(userName, menuNameOrId, menuNameOrId);
+       return repository.findByUserNameOrNameAndMenuId(userName, menuNameOrId, userName);
     }
 
     @Override

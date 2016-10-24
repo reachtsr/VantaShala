@@ -53,19 +53,24 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menu.getStartDate());
         Preconditions.checkNotNull(menu.getEndDate());
         menuService.createUserMenu(menu);
-        return buildResponse("Menu Created");
+        return buildResponse("Menu Created: "+menu.getMenuId());
     }
 
     @PUT
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response updateMenu(Menu menu) {
+    public Response updateMenu(Menu menu) throws Exception{
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
-        Preconditions.checkArgument(menuService.menuExists(menu.getMenuId()));
+
+        Thread.sleep(1000);
+
+        boolean status = menuService.menuExists(menu.getMenuId());
+        log.info("menuId: {} - {}", menu.getMenuId(), status);
+        Preconditions.checkArgument(status);
         menuService.updateUserMenu(menu);
-        return buildResponse("Menu Updated");
+        return buildResponse("Menu Updated: "+menu.getMenuId());
 
     }
 
@@ -77,7 +82,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
         menuService.deleteUserMenu(userName, menuId);
-        return buildResponse("Menu Deleted");
+        return buildResponse("Menu Deleted: "+ menuId);
     }
 
     @POST
@@ -88,7 +93,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(status);
         menuService.updateUserMenuStatus(id, status);
-        return buildResponse("Menu Created");
+        return buildResponse("Menu Updated: " + id);
     }
 
 }
