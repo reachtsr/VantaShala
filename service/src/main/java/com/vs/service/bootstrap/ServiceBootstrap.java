@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.vs.common.Bootstrap;
 import com.vs.common.constants.RepositoryConstantName;
 import com.vs.model.enums.EmailStatus;
-import com.vs.model.enums.MenuStatus;
+import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.enums.Role;
 import com.vs.props.ReadYML;
@@ -72,7 +72,7 @@ public class ServiceBootstrap implements Bootstrap{
         createDBEnums("roles", enums, RepositoryConstantName.ROLE_COLLECTION_NAME);
     }
     private void createMenuStatus(){
-        String[] enums = Arrays.stream(MenuStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        String[] enums = Arrays.stream(ItemStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("menuStatus", enums, RepositoryConstantName.MENU_STATUS_COLLECTION_NAME);
     }
     private void createOrderStatus(){

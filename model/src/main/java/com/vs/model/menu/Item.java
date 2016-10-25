@@ -1,5 +1,6 @@
 package com.vs.model.menu;
 
+import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Measurment;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +17,13 @@ import java.util.UUID;
 public class Item {
 
     @Id
-    private UUID id;
+    private String id;
     private String name;
     private Measurment measurment;
     private String quatity;
     private Double price;
     private Date[] publishedDate;
     private String description;
+    private ItemStatus status = ItemStatus.ACTIVE;
 
 }

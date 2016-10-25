@@ -28,7 +28,6 @@ public abstract class BaseControllerTest {
         log.info("Setting up Tests {} - {}", port, RestAssured.DEFAULT_PATH);
         given().log().all();
 
-        log.info("Cook Id: {} Customer Id: {} Kitchen Id: {} Cook Email: {}, Customer Email: {}", ConstantsGenerator.COOK_ID, ConstantsGenerator.CUSTOMER_ID, ConstantsGenerator.KITCHEN_ID, ConstantsGenerator.COOK_EMAIL, ConstantsGenerator.CUSTOMER_EMAIL);
     }
 
     protected Calendar getToday(){

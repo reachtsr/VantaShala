@@ -1,6 +1,6 @@
 package com.vs.rest.api.menu;
 
-import com.vs.model.enums.MenuStatus;
+import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
@@ -86,14 +86,15 @@ public class MenuController extends BaseController {
     }
 
     @POST
-    @Path("status/{menuId}/{status}")
+    @Path("status/{menuId}/{itemId}/{status}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response updateMenuStatus(@PathParam("menuId") String id, @PathParam("status") MenuStatus status) {
-        Preconditions.checkNotNull(id);
+    public Response updateMenuStatus(@PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @PathParam("status") ItemStatus status) {
+        Preconditions.checkNotNull(menuId);
+        Preconditions.checkNotNull(itemId);
         Preconditions.checkNotNull(status);
-        menuService.updateUserMenuStatus(id, status);
-        return buildResponse("Menu Updated: " + id);
+        menuService.updateUserMenuItemStatus(menuId, itemId, status);
+        return buildResponse("Item Status Updated: menuId" + menuId + "itemId: " + itemId);
     }
 
 }

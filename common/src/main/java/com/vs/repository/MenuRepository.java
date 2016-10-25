@@ -1,9 +1,7 @@
 package com.vs.repository;
 
 import com.vs.model.menu.Menu;
-import com.vs.model.user.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
@@ -24,5 +22,4 @@ public interface MenuRepository extends MongoRepository<Menu, String> {
     public List<Menu> findAll();
     public long count();
     public long countByUserName(String userName);
-    public long findByStatusACTIVE();
 }

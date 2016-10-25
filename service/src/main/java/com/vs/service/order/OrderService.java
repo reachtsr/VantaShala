@@ -1,15 +1,19 @@
 package com.vs.service.order;
 
-import com.vs.model.enums.MenuStatus;
+import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.OrderStatus;
+import com.vs.model.order.MenuToItem;
 import com.vs.model.order.Order;
 import com.vs.repository.OrderRepository;
 import com.vs.service.email.EmailService;
 import com.vs.service.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
@@ -21,6 +25,9 @@ public class OrderService implements IOrderService {
     OrderRepository repository;
 
     @Autowired
+    MongoTemplate template;
+
+    @Autowired
     private MenuService menuService;
 
     @Autowired
@@ -29,12 +36,16 @@ public class OrderService implements IOrderService {
     @Override
     public Order createOrder(Order order) {
 
-        Arrays.stream(order.getMenuIds()).forEach(
-                menuId -> {
-                    menuService.updateUserMenuStatus(menuId, MenuStatus.LOCKED);
-                }
-        );
-        Order savedOrder = repository.save(order);
+        //Group By
+        Map<String, List<MenuToItem>> menuToItems = order.getItemToMenus().stream().collect(Collectors.groupingBy(MenuToItem::getMenuId));
+
+        menuToItems.forEach((menuId,v) -> {
+            v.forEach(menuToItem -> {
+                menuService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.LOCKED);
+            });
+        });
+
+        Order savedOrder = repository.insert(order);
         emailService.sendOrderCreateEmail(savedOrder);
 
         return savedOrder;
@@ -45,19 +56,10 @@ public class OrderService implements IOrderService {
 
         Order eOrder = getOrderById(order.getId());
 
-        Arrays.stream(eOrder.getMenuIds()).forEach(
-                menuId -> {
-                    menuService.updateUserMenuStatus(menuId, MenuStatus.ACTIVE);
-                }
-        );
 
         Order nOrder = repository.save(order);
 
-        Arrays.stream(order.getMenuIds()).forEach(
-            menuId -> {
-                menuService.updateUserMenuStatus(menuId, MenuStatus.LOCKED);
-            }
-        );
+
 
         emailService.sendOrderCreateEmail(nOrder);
         emailService.sendMenuStatusUpdateEmail(nOrder.getOrdersTo());
@@ -69,7 +71,10 @@ public class OrderService implements IOrderService {
     // ToDo Add email Services to all order updates.
     @Override
     public void cancelOrder(String orderId) {
-        repository.delete(orderId);
+        Order eOrder = getOrderById(orderId);
+        eOrder.setOrderStatus(OrderStatus.CANCELLED);
+        Order nOrder = repository.save(eOrder);
+
     }
 
     @Override

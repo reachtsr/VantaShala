@@ -1,5 +1,6 @@
 package com.vs.rest.api.order;
 
+import com.vs.model.enums.OrderStatus;
 import com.vs.model.order.Order;
 import com.vs.rest.api.BaseController;
 import com.vs.service.order.OrderService;
@@ -57,12 +58,23 @@ public class OrderController extends BaseController {
         return buildResponse("");
     }
 
+    @POST
+    @Path("status/{orderId}/{status}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response updateOrderStatus(@PathParam("orderId") String id, @PathParam("status") OrderStatus status) {
+        Preconditions.checkNotNull(id);
+        Preconditions.checkNotNull(status);
+
+        return buildResponse("Menu Updated: " + id);
+    }
+
 
     @DELETE
     @Path("/{orderId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteOrder(@PathParam("orderId") String orderId) {
+    public Response cancelOrder(@PathParam("orderId") String orderId) {
         Preconditions.checkNotNull(orderId);
         orderService.cancelOrder(orderId);
         return buildResponse("Order Deleted");
