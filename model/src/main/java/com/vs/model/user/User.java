@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -30,6 +31,7 @@ public abstract class User {
     private String lastName;
 
     @Indexed(unique = true)
+    @NotNull
     private String email;
     private String mobile;
     private Address personalAddress;

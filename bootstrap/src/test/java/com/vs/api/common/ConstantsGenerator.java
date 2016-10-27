@@ -1,10 +1,17 @@
 package com.vs.api.common;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.BeforeClass;
+
 import java.util.*;
 
 /**
  * Created by GeetaKrishna on 9/29/2016.
  */
+
+@Data
+@Slf4j
 public class ConstantsGenerator {
 
     public enum TYPE {
@@ -21,15 +28,28 @@ public class ConstantsGenerator {
     private static List<String> CUSTOMER_EMAIL = new ArrayList<>();
 
     private static Map<String, List<String>> MENU_TO_ITEM_MAP = new HashMap<>();
-//
-//    public static final String COOK_ID = "COOK_" + UUID.randomUUID().toString();
-//    public static final String CUSTOMER_ID = "CUSTOMER_" + UUID.randomUUID().toString();
-//    public static final String KITCHEN_ID = "KITCHEN_" + UUID.randomUUID().toString();
-//    public static final String MENU_ID = "MENU_" + UUID.randomUUID().toString();
-//    public static final List<UUID> itemIds = new ArrayList<>();
-//
-//    public static String COOK_EMAIL = UUID.randomUUID().toString() + "_cook@cook.com";
-//    public static String CUSTOMER_EMAIL = UUID.randomUUID().toString() + "_customer@customer.com";
+
+
+    private static String kitchen_name;
+    private static String cook_username;
+    private static String cook_email;
+    private static String customer_username;
+    private static String customer_email;
+    private static String menu_id;
+
+
+    static {
+
+        cook_username = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK);
+        kitchen_name = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.KITCHEN);
+        customer_username = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER);
+        cook_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK_EMAIL);
+        customer_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL);
+        menu_id = ConstantsGenerator.generateId(TYPE.MENU);
+
+        log.info("{}", customer_email);
+    }
+
 
     public static String generateMenuItemId(String menuId) {
         String id = generateId(TYPE.ITEM);
@@ -42,6 +62,10 @@ public class ConstantsGenerator {
         }
 
         return id;
+    }
+
+    public static String getMenuItemId(String menuId) {
+            return MENU_TO_ITEM_MAP.get(menuId).get(0);
     }
 
     public static String generateId(TYPE type) {
@@ -70,16 +94,18 @@ public class ConstantsGenerator {
                 break;
             }
             case COOK_EMAIL: {
-                COOK_EMAIL.add(id.toString()+"@cook.com");
+                id=id+"@cook.com";
+                COOK_EMAIL.add(id);
                 break;
             }
             case CUSTOMER_EMAIL: {
-                CUSTOMER_EMAIL.add(id.toString()+"customer.com");
+                id=id+"@customer.com";
+                CUSTOMER_EMAIL.add(id);
                 break;
             }
         }
 
-        return id.toString();
+        return id;
     }
 
     public static String retriveRandomIdFromGeneratedList(TYPE type){
@@ -116,4 +142,92 @@ public class ConstantsGenerator {
         }
         return id;
     }
+
+    public static List getList(TYPE type) {
+        String id = "";
+        switch (type) {
+            case COOK: {
+                return COOK;
+            }
+            case MENU: {
+                return MENU;
+            }
+            case CUSTOMER: {
+                return CUSTOMER;
+            }
+            case KITCHEN: {
+                return KITCHEN;
+            }
+            case ITEM: {
+                return ITEM;
+            }
+            case COOK_EMAIL: {
+                return COOK_EMAIL;
+            }
+            case CUSTOMER_EMAIL: {
+                return CUSTOMER_EMAIL;
+            }
+        }
+        return null;
+    }
+
+    public static List<String> getCOOK() {
+        return COOK;
+    }
+
+
+    public static List<String> getMENU() {
+        return MENU;
+    }
+
+    public static List<String> getCUSTOMER() {
+        return CUSTOMER;
+    }
+
+    public static List<String> getKITCHEN() {
+        return KITCHEN;
+    }
+
+    public static List<String> getITEM() {
+        return ITEM;
+    }
+
+    public static List<String> getCookEmail() {
+        return COOK_EMAIL;
+    }
+
+    public static List<String> getCustomerEmail() {
+        return CUSTOMER_EMAIL;
+    }
+
+    public static Map<String, List<String>> getMenuToItemMap() {
+        return MENU_TO_ITEM_MAP;
+    }
+
+    public static String getKitchen_name() {
+        return kitchen_name;
+    }
+
+    public static String getCook_username() {
+        return cook_username;
+    }
+
+    public static String getCook_email() {
+        return cook_email;
+    }
+
+    public static String getCustomer_username() {
+        return customer_username;
+    }
+
+    public static String getCustomer_email() {
+        return customer_email;
+    }
+
+    public static String getMenu_id() {
+        return menu_id;
+    }
+
+
+
 }

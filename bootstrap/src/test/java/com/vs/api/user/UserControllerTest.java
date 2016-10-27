@@ -12,8 +12,6 @@ import com.vs.model.user.address.BusinessAddress;
 import com.vs.model.user.address.PersonalAddress;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.http.HttpResponse;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.File;
-import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
@@ -39,24 +35,6 @@ import static org.hamcrest.Matchers.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserControllerTest extends BaseControllerTest {
 
-
-    private String kitchen_name;
-    private String cook_username;
-    private String cook_email;
-    private String customer_username;
-    private String customer_email;
-
-    @Before
-    public void before() {
-
-        cook_username = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK);
-        kitchen_name = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.KITCHEN);
-        customer_username = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER);
-        cook_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK_EMAIL);
-        customer_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL);
-
-
-    }
 
     private Cook createCook() throws Exception {
 
@@ -79,11 +57,11 @@ public class UserControllerTest extends BaseControllerTest {
         cook.setBusinessAddress(businessAddress);
         cook.setFirstName("Gopi");
         cook.setLastName("Kancharla");
-        cook.setKitchenName(kitchen_name);
+        cook.setKitchenName(ConstantsGenerator.getKitchen_name());
         cook.setMobile("23123332312");
-        cook.setUserName(cook_username);
+        cook.setUserName(ConstantsGenerator.getCook_username());
         cook.setBusinessPhone("21321312321");
-        cook.setEmail(cook_email);
+        cook.setEmail(ConstantsGenerator.getCook_email());
 
         return cook;
 
@@ -106,8 +84,8 @@ public class UserControllerTest extends BaseControllerTest {
         user.setFirstName("Gopi");
         user.setLastName("Kancharla");
         user.setMobile("23123332312");
-        user.setUserName(customer_username);
-        user.setEmail(customer_email);
+        user.setUserName(ConstantsGenerator.getCustomer_username());
+        user.setEmail(ConstantsGenerator.getCustomer_email());
 
         return user;
     }
@@ -115,7 +93,7 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void a7_getUserByUserName() throws Exception {
         log.info("Listing Customers {}", RestAssured.basePath);
-        given().pathParam("userName", cook_username).get("/admn/{userName}").then().assertThat().body("firstName", equalToIgnoringCase("Gopi")).log().all();
+        given().pathParam("userName", ConstantsGenerator.getCook_username()).get("/admn/{userName}").then().assertThat().body("firstName", equalToIgnoringCase("Gopi")).log().all();
     }
 
     @Test
@@ -130,7 +108,7 @@ public class UserControllerTest extends BaseControllerTest {
     public void a2_createCreateCookWithSameKitchenName() throws Exception {
         Cook cook = createCook();
         cook.setUserName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK));
-        cook.setKitchenName(kitchen_name);
+        cook.setKitchenName(ConstantsGenerator.getKitchen_name());
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
     }
 
@@ -155,47 +133,47 @@ public class UserControllerTest extends BaseControllerTest {
 
     @Test
     public void a6_findCookByKitchenName() throws Exception {
-        given().pathParam("kitchenName", kitchen_name).get("/cook/kitchenName/{kitchenName}").then().assertThat().body("kitchenName", equalTo(kitchen_name)).log().all();
+        given().pathParam("kitchenName", ConstantsGenerator.getKitchen_name()).get("/cook/kitchenName/{kitchenName}").then().assertThat().body("kitchenName", equalTo(ConstantsGenerator.getKitchen_name())).log().all();
     }
 
     @Test
     public void a7_disableUserCook() throws Exception {
-        expect().statusCode(204).given().pathParam("userName", cook_username).put("/admn/{userName}/disable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", ConstantsGenerator.getCook_username()).put("/admn/{userName}/disable").then().log().all();
     }
 
     @Test
     public void a8_disableUserVerifyCook() throws Exception {
-        given().pathParam("userName", cook_username).get("/admn/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
+        given().pathParam("userName", ConstantsGenerator.getCook_username()).get("/admn/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
     }
 
     @Test
     public void a9_enableUserCook() throws Exception {
-        expect().statusCode(204).given().pathParam("userName", cook_username).put("/admn/{userName}/enable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", ConstantsGenerator.getCook_username()).put("/admn/{userName}/enable").then().log().all();
     }
 
     @Test
     public void b1_enableUserVerifyCook() throws Exception {
-        given().pathParam("userName", cook_username).get("/admn/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
+        given().pathParam("userName", ConstantsGenerator.getCook_username()).get("/admn/{userName}").then().assertThat().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
     }
 
     @Test
     public void b2_disableUserCustomer() throws Exception {
-        expect().statusCode(204).given().pathParam("userName", customer_username).put("/admn/{userName}/disable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", ConstantsGenerator.getCustomer_username()).put("/admn/{userName}/disable").then().log().all();
     }
 
     @Test
     public void b3_disableUserVerifyCustomer() throws Exception {
-        given().pathParam("userName", customer_username).get("/admn/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
+        given().pathParam("userName", ConstantsGenerator.getCustomer_username()).get("/admn/{userName}").then().body("status", equalTo(UserStatusEnum.INACTIVE.name())).log().all();
     }
 
     @Test
     public void b4_enableUserCustomer() throws Exception {
-        expect().statusCode(204).given().pathParam("userName", customer_username).put("/admn/{userName}/enable").then().log().all();
+        expect().statusCode(204).given().pathParam("userName", ConstantsGenerator.getCustomer_username()).put("/admn/{userName}/enable").then().log().all();
     }
 
     @Test
     public void b5_enableUserVerifyCustomer() throws Exception {
-        given().pathParam("userName", customer_username).get("/admn/{userName}").then().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
+        given().pathParam("userName", ConstantsGenerator.getCustomer_username()).get("/admn/{userName}").then().body("status", equalTo(UserStatusEnum.ACTIVE.name())).log().all();
     }
 
     @Test
@@ -204,7 +182,7 @@ public class UserControllerTest extends BaseControllerTest {
         log.info("Execution path: {}", System.getProperty("user.dir"));
         String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
         filePath = filePath.replace("\\", "/");
-        given().pathParam("userName", cook_username).
+        given().pathParam("userName", ConstantsGenerator.getCook_username()).
                 multiPart(new File(filePath)).
                 expect().
                 body("fileUploadResult", is("OK")).

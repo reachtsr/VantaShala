@@ -89,7 +89,7 @@ public class MenuController extends BaseController {
     @Path("status/{menuId}/{itemId}/{status}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response updateMenuStatus(@PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @PathParam("status") ItemStatus status) {
+    public Response updateMenuItemStatus(@PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @PathParam("status") ItemStatus status) {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(itemId);
         Preconditions.checkNotNull(status);

@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({UserControllerTest.class, AdminUserControllerTest.class,
-        MenuControllerTest.class})
+        MenuControllerTest.class,
+        AdminUserControllerTest.class})
 public class UserTestSuite {
 }
