@@ -67,7 +67,6 @@ public class CookController extends UserController {
 //        return super.addImages(userName, FileUploadTypeEnum.PROFILE_PICTURE, request,
 //                response);
 //    }
-
     @POST
     @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

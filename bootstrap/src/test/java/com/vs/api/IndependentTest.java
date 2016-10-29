@@ -1,6 +1,5 @@
 package com.vs.api;
 
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Role;
@@ -10,23 +9,21 @@ import com.vs.model.user.Cook;
 import com.vs.repository.CookRepository;
 import com.vs.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.convert.MongoConverter;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.UUID;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Update.update;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * Created by gopi on 10/23/16.
@@ -56,18 +53,26 @@ public class IndependentTest {
     public void m3() {
 
 
-        MongoConverter converter = template.getConverter();
-        Query query = Query.query(Criteria.where("_id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").and("items._id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1"));
-        query.fields().include("items._id");
-
-        Item item = new Item();// template.findOne(query, Item.class);
-        item.setStatus(ItemStatus.LOCKED);
-        DBObject newSectionRec = (DBObject) converter.convertToMongoType(item);
+        template.findAndModify(
+                Query.query(where("_id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
+                and("items._id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.LOCKED), Menu.class
+        );
 
 
-        Update update = new Update().addToSet("items.$.status", newSectionRec);
-        template.findAndModify(query, update, Item.class);
 
+
+//        MongoConverter converter = template.getConverter();
+//        Query query = Query.query(Criteria.where("_id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").and("items._id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1"));
+//        query.fields().include("items._id");
+//
+//        Item item = new Item();// template.findOne(query, Item.class);
+//        item.setStatus(ItemStatus.LOCKED);
+//        DBObject newSectionRec = (DBObject) converter.convertToMongoType(item);
+//
+//
+//        Update update = new Update().addToSet("items.$.status", newSectionRec);
+//        template.findAndModify(query, update, Item.class);
+//
 
 
 //

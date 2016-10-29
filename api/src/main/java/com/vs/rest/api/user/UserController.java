@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.util.HashMap;
@@ -119,10 +118,7 @@ public abstract class UserController extends BaseController {
         // checks if the request actually contains upload file
         if (!ServletFileUpload.isMultipartContent(request)) {
             // if not, we stop here
-            PrintWriter writer = response.getWriter();
-            writer.println("Error: Form must has enctype=multipart/form-data.");
-            writer.flush();
-            return null;
+            throw new Exception("Error: Form must has enctype=multipart/form-data.");
         }
 
         // configures upload settings

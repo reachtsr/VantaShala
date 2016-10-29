@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -56,6 +57,7 @@ public class MenuControllerTest extends BaseControllerTest {
             item.setMeasurment(Measurment.randomMeasurment());
             item.setDescription("RANDOM DESCRIPTION in maximum of 4 lines.");
             item.setStatus(ItemStatus.ACTIVE);
+            item.setCreatedDate(Calendar.getInstance().getTime());
             itemList.add(item);
         }
 

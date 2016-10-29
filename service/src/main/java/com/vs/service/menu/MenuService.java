@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Update.update;
+
 /**
  * Created by GeetaKrishna on 12/23/2015.
  */
@@ -97,10 +100,10 @@ public class MenuService implements IMenuService {
     @Override
     public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status) {
 
-        Query query = Query.query(Criteria.where("_id").is(menuId).and("items._id").is(itemId));
+        template.findAndModify(
+                Query.query(where("_id").is(menuId).
+                        and("items._id").is(itemId)), update("items.$.status", status), Menu.class
+        );
 
-        Update update = Update
-                .update("status", status);
-        template.findAndModify(query, update, Menu.class);
     }
 }

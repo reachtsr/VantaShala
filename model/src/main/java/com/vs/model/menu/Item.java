@@ -22,7 +22,7 @@ public class Item {
     private Measurment measurment;
     private String quatity;
     private Double price;
-    private Date[] publishedDate;
+    private Date createdDate;
     private String description;
     private ItemStatus status = ItemStatus.ACTIVE;
 
