@@ -20,10 +20,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 
-import static com.jayway.restassured.RestAssured.expect;
-import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 /**
@@ -88,6 +88,20 @@ public class UserControllerTest extends BaseControllerTest {
         user.setEmail(ConstantsGenerator.getCustomer_email());
 
         return user;
+    }
+
+    @Test
+    public void a0_a_healthCheck(){
+        log.info("Echo Controller Test");
+        expect().statusCode(200).when().log().all().get("/echo");
+        com.jayway.restassured.response.Response response = get("/echo");
+        log.info("{}", response.then().log().all());
+        int status = response.statusCode();
+        log.info("{}", response.toString());
+        if(status != 200 && !response.body().print().equals("I am alive!")) {
+            log.info("ECHO ITSELF FAILED.");
+            System.exit(1);
+        }
     }
 
     @Test
@@ -185,10 +199,9 @@ public class UserControllerTest extends BaseControllerTest {
         given().pathParam("userName", ConstantsGenerator.getCook_username()).
                 multiPart(new File(filePath)).
                 expect().
-                body("fileUploadResult", is("OK")).
+                statusCode(200).
                 when().
                 post("/cook/upload/profile/{userName}");
 
     }
-
 }

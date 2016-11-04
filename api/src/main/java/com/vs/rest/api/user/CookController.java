@@ -12,7 +12,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ import java.io.InputStream;
 /**
  * Created by GeetaKrishna on 12/22/2015.
  */
-@Component
+@Controller
 @Path("/cook")
 @Slf4j
 @Api(value = "/cook", description = "Cook Controller")
@@ -52,6 +52,7 @@ public class CookController extends UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "Failure")})
 
+
     @POST
     public Response createCook(Cook user) {
         return super.createUser(user);
@@ -63,18 +64,17 @@ public class CookController extends UserController {
             @ApiResponse(code = 500, message = "Failure")})
 
 
-//    public Response uploadImages(@PathParam("userName") String userName) throws Exception {
-//        return super.addImages(userName, FileUploadTypeEnum.PROFILE_PICTURE, request,
-//                response);
-//    }
     @POST
     @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadPdfFile(@FormDataParam("file") InputStream file,
+    public Response uploadPdfFile(@PathParam("userName") String userName,@FormDataParam("file") InputStream file,
                                   @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
         log.info("TEST");
-        return null;
+        saveFile(userName, FileUploadTypeEnum.PROFILE_PICTURE, file, fileDisposition);
+        return Response.status(200).build();
+
     }
+
 
     @ApiOperation(value = "Update Cook", nickname = "updateCook")
     @ApiResponses(value = {

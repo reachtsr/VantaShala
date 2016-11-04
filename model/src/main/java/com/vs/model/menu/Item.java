@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,5 +26,6 @@ public class Item {
     private Date createdDate;
     private String description;
     private ItemStatus status = ItemStatus.ACTIVE;
+//    private File photo;
 
 }

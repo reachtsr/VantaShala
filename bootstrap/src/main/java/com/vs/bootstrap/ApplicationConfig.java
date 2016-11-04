@@ -24,7 +24,7 @@ import javax.annotation.PostConstruct;
 public class ApplicationConfig extends ResourceConfig {
 
     public ApplicationConfig() {
-        log.info("Registering Jersey Configuration");
+        log.info("Registering Jersey & Multipart Configuration");
         register(RequestContextFilter.class);
         register(MultiPartFeature.class);
         packages("com.vs");
