@@ -70,7 +70,6 @@ public class ConstantsGenerator {
 
     public static String generateId(TYPE type) {
 
-
         String id = UUID.randomUUID().toString();
         switch (type) {
             case COOK: {

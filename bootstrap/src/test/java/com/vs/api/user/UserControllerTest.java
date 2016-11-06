@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.util.UUID;
 
 import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -91,14 +92,14 @@ public class UserControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void a0_a_healthCheck(){
+    public void a0_a_healthCheck() {
         log.info("Echo Controller Test");
         expect().statusCode(200).when().log().all().get("/echo");
         com.jayway.restassured.response.Response response = get("/echo");
         log.info("{}", response.then().log().all());
         int status = response.statusCode();
         log.info("{}", response.toString());
-        if(status != 200 && !response.body().print().equals("I am alive!")) {
+        if (status != 200 && !response.body().print().equals("I am alive!")) {
             log.info("ECHO ITSELF FAILED.");
             System.exit(1);
         }
@@ -202,6 +203,30 @@ public class UserControllerTest extends BaseControllerTest {
                 statusCode(200).
                 when().
                 post("/cook/upload/profile/{userName}");
+
+    }
+
+    @Test
+    public void b7_createMultipleCooks() throws Exception {
+
+        for (int i = 0; i <= 10; ++i) {
+            Cook cook = createCook();
+            cook.setKitchenName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.KITCHEN));
+            cook.setEmail(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK_EMAIL));
+            cook.setUserName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK));
+            expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(cook).when().log().all().post("cook/");
+        }
+    }
+
+    @Test
+    public void b8_createMultipleCustomers() throws Exception {
+
+        for (int i = 0; i <= 10; ++i) {
+            Customer customer = createCutomer();
+            customer.setEmail(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL));
+            customer.setUserName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER));
+            expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).body(customer).log().all().when().post("customer/");
+        }
 
     }
 }

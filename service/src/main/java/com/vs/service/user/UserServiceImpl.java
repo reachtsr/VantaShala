@@ -41,7 +41,6 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public void createUser(User user) throws Exception {
-
         if(user instanceof Cook) {
             Cook cook = (Cook) user;
             String kitchenName = cook.getKitchenName();
@@ -56,8 +55,6 @@ public abstract class UserServiceImpl implements IUserService {
         else {
             userRepository.insert(user);
         }
-
-
     }
 
     @Override
