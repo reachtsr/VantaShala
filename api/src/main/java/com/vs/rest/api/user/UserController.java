@@ -88,11 +88,10 @@ public abstract class UserController extends BaseController {
         return buildResponse(user);
     }
 
-    public Response createUser(User user) {
+    public Response createUser(User user) throws Exception{
 
         log.info("Create User - User Details: {}", user);
         userService.createUser(user);
-
         return Response.status(200).build();
 
     }

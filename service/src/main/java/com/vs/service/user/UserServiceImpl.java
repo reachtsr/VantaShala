@@ -1,5 +1,6 @@
 package com.vs.service.user;
 
+import com.google.common.base.Preconditions;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
@@ -39,8 +40,24 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void createUser(User user) {
-        userRepository.insert(user);
+    public void createUser(User user) throws Exception {
+
+        if(user instanceof Cook) {
+            Cook cook = (Cook) user;
+            String kitchenName = cook.getKitchenName();
+
+            List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
+            if (existingCooks.size() == 0) {
+                userRepository.insert(user);
+            } else {
+                throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED");
+            }
+        }
+        else {
+            userRepository.insert(user);
+        }
+
+
     }
 
     @Override
@@ -55,11 +72,12 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getCookByFirstName(String name){
+    public List<User> getCookByFirstName(String name) {
         return userRepository.findByFirstName(name, Role.COOK);
     }
+
     @Override
-    public List<User> getCustomerByFirstName(String name){
+    public List<User> getCustomerByFirstName(String name) {
         return userRepository.findByFirstName(name, Role.CUSTOMER);
     }
 
@@ -71,6 +89,7 @@ public abstract class UserServiceImpl implements IUserService {
     @Override
     public void enableOrDisableUser(String userName, UserStatusEnum userStatus) throws Exception {
         User user = userRepository.findOne(userName);
+        Preconditions.checkNotNull(user);
         user.setStatus(userStatus);
         userRepository.save(user);
     }

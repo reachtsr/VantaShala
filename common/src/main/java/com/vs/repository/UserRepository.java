@@ -1,6 +1,7 @@
 package com.vs.repository;
 
 import com.vs.model.enums.Role;
+import com.vs.model.user.Cook;
 import com.vs.model.user.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

@@ -43,7 +43,7 @@ public class CustomerController extends UserController {
 
     @POST
     @Path("/")
-    public Response createUser(Customer user){
+    public Response createUser(Customer user) throws Exception{
         return super.createUser(user);
     }
 

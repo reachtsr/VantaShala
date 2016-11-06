@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    public void createUser(User user);
+    public void createUser(User user) throws Exception;
 
     public void updateUser(User user);
 

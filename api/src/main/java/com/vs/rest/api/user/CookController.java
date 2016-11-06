@@ -54,7 +54,7 @@ public class CookController extends UserController {
 
 
     @POST
-    public Response createCook(Cook user) {
+    public Response createCook(Cook user) throws Exception {
         return super.createUser(user);
     }
 

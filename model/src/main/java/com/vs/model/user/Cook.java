@@ -20,7 +20,6 @@ public final class Cook extends User {
         super.setRole(Role.COOK);
     }
 
-    @Indexed(unique = true)
     private String kitchenName;
     private String[] subscribers;
 
