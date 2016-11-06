@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Response;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,13 +116,19 @@ public abstract class UserController extends BaseController {
             String uploadPath = readYML.getFileUploadProperties(fileUploadTypeEnum, userName);
             log.info("Saving file to: {}", uploadPath);
             log.info("Execution path: {}", System.getProperty("user.dir"));
-            // creates the directory if it does not exist
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
 
-            OutputStream out = new FileOutputStream(new File(uploadPath + File.separator+fileDisposition.getFileName()));
+            Path currentRelativePath = Paths.get("");
+            String currentPath = currentRelativePath.toAbsolutePath().toString();
+
+            String filePath=currentPath+uploadPath + File.separator+fileDisposition.getFileName();
+            log.info("===>{}", filePath);
+            File f = new File(filePath);
+            if (!f.getParentFile().exists())
+                f.getParentFile().mkdirs();
+            if (!f.exists())
+                f.createNewFile();
+            
+            OutputStream out = new FileOutputStream(f);
             int read = 0;
             byte[] bytes = new byte[1024];
 
