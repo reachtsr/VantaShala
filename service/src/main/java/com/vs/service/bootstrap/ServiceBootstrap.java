@@ -7,7 +7,7 @@ import com.vs.model.enums.EmailStatus;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.enums.Role;
-import com.vs.props.ReadYML;
+import com.vs.model.props.ReadYML;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

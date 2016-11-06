@@ -2,7 +2,7 @@ package com.vs.mail.scheduler;
 
 import com.vs.common.constants.EmailConstants;
 import com.vs.model.email.Email;
-import com.vs.props.ReadYML;
+import com.vs.model.props.ReadYML;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

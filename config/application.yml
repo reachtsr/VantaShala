@@ -47,9 +47,7 @@ vs:
       userStatusCollectionName: userStatus
   uploads:
       location:
-        base: /fileUploads/
-        profilePic: /profile/
-        menuItemPic: /menuItem/
+        base: ../fileUploads/
   email:
     from: VantaShala
     fromOrderEmail: order@VantaShala.com

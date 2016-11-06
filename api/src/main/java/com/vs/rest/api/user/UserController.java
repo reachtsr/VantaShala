@@ -4,17 +4,16 @@ import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.User;
-import com.vs.props.ReadYML;
+import com.vs.model.props.ReadYML;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Response;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,33 +112,15 @@ public abstract class UserController extends BaseController {
     public void saveFile(String userName, FileUploadTypeEnum fileUploadTypeEnum, InputStream uploadedInputStream, FormDataContentDisposition fileDisposition) {
 
         try {
-            String uploadPath = readYML.getFileUploadProperties(fileUploadTypeEnum, userName);
-            log.info("Saving file to: {}", uploadPath);
-            log.info("Execution path: {}", System.getProperty("user.dir"));
+            String fileName = fileDisposition.getFileName();
+            log.info("Name of the file: {}", fileName);
+            String filePath = fileUploadTypeEnum.getCompletePath(readYML, fileName);
 
-            Path currentRelativePath = Paths.get("");
-            String currentPath = currentRelativePath.toAbsolutePath().toString();
+            File file = new File(filePath);
 
-            String filePath=currentPath+uploadPath + File.separator+fileDisposition.getFileName();
-            log.info("===>{}", filePath);
-            File f = new File(filePath);
-            if (!f.getParentFile().exists())
-                f.getParentFile().mkdirs();
-            if (!f.exists())
-                f.createNewFile();
-            
-            OutputStream out = new FileOutputStream(f);
-            int read = 0;
-            byte[] bytes = new byte[1024];
+            FileUtils.copyInputStreamToFile(uploadedInputStream, file);
 
-            out = new FileOutputStream(new File(uploadPath));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            out.flush();
-            out.close();
         } catch (IOException e) {
-
             e.printStackTrace();
         }
 
