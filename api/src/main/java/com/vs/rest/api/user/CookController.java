@@ -70,7 +70,7 @@ public class CookController extends UserController {
     @POST
     @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadProfile(@PathParam("userName") String userName, @FormDataParam("file") InputStream file,
+    public Response uploadProfilePicture(@PathParam("userName") String userName, @FormDataParam("file") InputStream file,
                                   @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
         log.info("Uploading UserProfile Pic");
 

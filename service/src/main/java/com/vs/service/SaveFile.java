@@ -37,6 +37,8 @@ public class SaveFile {
 
             String fileName = fileDisposition.getFileName();
             log.info("Name of the file: {}", fileName);
+
+            //Todo There are two slashes in the file path saved into DB. Fix needed.
              filePath = fileUploadTypeEnum.getCompletePath(readYML, id, fileName);
 
             File file = new File(filePath);

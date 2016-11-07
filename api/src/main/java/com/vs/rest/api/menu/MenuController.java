@@ -81,13 +81,15 @@ public class MenuController extends BaseController {
     }
 
     @POST
-    @Path("/upload/profile/{userName}/{menuId}/{itemId}")
+    @Path("/upload/itemPicture/{userName}/{menuId}/{itemId}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadItemPicture(@PathParam("userName") String userName, @PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @FormDataParam("file") InputStream file,
                                       @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
-        log.info("Uploading UserProfile Pic");
 
-        Preconditions.checkArgument(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE);
+
+        log.info("Uploading Item Pic with size: {}", fileDisposition.getSize());
+
+        Preconditions.checkArgument(!(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE), "Too Big File.");
         SaveFileModel saveFile = new SaveFileModel();
         saveFile.setContentDisposition(fileDisposition);
         saveFile.setInputStream(file);
