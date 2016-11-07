@@ -1,17 +1,23 @@
 package com.vs.rest.api.menu;
 
+import com.vs.common.filters.AppConstants;
+import com.vs.model.SaveFileModel;
+import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -44,7 +50,7 @@ public class MenuController extends BaseController {
     }
 
     @POST
-        @Path("/{userName}")
+    @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response createMenu(Menu menu) {
@@ -53,14 +59,14 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menu.getStartDate());
         Preconditions.checkNotNull(menu.getEndDate());
         menuService.createUserMenu(menu);
-        return buildResponse("Menu Created: "+menu.getMenuId());
+        return buildResponse("Menu Created: " + menu.getMenuId());
     }
 
     @PUT
     @Path("/{userName}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response updateMenu(Menu menu) throws Exception{
+    public Response updateMenu(Menu menu) throws Exception {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
 
@@ -70,7 +76,27 @@ public class MenuController extends BaseController {
         log.info("menuId: {} - {}", menu.getMenuId(), status);
         Preconditions.checkArgument(status);
         menuService.updateUserMenu(menu);
-        return buildResponse("Menu Updated: "+menu.getMenuId());
+        return buildResponse("Menu Updated: " + menu.getMenuId());
+
+    }
+
+    @POST
+    @Path("/upload/profile/{userName}/{menuId}/{itemId}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadItemPicture(@PathParam("userName") String userName, @PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @FormDataParam("file") InputStream file,
+                                      @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
+        log.info("Uploading UserProfile Pic");
+
+        Preconditions.checkArgument(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE);
+        SaveFileModel saveFile = new SaveFileModel();
+        saveFile.setContentDisposition(fileDisposition);
+        saveFile.setInputStream(file);
+        saveFile.setFileUploadTypeEnum(FileUploadTypeEnum.MENU_ITEM_PICTURE);
+        saveFile.validate();
+
+        menuService.saveFile(menuId, itemId, saveFile);
+
+        return Response.status(200).build();
 
     }
 
@@ -82,7 +108,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
         menuService.deleteUserMenu(userName, menuId);
-        return buildResponse("Menu Deleted: "+ menuId);
+        return buildResponse("Menu Deleted: " + menuId);
     }
 
     @POST

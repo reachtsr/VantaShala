@@ -1,19 +1,25 @@
 package com.vs.service.user;
 
 import com.google.common.base.Preconditions;
+import com.vs.common.filters.AppConstants;
+import com.vs.model.AddNewFiledsToCollection;
+import com.vs.model.SaveFileModel;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
-import com.vs.model.user.User;
-import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
+import com.vs.repository.DBOperations;
 import com.vs.repository.UserRepository;
+import com.vs.service.SaveFile;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/22/2015.
@@ -30,6 +36,11 @@ public abstract class UserServiceImpl implements IUserService {
     @Autowired
     private CookRepository cookRepository;
 
+    @Autowired
+    private SaveFile saveFile;
+
+    @Autowired
+    DBOperations dbOperations;
 
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
@@ -55,7 +66,26 @@ public abstract class UserServiceImpl implements IUserService {
         else {
             userRepository.insert(user);
         }
+
     }
+
+    @Override
+    public String saveFile(String userName, SaveFileModel saveFileModel) {
+        String path = saveFile.saveFile(userName, saveFileModel);
+
+        Map<String, String> map = new HashMap();
+        map.put(AppConstants.PROFILE_PICTURE, path);
+
+        AddNewFiledsToCollection addNewFiledsToCollection = new AddNewFiledsToCollection();
+        addNewFiledsToCollection.setId(userName);
+        addNewFiledsToCollection.setCollectionType(User.class.getSimpleName().toLowerCase());
+        addNewFiledsToCollection.setKeyValues(map);
+
+        dbOperations.addFieldsToCollection(addNewFiledsToCollection);
+
+        return path;
+    }
+
 
     @Override
     public void updateUser(User user) {

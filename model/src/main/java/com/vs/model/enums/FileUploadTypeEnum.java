@@ -21,8 +21,8 @@ public enum FileUploadTypeEnum {
         return path;
     }
 
-    public String getCompletePath(ReadYML readYML, String fileName) {
-        return readYML.getBaseFileUploadLocation()+File.separator + path+ File.separator + fileName;
+    public String getCompletePath(ReadYML readYML, String id, String fileName) {
+        return readYML.getBaseFileUploadLocation()+File.separator + path+ File.separator + id+ File.separator + fileName;
     }
 
     public void setPath(String path) {

@@ -1,5 +1,6 @@
 package com.vs.service.menu;
 
+import com.vs.model.SaveFileModel;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Menu;
 
@@ -33,5 +34,7 @@ public interface IMenuService {
     public List<Menu> getMenuByName(String menuName);
 
     public Menu getMenuById(String menuId);
+
+    public String saveFile(String menuId, String itemId, SaveFileModel saveFile);
 
 }

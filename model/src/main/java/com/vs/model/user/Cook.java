@@ -25,5 +25,6 @@ public final class Cook extends User {
 
     private Address businessAddress;
     private String businessPhone;
+    private String profilePicture;
 
 }
