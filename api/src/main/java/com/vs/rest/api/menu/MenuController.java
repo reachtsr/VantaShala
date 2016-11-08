@@ -74,7 +74,7 @@ public class MenuController extends BaseController {
 
         boolean status = menuService.menuExists(menu.getMenuId());
         log.info("menuId: {} - {}", menu.getMenuId(), status);
-        Preconditions.checkArgument(!status, "Menu Status is:"+status);
+        Preconditions.checkArgument(status, "Menu Status is:"+status);
         menuService.updateUserMenu(menu);
         return buildResponse("Menu Updated: " + menu.getMenuId());
 

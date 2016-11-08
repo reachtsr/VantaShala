@@ -136,7 +136,7 @@ public class MenuControllerTest extends BaseControllerTest {
 
     @Test
     public void a9_deleteMenu() throws Exception {
-        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.getCook_username()).pathParam("menuId", ConstantsGenerator.getMenu_id()).delete("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all();
+        expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.getCook_username()).pathParam("menuId", ConstantsGenerator.getMenu_id()).delete("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all();
         ConstantsGenerator.deleteMenu_id(ConstantsGenerator.getCook_username());
     }
 
