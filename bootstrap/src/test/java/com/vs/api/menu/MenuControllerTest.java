@@ -174,19 +174,4 @@ public class MenuControllerTest extends BaseControllerTest {
                 body("size()", greaterThanOrEqualTo(2)).log().all();
     }
 
-
-    @Test
-    public void b6_uploadItemPicture() throws Exception {
-
-        log.info("Execution path: {}", System.getProperty("user.dir"));
-        String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
-        filePath = filePath.replace("\\", "/");
-        given().pathParam("userName", ConstantsGenerator.getCook_username()).
-                multiPart(new File(filePath)).
-                expect().
-                statusCode(200).
-                when().
-                post("/cook/upload/profile/{userName}");
-
-    }
 }
