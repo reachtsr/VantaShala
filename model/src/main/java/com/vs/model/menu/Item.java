@@ -26,6 +26,6 @@ public class Item {
     private Date createdDate;
     private String description;
     private ItemStatus status = ItemStatus.ACTIVE;
-//    private File photo;
+    private String picture;
 
 }

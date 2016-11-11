@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -171,5 +172,21 @@ public class MenuControllerTest extends BaseControllerTest {
     public void b15_retriveUserMenu() throws Exception {
         given().pathParam("userName", ConstantsGenerator.getCook_username()).get("/menu/{userName}").then().contentType(ContentType.JSON).log().all().
                 body("size()", greaterThanOrEqualTo(2)).log().all();
+    }
+
+
+    @Test
+    public void b6_uploadItemPicture() throws Exception {
+
+        log.info("Execution path: {}", System.getProperty("user.dir"));
+        String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
+        filePath = filePath.replace("\\", "/");
+        given().pathParam("userName", ConstantsGenerator.getCook_username()).
+                multiPart(new File(filePath)).
+                expect().
+                statusCode(200).
+                when().
+                post("/cook/upload/profile/{userName}");
+
     }
 }
