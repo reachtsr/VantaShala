@@ -1,5 +1,7 @@
 package com.vs.rest.api.user;
 
+import com.vs.common.filters.AppConstants;
+import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.user.Cook;
 import com.vs.service.user.IUserService;
@@ -7,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -67,10 +70,19 @@ public class CookController extends UserController {
     @POST
     @Path("/upload/profile/{userName}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadPdfFile(@PathParam("userName") String userName,@FormDataParam("file") InputStream file,
+    public Response uploadProfilePicture(@PathParam("userName") String userName, @FormDataParam("file") InputStream file,
                                   @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
-        log.info("TEST");
-        saveFile(userName, FileUploadTypeEnum.PROFILE_PICTURE, file, fileDisposition);
+        log.info("Uploading UserProfile Pic");
+
+        //Preconditions.checkArgument(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE);
+        SaveFileModel saveFile = new SaveFileModel();
+        saveFile.setContentDisposition(fileDisposition);
+        saveFile.setInputStream(file);
+        saveFile.setFileUploadTypeEnum(FileUploadTypeEnum.PROFILE_PICTURE);
+        saveFile.validate();
+
+        userService.saveFile(userName, saveFile);
+
         return Response.status(200).build();
 
     }

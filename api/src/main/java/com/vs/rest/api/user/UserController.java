@@ -3,8 +3,8 @@ package com.vs.rest.api.user;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
-import com.vs.model.user.User;
 import com.vs.model.props.ReadYML;
+import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,9 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,24 +107,6 @@ public abstract class UserController extends BaseController {
 
         log.info("Disabling User : {}", userName);
         userService.enableOrDisableUser(userName, userStatusEnum);
-    }
-
-
-    public void saveFile(String userName, FileUploadTypeEnum fileUploadTypeEnum, InputStream uploadedInputStream, FormDataContentDisposition fileDisposition) {
-
-        try {
-            String fileName = fileDisposition.getFileName();
-            log.info("Name of the file: {}", fileName);
-            String filePath = fileUploadTypeEnum.getCompletePath(readYML, fileName);
-
-            File file = new File(filePath);
-
-            FileUtils.copyInputStreamToFile(uploadedInputStream, file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public Response getAllUserCount() {

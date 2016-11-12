@@ -4,6 +4,7 @@ import com.jayway.restassured.RestAssured;
 import com.vs.api.common.BaseControllerTest;
 import com.vs.api.common.ConstantsGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
+import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
 import com.vs.model.user.Customer;
@@ -197,13 +198,17 @@ public class UserControllerTest extends BaseControllerTest {
         log.info("Execution path: {}", System.getProperty("user.dir"));
         String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
         filePath = filePath.replace("\\", "/");
-        given().pathParam("userName", ConstantsGenerator.getCook_username()).
+        String cookUserName = ConstantsGenerator.getCook_username();
+        log.info("Cook UserName: {}", cookUserName);
+
+        given().pathParam("userName", cookUserName).
                 multiPart(new File(filePath)).
                 expect().
                 statusCode(200).
                 when().
                 post("/cook/upload/profile/{userName}");
 
+        given().pathParam("userName", cookUserName).get("/admn/{userName}").then().log().all().assertThat().log().all().body(AppConstants.PROFILE_PICTURE, notNullValue()).log().all();
     }
 
     @Test

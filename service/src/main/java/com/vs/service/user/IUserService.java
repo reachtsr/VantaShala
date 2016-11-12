@@ -1,9 +1,11 @@
 package com.vs.service.user;
 
+import com.vs.model.SaveFileModel;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.User;
 
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -38,5 +40,7 @@ public interface IUserService {
     public List<User> getCookByFirstName(String name);
 
     public List<User> getCustomerByFirstName(String name);
+
+    public String saveFile(String userName, SaveFileModel saveFile);
 
 }

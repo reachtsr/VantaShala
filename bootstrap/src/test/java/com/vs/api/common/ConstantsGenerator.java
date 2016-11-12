@@ -35,7 +35,7 @@ public class ConstantsGenerator {
     private static String cook_email;
     private static String customer_username;
     private static String customer_email;
-    private static String menu_id;
+    private static String menu_id="";
 
 
     static {
@@ -78,6 +78,9 @@ public class ConstantsGenerator {
             }
             case MENU: {
                 MENU.add(id);
+                if(menu_id == ""){
+                    menu_id = id;
+                }
                 break;
             }
             case CUSTOMER: {
@@ -225,6 +228,12 @@ public class ConstantsGenerator {
 
     public static String getMenu_id() {
         return menu_id;
+    }
+
+    public static void deleteMenu_id(String menu_id) {
+        menu_id="";
+        getMENU().remove(menu_id);
+        MENU_TO_ITEM_MAP.remove(menu_id);
     }
 
 

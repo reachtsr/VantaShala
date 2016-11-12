@@ -5,6 +5,7 @@ import com.jayway.restassured.http.ContentType;
 import com.vs.api.common.BaseControllerTest;
 import com.vs.api.common.ConstantsGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
+import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Measurment;
 import com.vs.model.menu.Item;
@@ -126,6 +127,7 @@ public class MenuControllerTest extends BaseControllerTest {
     @Test
     public void a9_deleteMenu() throws Exception {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", ConstantsGenerator.getCook_username()).pathParam("menuId", ConstantsGenerator.getMenu_id()).delete("/menu/{userName}/{menuId}").then().contentType(ContentType.JSON).log().all();
+        ConstantsGenerator.deleteMenu_id(ConstantsGenerator.getCook_username());
     }
 
     @Test
@@ -172,6 +174,28 @@ public class MenuControllerTest extends BaseControllerTest {
     public void b15_retriveUserMenu() throws Exception {
         given().pathParam("userName", ConstantsGenerator.getCook_username()).get("/menu/{userName}").then().contentType(ContentType.JSON).log().all().
                 body("size()", greaterThanOrEqualTo(2)).log().all();
+    }
+
+    @Test
+    public void b16_uploadItemPic() throws Exception {
+
+        String filePath = System.getProperty("user.dir") + "/bootstrap/src/test/resources/gopi.jpg";
+        filePath = filePath.replace("\\", "/");
+        String menu_id = ConstantsGenerator.getMenu_id();
+        String item_id = ConstantsGenerator.getMenuItemId(menu_id);
+        String cookUserName = ConstantsGenerator.getCook_username();
+        log.info("Cook UserName: {}", cookUserName);
+
+        given().pathParam("userName", cookUserName).pathParam("menuId", menu_id).pathParam("itemId", item_id).
+                multiPart(new File(filePath)).
+                expect().
+                statusCode(200).
+                when().
+                post("/menu/upload/itemPicture/{userName}/{menuId}/{itemId}");
+
+        given().pathParam("userName", cookUserName).get("/menu/{userName}").then().contentType(ContentType.JSON).log().all().
+                body(AppConstants.MENU_ITEM_PICTURE, notNullValue()).log().all();
+
     }
 
 }

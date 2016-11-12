@@ -1,20 +1,22 @@
 package com.vs.service.menu;
 
+import com.vs.common.filters.AppConstants;
+import com.vs.model.AddNewFiledsToCollection;
+import com.vs.model.SaveFileModel;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
+import com.vs.model.user.User;
+import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
+import com.vs.service.SaveFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Update.update;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
@@ -27,6 +29,12 @@ public class MenuService implements IMenuService {
 
     @Autowired
     MongoTemplate template;
+
+    @Autowired
+    DBOperations dbOperations;
+
+    @Autowired
+    SaveFile saveFile;
 
     @Override
     public void createUserMenu(Menu menu) {
@@ -48,7 +56,7 @@ public class MenuService implements IMenuService {
 
         List<Item> items = menu.getItems(ItemStatus.LOCKED);
         if (items.size() > 0) {
-            throw new Exception("DELETE NOT ALLOWED. MENU  IS LOCKED. USERS PLACED ORDERS");
+            throw new Exception("DELETE NOT ALLOWED. MENU  IS LOCKED. USERS ALREADY PLACED ORDERS");
         }
 
         repository.delete(menuId);
@@ -91,7 +99,6 @@ public class MenuService implements IMenuService {
     }
 
 
-
     @Override
     public Menu getMenuById(String menuId) {
         return repository.findByMenuId(menuId);
@@ -99,11 +106,25 @@ public class MenuService implements IMenuService {
 
     @Override
     public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status) {
+        dbOperations.updateUserMenuItemStatus(menuId, itemId, status);
+    }
 
-        template.findAndModify(
-                Query.query(where("_id").is(menuId).
-                        and("items._id").is(itemId)), update("items.$.status", status), Menu.class
-        );
+    @Override
+    public String saveFile(String menuId, String itemId, SaveFileModel saveFileModel) {
 
+        String id = menuId+"_"+itemId;
+        String path = saveFile.saveFile(id, saveFileModel);
+
+        Map<String, String> map = new HashMap();
+        map.put(AppConstants.MENU_ITEM_PICTURE, path);
+
+        AddNewFiledsToCollection addNewFiledsToCollection = new AddNewFiledsToCollection();
+        addNewFiledsToCollection.setId(id);
+        addNewFiledsToCollection.setCollectionType(Menu.class.getName());
+        addNewFiledsToCollection.setKeyValues(map);
+
+        dbOperations.addFieldsToCollection(addNewFiledsToCollection);
+
+        return path;
     }
 }

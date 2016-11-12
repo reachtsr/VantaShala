@@ -1,6 +1,9 @@
 package com.vs.api;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
+import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Role;
 import com.vs.model.menu.Item;
@@ -8,6 +11,7 @@ import com.vs.model.menu.Menu;
 import com.vs.model.user.Cook;
 import com.vs.repository.CookRepository;
 import com.vs.repository.MenuRepository;
+import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +25,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Map;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Update.update;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -50,6 +56,34 @@ public class IndependentTest {
 
 
     @Test
+    public void m4() {
+
+//        String collectionName = Menu.class.getSimpleName().toLowerCase();
+//
+        String menuId = "39e6eb9a-38b9-4acf-9ee0-39ff30b960e5";
+        String itemId = "f4c6a141-deb4-44dd-a127-7d040cf4d095";
+//
+//        BasicDBObject toAdd=new BasicDBObject();
+//        BasicDBObject q=new BasicDBObject("_id",menuId).append("items._id", itemId);
+//
+//        DBCursor cursor =  template.getCollection(collectionName).find(q);
+//        DBCursor cursor1 =  template.getCollection("items").find(q);
+//        while (cursor.hasNext()) {
+//            System.out.println(cursor.next());
+//        }
+//        while (cursor1.hasNext()) {
+//            System.out.println(cursor1.next());
+//        }
+//        toAdd.put(AppConstants.PROFILE_PICTURE,"gopi.jpg");
+//
+//        template.getCollection(collectionName).update(q, new BasicDBObject("$set",toAdd), true, false);
+
+        template.findAndModify(
+                Query.query(where("_id").is(menuId).
+                        and("items._id").is(itemId)), update("items.$.profilePicture", "gopi.jpg"), Menu.class
+        );
+    }
+
     public void m3() {
 
 
