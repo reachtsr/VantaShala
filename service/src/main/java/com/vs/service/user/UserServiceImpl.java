@@ -116,7 +116,7 @@ public abstract class UserServiceImpl implements IUserService {
     @Override
     public void enableOrDisableUser(String userName, UserStatusEnum userStatus) throws Exception {
         User user = userRepository.findOne(userName);
-        Preconditions.checkNotNull(user);
+        Preconditions.checkNotNull(user, "User Not Found: "+userName);
         user.setStatus(userStatus);
         userRepository.save(user);
     }

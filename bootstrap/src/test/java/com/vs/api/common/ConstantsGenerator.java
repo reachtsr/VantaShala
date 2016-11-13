@@ -2,7 +2,6 @@ package com.vs.api.common;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.BeforeClass;
 
 import java.util.*;
 
@@ -35,7 +34,6 @@ public class ConstantsGenerator {
     private static String cook_email;
     private static String customer_username;
     private static String customer_email;
-    private static String menu_id="";
 
 
     static {
@@ -45,28 +43,10 @@ public class ConstantsGenerator {
         customer_username = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER);
         cook_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK_EMAIL);
         customer_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL);
-        menu_id = ConstantsGenerator.generateId(TYPE.MENU);
 
         log.info("{}", customer_email);
     }
 
-
-    public static String generateMenuItemId(String menuId) {
-        String id = generateId(TYPE.ITEM);
-        if (MENU_TO_ITEM_MAP.containsKey(menuId)) {
-            MENU_TO_ITEM_MAP.get(menuId).add(id.toString());
-        } else {
-            List<String> list = new ArrayList<>();
-            list.add(id.toString());
-            MENU_TO_ITEM_MAP.put(menuId, list);
-        }
-
-        return id;
-    }
-
-    public static String getMenuItemId(String menuId) {
-            return MENU_TO_ITEM_MAP.get(menuId).get(0);
-    }
 
     public static String generateId(TYPE type) {
 
@@ -78,9 +58,6 @@ public class ConstantsGenerator {
             }
             case MENU: {
                 MENU.add(id);
-                if(menu_id == ""){
-                    menu_id = id;
-                }
                 break;
             }
             case CUSTOMER: {
@@ -96,12 +73,12 @@ public class ConstantsGenerator {
                 break;
             }
             case COOK_EMAIL: {
-                id=id+"@cook.com";
+                id = id + "@cook.com";
                 COOK_EMAIL.add(id);
                 break;
             }
             case CUSTOMER_EMAIL: {
-                id=id+"@customer.com";
+                id = id + "@customer.com";
                 CUSTOMER_EMAIL.add(id);
                 break;
             }
@@ -110,7 +87,7 @@ public class ConstantsGenerator {
         return id;
     }
 
-    public static String retriveRandomIdFromGeneratedList(TYPE type){
+    public static String retriveRandomIdFromGeneratedList(TYPE type) {
         String id = "";
         switch (type) {
             case COOK: {
@@ -225,17 +202,5 @@ public class ConstantsGenerator {
     public static String getCustomer_email() {
         return customer_email;
     }
-
-    public static String getMenu_id() {
-        return menu_id;
-    }
-
-    public static void deleteMenu_id(String menu_id) {
-        menu_id="";
-        getMENU().remove(menu_id);
-        MENU_TO_ITEM_MAP.remove(menu_id);
-    }
-
-
 
 }

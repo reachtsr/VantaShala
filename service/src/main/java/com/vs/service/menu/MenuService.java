@@ -10,6 +10,7 @@ import com.vs.model.user.User;
 import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
 import com.vs.service.SaveFile;
+import jersey.repackaged.com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -50,14 +51,10 @@ public class MenuService implements IMenuService {
     public void deleteUserMenu(String userName, String menuId) throws Exception {
 
         Menu menu = repository.findByMenuId(menuId);
-        if (menu == null) {
-            throw new Exception("No Menu found");
-        }
+        Preconditions.checkNotNull(menu, "Menu not found:" + menuId);
 
         List<Item> items = menu.getItems(ItemStatus.LOCKED);
-        if (items.size() > 0) {
-            throw new Exception("DELETE NOT ALLOWED. MENU  IS LOCKED. USERS ALREADY PLACED ORDERS");
-        }
+        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
 
         repository.delete(menuId);
     }
@@ -123,7 +120,8 @@ public class MenuService implements IMenuService {
         addNewFiledsToCollection.setCollectionType(Menu.class.getName());
         addNewFiledsToCollection.setKeyValues(map);
 
-        dbOperations.addFieldsToCollection(addNewFiledsToCollection);
+        dbOperations.addFiledsToItemCollection(menuId, itemId, addNewFiledsToCollection);
+
 
         return path;
     }
