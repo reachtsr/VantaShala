@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -150,19 +151,20 @@ public class MenuControllerTest extends BaseControllerTest {
     public void b11_updateMenu() throws Exception {
         log.info("Creating Menu {}", RestAssured.basePath);
         List<Menu> list = new ArrayList<>();
-        list = given()
+        list = Arrays.asList(given()
                 .contentType(ContentType.JSON)
                 .when().pathParam("userName", MenuConstantGenerator.getCook_username()).pathParam("menuId", MenuConstantGenerator.getMenu_id()).get("/menu/{userName}/{menuId}")
                 .then()
-                .extract().body().as(list.getClass());
+                .extract().body().as(Menu[].class));
 
         log.info("Menu {}", list);
+
         list.get(0).setName("UPDATED_NAME");
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).
                 body(list.get(0)).log().all().when().put("/menu/{userName}");
 
         given().pathParam("userName", MenuConstantGenerator.getCook_username()).pathParam("menuId", MenuConstantGenerator.getMenu_id()).get("/menu/{userName}/{menuId}").then().
-                body("name", equalToIgnoringCase("UPDATED_NAME"));
+                body("name", hasItem("UPDATED_NAME"));
 
 
     }
@@ -183,7 +185,6 @@ public class MenuControllerTest extends BaseControllerTest {
     public void b14_createMenu() throws Exception {
         log.info("Creating Menu {}", RestAssured.basePath);
         Menu menu = createMenu();
-        menu.setMenuId(MenuConstantGenerator.generateId(MenuConstantGenerator.TYPE.MENU));
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).
                 body(menu).log().all().when().post("/menu/{userName}");
 
