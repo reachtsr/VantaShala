@@ -9,6 +9,7 @@ import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Measurment;
+import com.vs.model.enums.OrderCutOffHours;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class MenuControllerTest extends BaseControllerTest {
         Menu menu = new Menu();
         List<Item> itemList = new ArrayList<>();
         menu.setEndDate(getNextWeek(getToday()).getTime());
-        menu.setStartDate(getToday().getTime());
+        menu.setCutOffHours(OrderCutOffHours.FORTY_EIGHT);
         String menuId = MenuConstantGenerator.createMenuId();
         menu.setMenuId(menuId);
         menu.setUserName(MenuConstantGenerator.getCook_username());

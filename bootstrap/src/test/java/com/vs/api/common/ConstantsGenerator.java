@@ -14,7 +14,7 @@ import java.util.*;
 public class ConstantsGenerator {
 
     public enum TYPE {
-        COOK, MENU, CUSTOMER, KITCHEN, ITEM, COOK_EMAIL, CUSTOMER_EMAIL
+        COOK, MENU, CUSTOMER, KITCHEN, ITEM, COOK_EMAIL, CUSTOMER_EMAIL, ORDER
     }
 
     private static List<String> COOK = new ArrayList<>();

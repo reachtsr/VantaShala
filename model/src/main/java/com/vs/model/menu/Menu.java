@@ -2,6 +2,7 @@ package com.vs.model.menu;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.OrderCutOffHours;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
@@ -21,8 +22,8 @@ public class Menu {
     private String userName;
     private String name;
     private List<Item> items;
-    private Date startDate;
     private Date endDate;
+    private OrderCutOffHours cutOffHours = OrderCutOffHours.TWENTY_FOUR;
 
     @Id
     private String menuId;

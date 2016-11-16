@@ -1,6 +1,9 @@
 package com.vs.repository;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.email.Email;
@@ -16,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -71,6 +75,14 @@ public class DBOperations {
                         and("items._id").is(itemId)), update("items.$.status", status), Menu.class
         );
 
+    }
+
+    public List<DBObject> queryBySubDocumentId(String collectionName, String key, String matchId){
+        DBCollection coll = mongoTemplate.getCollection(collectionName);
+        BasicDBObject query = new BasicDBObject();
+        query.put(key, new BasicDBObject("$eq", matchId));
+        DBCursor cur = coll.find(query);
+        return cur.toArray();
     }
 
 }

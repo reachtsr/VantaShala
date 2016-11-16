@@ -33,9 +33,20 @@ public class OrderController extends BaseController {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getOrders(@PathParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
-        List<Order> orders = orderService.getOrders(userName);
+        List<Order> orders = orderService.getAllCustomerOrders(userName);
         return buildResponse(orders);
     }
+
+    @GET
+    @Path("/cook/{userName}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getCookSpecificOrders(@PathParam("userName") String userName) {
+        Preconditions.checkNotNull(userName);
+        List<Order> orders = orderService.retrieveOrdersPlacedForCooks(userName);
+        return buildResponse(orders);
+    }
+
+
 
     @POST
     @Path("/{userName}")

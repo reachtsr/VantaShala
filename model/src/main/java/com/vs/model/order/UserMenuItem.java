@@ -8,8 +8,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Data
 @Slf4j
-public class MenuToItem {
+public class UserMenuItem {
 
+    String cookId;
     String menuId;
     String itemId;
 }

@@ -1,7 +1,10 @@
 
+
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'org.springframework.boot'
 
 task createStartScripts(type: CreateStartScripts) {
 
@@ -28,3 +31,8 @@ dependencies {
     runtime files('config/')
     runtime files('config')
 }
+
+bootRun {
+    addResources = true
+}
+
