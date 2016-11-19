@@ -14,20 +14,16 @@ import java.util.*;
 public class ConstantsGenerator {
 
     public enum TYPE {
-        COOK, MENU, CUSTOMER, KITCHEN, ITEM, COOK_EMAIL, CUSTOMER_EMAIL, ORDER
+        COOK, CUSTOMER, KITCHEN, ITEM, COOK_EMAIL, CUSTOMER_EMAIL, ORDER, DEFAULT
     }
 
     private static List<String> COOK = new ArrayList<>();
-    private static List<String> MENU = new ArrayList<>();
     private static List<String> CUSTOMER = new ArrayList<>();
     private static List<String> KITCHEN = new ArrayList<>();
     private static List<String> ITEM = new ArrayList<>();
 
     private static List<String> COOK_EMAIL = new ArrayList<>();
     private static List<String> CUSTOMER_EMAIL = new ArrayList<>();
-
-    private static Map<String, List<String>> MENU_TO_ITEM_MAP = new HashMap<>();
-
 
     private static String kitchen_name;
     private static String cook_username;
@@ -54,10 +50,6 @@ public class ConstantsGenerator {
         switch (type) {
             case COOK: {
                 COOK.add(id);
-                break;
-            }
-            case MENU: {
-                MENU.add(id);
                 break;
             }
             case CUSTOMER: {
@@ -87,15 +79,11 @@ public class ConstantsGenerator {
         return id;
     }
 
-    public static String retriveRandomIdFromGeneratedList(TYPE type) {
+    public static String retriveRandomIdFromGeneratedList(TYPE type) throws Exception {
         String id = "";
         switch (type) {
             case COOK: {
                 id = COOK.get(0).toString();
-                break;
-            }
-            case MENU: {
-                id = MENU.get(0).toString();
                 break;
             }
             case CUSTOMER: {
@@ -119,6 +107,9 @@ public class ConstantsGenerator {
                 break;
             }
         }
+        if(id.trim().equals("")){
+            throw new Exception("Error Retrieving Random Id");
+        }
         return id;
     }
 
@@ -127,9 +118,6 @@ public class ConstantsGenerator {
         switch (type) {
             case COOK: {
                 return COOK;
-            }
-            case MENU: {
-                return MENU;
             }
             case CUSTOMER: {
                 return CUSTOMER;
@@ -154,11 +142,6 @@ public class ConstantsGenerator {
         return COOK;
     }
 
-
-    public static List<String> getMENU() {
-        return MENU;
-    }
-
     public static List<String> getCUSTOMER() {
         return CUSTOMER;
     }
@@ -179,9 +162,6 @@ public class ConstantsGenerator {
         return CUSTOMER_EMAIL;
     }
 
-    public static Map<String, List<String>> getMenuToItemMap() {
-        return MENU_TO_ITEM_MAP;
-    }
 
     public static String getKitchen_name() {
         return kitchen_name;

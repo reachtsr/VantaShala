@@ -3,6 +3,7 @@ package com.vs.rest.api.order;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.order.Order;
 import com.vs.rest.api.BaseController;
+import com.vs.service.order.IOrderService;
 import com.vs.service.order.OrderService;
 import io.swagger.annotations.Api;
 import jersey.repackaged.com.google.common.base.Preconditions;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,7 +29,7 @@ import java.util.List;
 public class OrderController extends BaseController {
 
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
 
     @GET
     @Path("/{userName}")
@@ -47,11 +50,20 @@ public class OrderController extends BaseController {
     }
 
 
-
     @POST
     @Path("/{userName}")
-    public Response createOrder(@PathParam("userName") String userName, Order order) {
-        Preconditions.checkNotNull(order.getOrderedBy());
+    public Response createOrder(@NotNull @PathParam("userName") String userName, @NotNull Order order) {
+        order.setOrderedBy(userName);
+        Preconditions.checkNotNull(order.getOrderedBy(), "Who is ordering?");
+        Preconditions.checkNotNull(order.getCookMenuItems(), "No Items found");
+        Preconditions.checkState(order.getCookMenuItems().size()!=0, "No Items found");
+
+        order.getCookMenuItems().forEach(t -> {
+            Preconditions.checkNotNull(t.getCookId(), "No Cook found to place an order");
+            Preconditions.checkNotNull(t.getItemId(), "Missing item found to place an order");
+            Preconditions.checkNotNull(t.getMenuId(), "Missing cook's menu found to place an order");
+        });
+
         order.setOrderedBy(userName);
         Order nOrder = orderService.createOrder(order);
         return buildResponse(nOrder);

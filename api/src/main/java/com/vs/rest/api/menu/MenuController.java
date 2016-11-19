@@ -56,7 +56,7 @@ public class MenuController extends BaseController {
     public Response createMenu(Menu menu) {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
-        Preconditions.checkNotNull(menu.getStartDate());
+        Preconditions.checkNotNull(menu.getCutOffHours());
         Preconditions.checkNotNull(menu.getEndDate());
         menuService.createUserMenu(menu);
         return buildResponse("Menu Created: " + menu.getMenuId());

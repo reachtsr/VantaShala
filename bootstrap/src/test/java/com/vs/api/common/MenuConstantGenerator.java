@@ -49,12 +49,17 @@ public class MenuConstantGenerator extends  ConstantsGenerator{
     }
     public static String createMenuId() {
 
-        String menuId = generateId(TYPE.MENU);
+        String menuId = generateId(TYPE.DEFAULT);
         if (!MENU_TO_ITEM_MAP.containsKey(menuId)) {
                 List<String> list = new ArrayList<>();
                 MENU_TO_ITEM_MAP.put(menuId, list);
             }
             return menuId;
+    }
+
+    public static String retriveMenuIdFromGeneratedList() {
+
+        return MENU_TO_ITEM_MAP.lastEntry().getKey();
     }
 
     public static void deleteMenu_id(String menu_id) {

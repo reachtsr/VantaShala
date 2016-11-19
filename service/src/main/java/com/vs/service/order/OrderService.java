@@ -2,8 +2,9 @@ package com.vs.service.order;
 
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.OrderStatus;
-import com.vs.model.order.UserMenuItem;
+import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
+import com.vs.repository.MenuRepository;
 import com.vs.repository.OrderRepository;
 import com.vs.service.email.EmailService;
 import com.vs.service.menu.MenuService;
@@ -29,6 +30,9 @@ public class OrderService implements IOrderService {
     OrderRepository repository;
 
     @Autowired
+    MenuRepository menuRepository;
+
+    @Autowired
     MongoTemplate template;
 
     @Autowired
@@ -41,12 +45,19 @@ public class OrderService implements IOrderService {
     public Order createOrder(Order order) {
 
         //Group By
-        Map<String, List<UserMenuItem>> menuToItems = order.getUserMenuItems().stream().collect(Collectors.groupingBy(UserMenuItem::getMenuId));
+        Map<String, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
 
         menuToItems.forEach((menuId,v) -> {
             v.forEach(menuToItem -> {
                 menuService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.LOCKED);
             });
+        });
+
+        List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
+        List<String> items = cookMenuItems.stream().map(CookMenuItem::getItemId).collect(Collectors.toCollection(ArrayList::new));
+
+        items.forEach(t -> {
+            menuRepository.f
         });
 
         Order savedOrder = repository.insert(order);
@@ -85,15 +96,15 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<Order> retrieveOrdersPlacedForCooks(final String cookId) {
-        List<Order> orders = repository.findByCookMenuItemIn(cookId);
+        List<Order> orders = repository.findByCookMenuItemsIn(cookId);
         log.info("Before processing Orders: {}", orders);
-        Map<Order, List<UserMenuItem>> ordersToProcess = new HashMap<>();
+        Map<Order, List<CookMenuItem>> ordersToProcess = new HashMap<>();
         orders.forEach(order -> {
-            List<UserMenuItem> userMenuItems = order.getUserMenuItems();
-            List<UserMenuItem> itemsToRemove = new ArrayList<>();
-            userMenuItems.forEach(userMenuItem -> {
-                if(!userMenuItem.getCookId().equals(cookId)){
-                    itemsToRemove.add(userMenuItem);
+            List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
+            List<CookMenuItem> itemsToRemove = new ArrayList<>();
+            cookMenuItems.forEach(cookMenuItem -> {
+                if(!cookMenuItem.getCookId().equals(cookId)){
+                    itemsToRemove.add(cookMenuItem);
                 }
             });
             ordersToProcess.put(order, itemsToRemove);
@@ -102,7 +113,7 @@ public class OrderService implements IOrderService {
         ordersToProcess.forEach((k,v) -> {
            if(orders.contains(k)){
                int index = orders.indexOf(k);
-               orders.get(index).getUserMenuItems().removeAll(v);
+               orders.get(index).getCookMenuItems().removeAll(v);
            }
         });
         log.info("After processing Orders: {}", orders);

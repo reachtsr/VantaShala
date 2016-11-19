@@ -15,6 +15,6 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     public Order findById(String id);
 
-    List<Order> findByCookMenuItemIn(String cookId);
+    List<Order> findByCookMenuItemsIn(String cookId);
 
 }
