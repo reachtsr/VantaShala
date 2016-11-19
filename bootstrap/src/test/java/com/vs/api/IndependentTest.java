@@ -1,9 +1,6 @@
 package com.vs.api;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
-import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Role;
 import com.vs.model.menu.Item;
@@ -11,7 +8,6 @@ import com.vs.model.menu.Menu;
 import com.vs.model.user.Cook;
 import com.vs.repository.CookRepository;
 import com.vs.repository.MenuRepository;
-import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,12 +20,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Update.update;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * Created by gopi on 10/23/16.
@@ -42,11 +37,22 @@ public class IndependentTest {
 
     @Autowired
     private MenuRepository menuRepository;
+
+
     @Autowired
     private CookRepository cookRepository;
 
     @Autowired
     private MongoTemplate template;
+
+    @Test
+    public void m5() {
+
+        ArrayList l = new ArrayList();
+        l.add("d3d01414-c416-431a-ab08-fc650054598f");
+      Menu item = menuRepository.findByMenuIdAndItems_Id("e0fc5f20-86e1-456b-9515-b411c576c62f","d3d01414-c416-431a-ab08-fc650054598f");
+      log.info("List: {}", item);
+    }
 
     public void m2() {
 
@@ -54,8 +60,6 @@ public class IndependentTest {
         log.info("===>{} - {}", cook.size(), cook);
     }
 
-
-    @Test
     public void m4() {
 
 //        String collectionName = Menu.class.getSimpleName().toLowerCase();

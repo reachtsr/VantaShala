@@ -215,7 +215,7 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void b7_createMultipleCooks() throws Exception {
 
-        for (int i = 0; i <= 10; ++i) {
+        for (int i = 0; i <= 3; ++i) {
             Cook cook = createCook();
             cook.setKitchenName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.KITCHEN));
             cook.setEmail(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.COOK_EMAIL));
@@ -227,7 +227,7 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void b8_createMultipleCustomers() throws Exception {
 
-        for (int i = 0; i <= 10; ++i) {
+        for (int i = 0; i <= 3; ++i) {
             Customer customer = createCutomer();
             customer.setEmail(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL));
             customer.setUserName(ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER));

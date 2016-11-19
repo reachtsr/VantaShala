@@ -49,7 +49,7 @@ public class OrderService implements IOrderService {
 
         //Group By
         Map<String, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
-        List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
+       // List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
 
         double computedTotalPrice = orderCalculations.computeTotalPrice(order, menuToItems);
         Preconditions.checkState(computedTotalPrice != order.getTotalPrice());

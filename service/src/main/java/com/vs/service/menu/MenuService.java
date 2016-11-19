@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,8 @@ public class MenuService implements IMenuService {
 
     @Override
     public Item getMenuItems(String menuId, String itemId) {
-        return repository.findByMenuIdAndItemsIn(menuId, itemId);
+        List<Item> items = repository.findByMenuIdAndItems_Id(menuId, itemId).getItems();
+        return  items.stream().filter( item -> item.getId().equals(itemId)).findFirst().get();
     }
 
 

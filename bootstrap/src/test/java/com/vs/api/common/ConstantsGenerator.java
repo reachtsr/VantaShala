@@ -47,6 +47,10 @@ public class ConstantsGenerator {
     public static String anyItem(List list)
     {
         int index = randomGenerator.nextInt(list.size());
+        if(index == list.size())
+        {
+            index = index -1;
+        }
         return CUSTOMER.get(index);
     }
 

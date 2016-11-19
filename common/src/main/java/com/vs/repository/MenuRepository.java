@@ -4,6 +4,7 @@ import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
@@ -25,5 +26,7 @@ public interface MenuRepository extends MongoRepository<Menu, String> {
     public long count();
     public long countByUserName(String userName);
 
-    public Item findByMenuIdAndItemsIn(String menuId, String itemId);
+    //@Query(value = "{'_id' : ?0, 'items._id': ?1}", fields = "{'items._id':1}")
+    public Menu findByMenuIdAndItems_Id(String menuId, String itemId);
+
 }
