@@ -24,4 +24,6 @@ public interface MenuRepository extends MongoRepository<Menu, String> {
     public List<Menu> findAll();
     public long count();
     public long countByUserName(String userName);
+
+    public Item findByMenuIdAndItemsIn(String menuId, String itemId);
 }

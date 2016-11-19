@@ -107,6 +107,12 @@ public class MenuService implements IMenuService {
     }
 
     @Override
+    public Item getMenuItems(String menuId, String itemId) {
+        return repository.findByMenuIdAndItemsIn(menuId, itemId);
+    }
+
+
+    @Override
     public String saveFile(String menuId, String itemId, SaveFileModel saveFileModel) {
 
         String id = menuId+"_"+itemId;

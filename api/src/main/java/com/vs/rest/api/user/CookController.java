@@ -108,4 +108,5 @@ public class CookController extends UserController {
     public Response getCook(@PathParam("kitchenName") String kitchenName) {
         return super.getCookByKitchenName(kitchenName);
     }
+
 }

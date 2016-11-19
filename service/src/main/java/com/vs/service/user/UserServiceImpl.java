@@ -7,9 +7,11 @@ import com.vs.model.SaveFileModel;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.Cook;
+import com.vs.model.user.CustomerToCookSubscription;
 import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
 import com.vs.repository.DBOperations;
+import com.vs.repository.SubscriptionRepository;
 import com.vs.repository.UserRepository;
 import com.vs.service.SaveFile;
 import lombok.Data;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,9 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Autowired
     DBOperations dbOperations;
+
+    @Autowired
+    SubscriptionRepository subscriptionRepository;
 
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
@@ -151,5 +157,26 @@ public abstract class UserServiceImpl implements IUserService {
         return userRepository.findByLastNameOrFirstNameOrUserName(searchString, searchString, searchString);
     }
 
+    @Override
+    public boolean subscribeCustomerToCook(String cookId, String customerId){
+        User user = userRepository.findOne(cookId);
+        Preconditions.checkNotNull(user);
+        CustomerToCookSubscription customerToCookSubscription = subscriptionRepository.findByCook(cookId);
+        if(customerToCookSubscription!=null) {
+            if(!customerToCookSubscription.getCustomers().contains(customerId))
+            {
+                customerToCookSubscription.getCustomers().add(customerId);
+                subscriptionRepository.save(customerToCookSubscription);
+            }
+        } else {
+            customerToCookSubscription = new CustomerToCookSubscription();
+            ArrayList<String> list = new ArrayList<>();
+            list.add(customerId);
+            customerToCookSubscription.setCook(cookId);
+            customerToCookSubscription.setCustomers(list);
+            subscriptionRepository.insert(customerToCookSubscription);
+        }
+        return Boolean.TRUE;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.vs.rest.api.user;
 
+import com.google.common.base.Preconditions;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
@@ -69,6 +70,15 @@ public abstract class UserController extends BaseController {
         User user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
         return buildResponse(user);
+    }
+
+    // @Todo send an email when a cook pub
+    public Response subscribeCustomerToCook(String cookId, String customerId) {
+
+        boolean status = userService.subscribeCustomerToCook(cookId, customerId);
+        Preconditions.checkState(status);
+        return buildOKResponse();
+
     }
 
     public Response findUserByFirstName(String name, Role role) {

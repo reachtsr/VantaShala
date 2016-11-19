@@ -1,6 +1,6 @@
 package com.vs.service.order;
 
-import com.vs.model.enums.ItemStatus;
+import com.google.common.base.Preconditions;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
@@ -41,24 +41,18 @@ public class OrderService implements IOrderService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    OrderCalculations orderCalculations;
+
     @Override
     public Order createOrder(Order order) {
 
         //Group By
         Map<String, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
-
-        menuToItems.forEach((menuId,v) -> {
-            v.forEach(menuToItem -> {
-                menuService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.LOCKED);
-            });
-        });
-
         List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
-        List<String> items = cookMenuItems.stream().map(CookMenuItem::getItemId).collect(Collectors.toCollection(ArrayList::new));
 
-        items.forEach(t -> {
-            menuRepository.f
-        });
+        double computedTotalPrice = orderCalculations.computeTotalPrice(order, menuToItems);
+        Preconditions.checkState(computedTotalPrice != order.getTotalPrice());
 
         Order savedOrder = repository.insert(order);
         emailService.sendOrderCreateEmail(savedOrder);

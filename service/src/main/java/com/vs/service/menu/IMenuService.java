@@ -2,6 +2,7 @@ package com.vs.service.menu;
 
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.ItemStatus;
+import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 
 import java.util.List;
@@ -36,5 +37,7 @@ public interface IMenuService {
     public Menu getMenuById(String menuId);
 
     public String saveFile(String menuId, String itemId, SaveFileModel saveFile);
+
+    public Item getMenuItems(String menuId, String itemId);
 
 }

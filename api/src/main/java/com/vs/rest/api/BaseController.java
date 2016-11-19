@@ -15,4 +15,7 @@ public abstract class BaseController {
     public static Response buildResponse(Object entity) {
         return Response.status(200).entity(entity).build();
     }
+    public static Response buildOKResponse() {
+        return Response.ok().build();
+    }
 }

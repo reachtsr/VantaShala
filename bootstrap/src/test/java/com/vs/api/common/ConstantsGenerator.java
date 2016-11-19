@@ -30,7 +30,7 @@ public class ConstantsGenerator {
     private static String cook_email;
     private static String customer_username;
     private static String customer_email;
-
+    private static Random randomGenerator;
 
     static {
 
@@ -41,8 +41,14 @@ public class ConstantsGenerator {
         customer_email = ConstantsGenerator.generateId(ConstantsGenerator.TYPE.CUSTOMER_EMAIL);
 
         log.info("{}", customer_email);
+        randomGenerator = new Random();
     }
 
+    public static String anyItem(List list)
+    {
+        int index = randomGenerator.nextInt(list.size());
+        return CUSTOMER.get(index);
+    }
 
     public static String generateId(TYPE type) {
 
@@ -83,27 +89,27 @@ public class ConstantsGenerator {
         String id = "";
         switch (type) {
             case COOK: {
-                id = COOK.get(0).toString();
+                id = anyItem(COOK);
                 break;
             }
             case CUSTOMER: {
-                id = CUSTOMER.get(0).toString();
+                id = anyItem(CUSTOMER);
                 break;
             }
             case KITCHEN: {
-                id = KITCHEN.get(0).toString();
+                id = anyItem(KITCHEN);
                 break;
             }
             case ITEM: {
-                id = ITEM.get(0).toString();
+                id = anyItem(ITEM);
                 break;
             }
             case COOK_EMAIL: {
-                id = COOK_EMAIL.get(0).toString();
+                id = anyItem(COOK_EMAIL);
                 break;
             }
             case CUSTOMER_EMAIL: {
-                id = CUSTOMER_EMAIL.get(0).toString();
+                id = anyItem(CUSTOMER_EMAIL);
                 break;
             }
         }

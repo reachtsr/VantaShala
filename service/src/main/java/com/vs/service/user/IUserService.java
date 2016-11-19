@@ -43,4 +43,7 @@ public interface IUserService {
 
     public String saveFile(String userName, SaveFileModel saveFile);
 
+    public boolean subscribeCustomerToCook(String cookId, String customerId);
+
+
 }

@@ -58,4 +58,9 @@ public class CustomerController extends UserController {
         super.updateUser(userName, user);
     }
 
+    @POST
+    @Path("/subscribe/{cookId}/{customerId}")
+    public Response subscribeCustomerToCook(@PathParam("cookId") String cookId, @PathParam("customerId") String customerId) {
+        return super.subscribeCustomerToCook(cookId, customerId);
+    }
 }
