@@ -35,8 +35,6 @@ public class MenuService implements IMenuService {
     @Autowired
     DBOperations dbOperations;
 
-    @Autowired
-    SaveFile saveFile;
 
     @Override
     public void createUserMenu(Menu menu) {
@@ -45,6 +43,15 @@ public class MenuService implements IMenuService {
 
     @Override
     public void updateUserMenu(Menu menu) {
+
+        Menu nMenu = repository.findByMenuId(menu.getMenuId());
+
+        List<Item> items = menu.getItems(ItemStatus.LOCKED);
+        Preconditions.checkState((items.size() == 0), "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
+
+        items = menu.getItems(ItemStatus.HOLD);
+        Preconditions.checkState((items.size() == 0), "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Hold Items in menu. ");
+
         repository.save(menu);
     }
 
@@ -56,6 +63,9 @@ public class MenuService implements IMenuService {
 
         List<Item> items = menu.getItems(ItemStatus.LOCKED);
         Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
+
+        items = menu.getItems(ItemStatus.HOLD);
+        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Hold Items in menu. ");
 
         repository.delete(menuId);
     }
@@ -102,35 +112,5 @@ public class MenuService implements IMenuService {
         return repository.findByMenuId(menuId);
     }
 
-    @Override
-    public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status) {
-        dbOperations.updateUserMenuItemStatus(menuId, itemId, status);
-    }
 
-    @Override
-    public Item getMenuItems(String menuId, String itemId) {
-        List<Item> items = repository.findByMenuIdAndItems_Id(menuId, itemId).getItems();
-        return  items.stream().filter( item -> item.getId().equals(itemId)).findFirst().get();
-    }
-
-
-    @Override
-    public String saveFile(String menuId, String itemId, SaveFileModel saveFileModel) {
-
-        String id = menuId+"_"+itemId;
-        String path = saveFile.saveFile(id, saveFileModel);
-
-        Map<String, String> map = new HashMap();
-        map.put(AppConstants.MENU_ITEM_PICTURE, path);
-
-        AddNewFiledsToCollection addNewFiledsToCollection = new AddNewFiledsToCollection();
-        addNewFiledsToCollection.setId(id);
-        addNewFiledsToCollection.setCollectionType(Menu.class.getName());
-        addNewFiledsToCollection.setKeyValues(map);
-
-        dbOperations.addFiledsToItemCollection(menuId, itemId, addNewFiledsToCollection);
-
-
-        return path;
-    }
 }

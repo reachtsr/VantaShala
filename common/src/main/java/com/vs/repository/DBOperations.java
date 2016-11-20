@@ -9,6 +9,7 @@ import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.email.Email;
 import com.vs.model.enums.EmailStatus;
 import com.vs.model.enums.ItemStatus;
+import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,25 +58,7 @@ public class DBOperations {
         mongoTemplate.getCollection(collectionName).update(q, new BasicDBObject("$set",toAdd) );
 
     }
-    public void addFiledsToItemCollection(String menuId, String itemId, AddNewFiledsToCollection addNewFiledsToCollection){
 
-        String newField = "items.$."+ AppConstants.MENU_ITEM_PICTURE;
-
-        mongoTemplate.findAndModify(
-                Query.query(where("_id").is(menuId).
-                        and("items._id").is(itemId)), update(newField, addNewFiledsToCollection.getKeyValues().get(AppConstants.MENU_ITEM_PICTURE)), Menu.class
-        );
-
-    }
-
-    public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status) {
-
-        mongoTemplate.findAndModify(
-                Query.query(where("_id").is(menuId).
-                        and("items._id").is(itemId)), update("items.$.status", status), Menu.class
-        );
-
-    }
 
     public List<DBObject> queryBySubDocumentId(String collectionName, String key, String matchId){
         DBCollection coll = mongoTemplate.getCollection(collectionName);

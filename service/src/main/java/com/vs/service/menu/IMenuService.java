@@ -16,8 +16,6 @@ public interface IMenuService {
 
     public void updateUserMenu(Menu menu);
 
-    public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status);
-
     public void deleteUserMenu(String userName, String menuId) throws Exception;
 
     public List<Menu> getUserMenus(String userName);
@@ -36,8 +34,5 @@ public interface IMenuService {
 
     public Menu getMenuById(String menuId);
 
-    public String saveFile(String menuId, String itemId, SaveFileModel saveFile);
-
-    public Item getMenuItems(String menuId, String itemId);
 
 }

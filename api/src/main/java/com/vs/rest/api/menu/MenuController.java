@@ -7,6 +7,7 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
+import com.vs.service.menu.item.IItemservice;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -30,6 +31,9 @@ public class MenuController extends BaseController {
 
     @Autowired
     IMenuService menuService;
+
+    @Autowired
+    IItemservice itemservice;
 
     @GET
     @Path("/{userName}")
@@ -70,11 +74,9 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
 
-        Thread.sleep(1000);
-
         boolean status = menuService.menuExists(menu.getMenuId());
         log.info("menuId: {} - {}", menu.getMenuId(), status);
-        Preconditions.checkArgument(status, "Menu doesn't exists :"+menu.getMenuId());
+        Preconditions.checkArgument(status, "Menu doesn't exists :" + menu.getMenuId());
         menuService.updateUserMenu(menu);
         return buildResponse("Menu Updated: " + menu.getMenuId());
 
@@ -96,7 +98,7 @@ public class MenuController extends BaseController {
         saveFile.setFileUploadTypeEnum(FileUploadTypeEnum.MENU_ITEM_PICTURE);
         saveFile.validate();
 
-        menuService.saveFile(menuId, itemId, saveFile);
+        itemservice.saveFile(menuId, itemId, saveFile);
 
         return Response.status(200).build();
 
@@ -121,7 +123,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(itemId);
         Preconditions.checkNotNull(status);
-        menuService.updateUserMenuItemStatus(menuId, itemId, status);
+        itemservice.updateUserMenuItemStatus(menuId, itemId, status);
         return buildResponse("Item Status Updated: menuId" + menuId + "itemId: " + itemId);
     }
 

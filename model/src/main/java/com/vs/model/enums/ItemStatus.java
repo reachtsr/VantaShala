@@ -7,7 +7,8 @@ public enum ItemStatus {
 
     HOLD, ACTIVE, LOCKED, EXPIRED;
 
-    // HOLD During update - can't take an order
+
+    // HOLD Orders OverFilled - can't take an order
     // ACTIVE ready to place an order
     // LOCKED can't update menu. orders in place.
     // EXPIRED: Outdated menu
