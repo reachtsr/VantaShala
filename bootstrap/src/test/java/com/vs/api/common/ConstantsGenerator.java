@@ -44,14 +44,14 @@ public class ConstantsGenerator {
         randomGenerator = new Random();
     }
 
-    public static String anyItem(List list)
+    public static String anyItem(List<String> list)
     {
         int index = randomGenerator.nextInt(list.size());
         if(index == list.size())
         {
             index = index -1;
         }
-        return CUSTOMER.get(index);
+        return list.get(index);
     }
 
     public static String generateId(TYPE type) {
