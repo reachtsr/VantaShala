@@ -10,10 +10,12 @@ import com.vs.repository.ItemOperations;
 import com.vs.repository.MenuRepository;
 import com.vs.service.SaveFile;
 import com.vs.service.menu.MenuService;
-import org.jvnet.hk2.annotations.Service;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +24,13 @@ import java.util.Map;
  * Created by gopi on 11/19/16.
  */
 @Service
+@Slf4j
 public class ItemService implements IItemservice {
 
+    @PostConstruct
+    public void init(){
+        log.info("ItemService Initialized");
+    }
     @Autowired
     SaveFile saveFile;
 
