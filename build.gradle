@@ -10,36 +10,16 @@ buildscript {
         mavenCentral()
     }
 }
-apply plugin: 'war'
 
-war {
 
-    baseName = 'VantaShala'
-    version = '0.0.1'
-}
 
-test{
-    configure {
 
-    }
-    classpath = project.sourceSets.test.runtimeClasspath + files("${projectDir}/config")
-    def env_vars = ['contextName': 'VS', 'spring.profiles.active': 'dev']
-    environment env_vars
-    FileCollection collection = files(new File("${projectDir}/config"))
-    bootstrapClasspath collection
-    //-Xbootclasspath/p:config -DcontextName=VS  -Dspring.profiles.active=dev
-}
 allprojects {
     group = 'com.vs'
     version = '0.0.1-SNAPSHOT'
 
-    gradle.projectsEvaluated {
-        tasks.withType(Test) {
+    task listNames << { task -> println "\t ==> I'm: $task.project.name " }
 
-        }
-    }
-
-    task hello << { task -> println "I'm $task.project.name " }
 }
 
 subprojects {
@@ -48,6 +28,17 @@ subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
+
+    test {
+        def env_vars = ['contextName': 'VS', 'spring.profiles.active': 'dev']
+        environment env_vars
+        def args = "-Xbootclasspath/p:config"
+        jvmArgs args
+        println jvmArgs
+
+    }
+
+    test.onlyIf { Boolean.getBoolean('withTests') }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
