@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VantaShala.iml" filepath="$PROJECT_DIR$/.idea/modules/VantaShala.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VantaShala_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VantaShala_main.iml" group="VantaShala" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VantaShala_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VantaShala_test.iml" group="VantaShala" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_main.iml" group="api" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/api_test.iml" filepath="$PROJECT_DIR$/.idea/modules/api/api_test.iml" group="api" />

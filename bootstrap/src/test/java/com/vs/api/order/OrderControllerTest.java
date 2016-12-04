@@ -9,6 +9,7 @@ import com.vs.model.order.Order;
 import com.vs.model.order.CookMenuItem;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -58,12 +59,12 @@ public class OrderControllerTest extends BaseControllerTest {
                 body(createOrder()).log().all().when().post("/order/{userName}");
 
     }
-    @Test
+    @Test @Ignore
     public void a2_createOrderWithInvalidUser() throws Exception {
         log.info("Creating Order {}", RestAssured.basePath);
-        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", null).
+        // null is not allowed and its an invalid test.
+        expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", null).log().all().
                 body(createOrder()).log().all().when().post("/order/{userName}");
-
     }
     @Test
     public void a3_createOrderWithInvalidInput() throws Exception {
