@@ -8,10 +8,14 @@ dependencies {
     //compile project(':common')
     //compile project(':utils')
 
-    //runtime project(':common')
-    //runtime project(':utils')
-    //runtime project(':api')
-    //runtime project(':service')
+    runtime project(':api')
+    runtime project(':bootstrap')
+    runtime project(':common')
+    runtime project(':config')
+    runtime project(':model')
+    runtime project(':utils')
+    runtime project(':service')
+
 }
 
 
