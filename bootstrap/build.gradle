@@ -20,16 +20,13 @@ dependencies {
     compile project(':web')
     compile project(':utils')
 
-    runtime project(':common')
-    runtime project(':api')
-    runtime project(':model')
-    runtime project(':service')
-    runtime project(':web')
-    runtime project(':utils')
-    runtime files('../config')
-    runtime files('config')
-    runtime files('config/')
-    runtime files('config')
+//    runtime project(':common')
+//    runtime project(':api')
+//    runtime project(':model')
+//    runtime project(':service')
+//    runtime project(':web')
+//    runtime project(':utils')
+//    runtime files('../config')
 }
 
 bootRun {

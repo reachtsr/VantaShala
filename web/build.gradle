@@ -2,19 +2,14 @@
 apply plugin: 'war'
 
 dependencies {
-    //compile project(':api')
-//    compile project(':auth')
-    //compile project(':service')
-    //compile project(':common')
-    //compile project(':utils')
 
-    runtime project(':api')
-    runtime project(':bootstrap')
+
     runtime project(':common')
-    runtime project(':config')
+    runtime project(':api')
     runtime project(':model')
-    runtime project(':utils')
     runtime project(':service')
+    runtime project(':utils')
+    runtime files('../config')
 
 }
 
