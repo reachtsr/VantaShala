@@ -54,16 +54,31 @@ public class ReadYML {
 
 @Component
 @ConfigurationProperties(prefix = "vs")
-@Data
 class EmailProperties {
     private HashMap<String, String> email;
+
+    public HashMap<String, String> getEmail() {
+        return email;
+    }
+
+    public void setEmail(HashMap<String, String> email) {
+        this.email = email;
+    }
 }
 
 @Component
 @ConfigurationProperties(prefix = "vs.mongo")
-@Data
+
 class RepoProperties {
     private HashMap<String, String> repos;
+
+    public HashMap<String, String> getRepos() {
+        return repos;
+    }
+
+    public void setRepos(HashMap<String, String> repos) {
+        this.repos = repos;
+    }
 }
 //
 //@Component

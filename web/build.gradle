@@ -1,9 +1,22 @@
 
 apply plugin: 'war'
 
+
+war {
+
+    archiveName = 'ROOT.war'
+    manifest {
+        //attributes 'Main-Class': 'com.vs.bootstrap.ApplicationBootstrap'
+    }
+}
+
 dependencies {
 
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedCompile 'javax.servlet:servlet-api:2.5'
 
+
+    runtime project(':bootstrap')
     runtime project(':common')
     runtime project(':api')
     runtime project(':model')
@@ -13,5 +26,15 @@ dependencies {
 
 }
 
+bootRepackage{
+    mainClass = 'com.vs.bootstrap.ApplicationBootstrap'
+}
 
+springBoot {
+    //mainClass = "com.vs.bootstrap.ApplicationBootstrap"
+}
+
+bootRun {
+    addResources = true
+}
 

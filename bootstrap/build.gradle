@@ -17,7 +17,6 @@ dependencies {
     compile project(':api')
     compile project(':model')
     compile project(':service')
-    compile project(':web')
     compile project(':utils')
 
 //    runtime project(':common')
@@ -29,7 +28,4 @@ dependencies {
 //    runtime files('../config')
 }
 
-bootRun {
-    addResources = true
-}
 

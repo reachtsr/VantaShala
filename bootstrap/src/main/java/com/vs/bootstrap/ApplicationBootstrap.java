@@ -67,11 +67,13 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        System.out.println("==========CONFIGURE==============");
         return application.sources(ApplicationBootstrap.class);
     }
 
     @PostConstruct
     public void init() {
+
         log.debug("ApplicationBootstrap Loaded.");
         initialize();
     }
@@ -99,7 +101,5 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
         messageSource.setUseCodeAsDefaultMessage(true);
         return messageSource;
     }
-
-
 
 }
