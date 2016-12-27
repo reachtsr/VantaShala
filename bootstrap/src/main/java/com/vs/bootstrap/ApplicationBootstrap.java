@@ -35,7 +35,7 @@ import java.util.Arrays;
 @EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
-public class ApplicationBootstrap extends SpringBootServletInitializer implements Bootstrap {
+public class ApplicationBootstrap  implements Bootstrap {
 
     @Resource(name="serviceBootstrap")
     private Bootstrap serviceBootstrap;
@@ -46,9 +46,11 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
     @Autowired
     private EmailService emailService;
 
+
+
     public static void main(String[] args) {
 
-        ApplicationContext ctx = new ApplicationBootstrap().configure(new SpringApplicationBuilder(ApplicationBootstrap.class)).run(args);
+        ApplicationContext ctx = new ServletInitializer().configure(new SpringApplicationBuilder(ApplicationBootstrap.class)).run(args);
 
         log.info("Scanning Initialized Beans...");
         String[] beanNames = ctx.getBeanDefinitionNames();
@@ -65,11 +67,7 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
         log.info(" ****   ****************************   ****");
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        System.out.println("==========CONFIGURE==============");
-        return application.sources(ApplicationBootstrap.class);
-    }
+
 
     @PostConstruct
     public void init() {
@@ -89,10 +87,6 @@ public class ApplicationBootstrap extends SpringBootServletInitializer implement
         emailService.sendAppStatusEmail();
     }
 
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        log.info("Servlet Context: {} {}.", servletContext.getContextPath(), servletContext.getRealPath("/"));
-    }
 
     @Bean
     public MessageSource messageSource() {
