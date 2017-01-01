@@ -14,9 +14,6 @@ buildscript {
 allprojects {
     group = 'com.vs'
     version = '0.0.1-SNAPSHOT'
-
-    //task listNames << { task -> println "\t ==> I'm: $task.project.name " }
-
 }
 
 subprojects {
@@ -32,7 +29,6 @@ subprojects {
         def args = "-Xbootclasspath/p:config"
         jvmArgs args
         println jvmArgs
-
     }
 
     test.onlyIf { Boolean.getBoolean('withTests') }
@@ -50,39 +46,33 @@ subprojects {
         compile("commons-fileupload:commons-fileupload:1.3")
         compile("org.springframework.boot:spring-boot-starter-thymeleaf")
         compile('org.springframework.boot:spring-boot-starter-web')
-        compile('org.springframework.boot:spring-boot-starter-aop')
-        compile('org.springframework.boot:spring-boot-starter-cache')
         compile('org.springframework.boot:spring-boot-starter-data-mongodb')
         compile('org.springframework.boot:spring-boot-configuration-processor')
         compile('org.springframework.boot:spring-boot-devtools')
-        compile('org.springframework.boot:spring-boot-starter-jersey:1.4.1.RELEASE') {
-            exclude group: 'org.glassfish.jersey.core', module: 'jersey-server'
-        }
-        compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: '2.24'
+        compile('org.springframework.boot:spring-boot-starter-jersey')
+
+        compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.24'
+
+        compile("io.swagger:swagger-jersey2-jaxrs:1.5.10")
+        compile("io.swagger:swagger-core:1.5.10")
+        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+
         compile('org.springframework.boot:spring-boot-starter-mail')
         compile('org.springframework.boot:spring-boot-starter-social-facebook')
         compile('org.springframework.boot:spring-boot-starter-validation')
         compile('org.springframework.boot:spring-boot-starter-velocity')
-        compile("org.springframework.boot:spring-boot-starter-web")
 
         compile('org.projectlombok:lombok:1.16.6')
         compile("org.springframework.boot:spring-boot-starter-actuator")
         compile("io.springfox:springfox-swagger-ui:2.5.0")
-        compile("io.swagger:swagger-jersey2-jaxrs:1.5.10")
-        compile("io.swagger:swagger-core:1.5.10")
-        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
-        compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3'
-        compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.24'
 
-        compile 'org.springframework.boot:spring-boot-devtools'
+        compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3'
         testCompile('com.jayway.restassured:rest-assured:2.8.0')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 
         testCompile "junit:junit:4.12"
     }
-
-
 
 
     if (!project.name.startsWith("web")) {
@@ -92,18 +82,6 @@ subprojects {
         println "BootRepackage Enabled for : " + project.name
         bootRepackage.enabled = true;
     }
-
-//    task show << {
-//        println ""
-//        println "-----------------------------------------------"
-//        println "Home directory: "
-//        println "Build output: " + relativePath(compileJava.destinationDir)
-//        println "Resources output: " + relativePath(processResources.destinationDir)
-//        println "Test output dir: " + relativePath(sourceSets.test.output.classesDir)
-//        println "Test result dir: " + relativePath(testResultsDir)
-//        println "Report dir: " + relativePath(testReportDir)
-//        println "-----------------------------------------------"
-//    }
 
     compileJava.dependsOn(processResources)
 

@@ -7,32 +7,18 @@ spring:
 
   jersey:
     application-path: /rest # Path that serves as the base URI for the application. Overrides the value of "@ApplicationPath" if specified.
-    filter.order: 0 # Jersey filter chain order.
+    #filter.order: 0 # Jersey filter chain order.
     type: servlet # Jersey integration type. Can be either "servlet" or "filter".
-    init.*:
+    load-on-startup: -1
 
   data:
     mongodb:
       database: VantaShala
       repositories.enabled: true
 
-  social:
-
-    facebook:
-      app-id: 1144441838907025
-      app-secret: 5efeb88dbcd8d94bdd576ca3990c657f
-
-    twitter:
-      app-id: 3MeOLDqCHWBbxIhDPX5OknIYM
-      app-secret: NVN3NmGaobsravXkcPe5CpDnwHOUifdKLggHAjb0NipkG6efwB
-
-    google:
-       app-id: 757001337265-7v4coh9fdfpu0dpbnd4pmjsr7a32lloj.apps.googleusercontent.com
-       app-secret: KvjbI-SXVKZWIKyUB4Aik1-9
-
-
 server:
   context-path: /vs
+  server.servlet-path: /
 
 vs:
   mongo:
@@ -62,12 +48,12 @@ vs:
       scanTimer: 10000 # Scan the Q and send the email.
       updateDBTimer: 30000 # Update the status of sent email in the database from the Queue.
       dbArchive: 0 0 4 * * ? # Runs every day at 4:00 AM on Server Time.
-
-endpoints:
-   enabled: true
-   info:
-     enabled: true
-   health:
-     enabled: true
-   metrics:
-     enabled: true
+#
+#endpoints:
+#   enabled: true
+#   info:
+#     enabled: true
+#   health:
+#     enabled: true
+#   metrics:
+#     enabled: true

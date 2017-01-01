@@ -26,7 +26,7 @@ public class AdminUserControllerTest extends BaseControllerTest {
     @Test
     public void a1_listCooks() throws Exception {
         log.info("Listing Cooks {}", RestAssured.basePath);
-        given().get("/admn/list/cooks").then().body("firstName", hasItems("Gopi")).log().all();
+        given().log().all().get("/admn/list/cooks").then().body("firstName", hasItems("Gopi")).log().all();
     }
 
     @Test

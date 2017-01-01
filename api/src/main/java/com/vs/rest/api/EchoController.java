@@ -1,7 +1,9 @@
 package com.vs.rest.api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -14,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/")
 @Controller
+@Slf4j
 public class EchoController extends BaseController{
 
     @Path("/echo")
@@ -22,5 +25,9 @@ public class EchoController extends BaseController{
         return Response.ok("I am alive!").build();
     }
 
+    @PostConstruct
+    public void init(){
+        log.info("** Echo Controller Loaded **");
+    }
 
 }

@@ -1,11 +1,15 @@
 spring:
   main:
-    banner-mode: "off"
+    banner-mode: "on"
 
   data:
     mongodb:
       host: localhost
       port: 27017
+      username: gopi
+      password: gopikrishna
+      uri: mongodb://gopi:gopikrishna@mongodb/VantaShala
+
 
 vs:
   email:

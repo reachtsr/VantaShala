@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +17,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import java.util.Arrays;
 
 
@@ -35,7 +32,8 @@ import java.util.Arrays;
 @EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
-public class ApplicationBootstrap  implements Bootstrap {
+
+public class ApplicationBootstrap implements Bootstrap {
 
     @Resource(name="serviceBootstrap")
     private Bootstrap serviceBootstrap;
@@ -50,7 +48,7 @@ public class ApplicationBootstrap  implements Bootstrap {
 
     public static void main(String[] args) {
 
-        ApplicationContext ctx = new ServletInitializer().configure(new SpringApplicationBuilder(ApplicationBootstrap.class)).run(args);
+        ApplicationContext ctx = new VSServletInitializer().configure(new SpringApplicationBuilder(ApplicationBootstrap.class)).run(args);
 
         log.info("Scanning Initialized Beans...");
         String[] beanNames = ctx.getBeanDefinitionNames();
@@ -66,8 +64,6 @@ public class ApplicationBootstrap  implements Bootstrap {
         log.info(" ****   Hurray! Application Started.   ****");
         log.info(" ****   ****************************   ****");
     }
-
-
 
     @PostConstruct
     public void init() {

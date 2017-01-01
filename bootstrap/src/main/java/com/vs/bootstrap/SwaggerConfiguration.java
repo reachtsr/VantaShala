@@ -3,14 +3,8 @@ package com.vs.bootstrap;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.props.ReadYML;
 import io.swagger.jaxrs.config.BeanConfig;
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import io.swagger.models.Info;
 import lombok.extern.slf4j.Slf4j;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
-import org.glassfish.jersey.server.wadl.internal.WadlResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -20,37 +14,27 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 /**
- * Created by GeetaKrishna on 12/18/2015.
+ * Created by root on 12/31/16.
  */
+
 @Slf4j
 @Configuration
 @EnableSwagger2
-public class ApplicationConfig extends ResourceConfig {
+public class SwaggerConfiguration {
 
     @Autowired
     ReadYML readYML;
 
-    public ApplicationConfig() {
-        log.info("Registering Jersey & Multipart Configuration");
-        register(RequestContextFilter.class);
-        register(MultiPartFeature.class);
-        packages("com.vs");
-    }
-
     @PostConstruct
     public void configure() {
-        register(ApiListingResource.class);
-        register(SwaggerSerializers.class);
-        register(WadlResource.class);
 
         swaggerConfiguration();
         System.setProperty("mail.mime.multipart.ignoreexistingboundaryparameter", "true");
         runConfigurations();
     }
 
-    // Jersey Swagger Configuration
+    //     Jersey Swagger Configuration
     private void swaggerConfiguration() {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setSchemes(new String[]{"http", "https"});
@@ -71,7 +55,6 @@ public class ApplicationConfig extends ResourceConfig {
     private void runConfigurations() {
         log.info("Running Configurations");
         createDirectorsRequired();
-
     }
 
     private void createDirectorsRequired() {
@@ -89,10 +72,6 @@ public class ApplicationConfig extends ResourceConfig {
             if (!f.exists()) {
                 f.mkdirs();
             }
-
         }
     }
 }
-
-
-
