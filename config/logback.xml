@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="logs-folder" value="${catalina.base}/logs" />
+    <property name="logs-folder" value="logs" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                [%thread] %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+                %highlight([%thread]) %cyan(%d{yyyy-MM-dd HH:mm:ss}) %boldRed(%-5level) %boldYellow(%logger{36}) - %boldMagenta(%msg%n)
             </Pattern>
         </layout>
     </appender>
@@ -41,12 +41,12 @@
     <logger name="org.quartz" level="ERROR" />
     <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="ERROR" />
 
-    <logger name="org.springframework" level="ERROR"></logger>
-    <logger name="org.springframework.data" level="ERROR"></logger>
-    <logger name="org.springframework.web" level="ERROR"></logger>
-    <logger name="org.springframework.boot" level="DEBUG"></logger>
-    <logger name="org.springframework.social" level="ERROR"></logger>
-    <logger name="org.springframework.security" level="ERROR"></logger>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.springframework.data" level="ERROR"/>
+    <logger name="org.springframework.web" level="ERROR"/>
+    <logger name="org.springframework.boot" level="ERROR"/>
+    <logger name="org.springframework.social" level="ERROR"/>
+    <logger name="org.springframework.security" level="ERROR"/>
 
     <logger name="org.springframework.jdbc.core" level="ERROR" />
     <logger name="com.jayway.restassured" level="ERROR" />

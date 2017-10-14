@@ -1,6 +1,6 @@
 buildscript {
     project.ext {
-        springBootVersion = '1.4.3.RELEASE'
+        springBootVersion = '1.4.7.RELEASE'
     }
 
     dependencies {
@@ -60,7 +60,7 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter-mail')
         compile('org.springframework.boot:spring-boot-starter-social-facebook')
         compile('org.springframework.boot:spring-boot-starter-validation')
-        compile('org.springframework.boot:spring-boot-starter-velocity')
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-velocity', version: '1.4.7.RELEASE'
 
         compile('org.projectlombok:lombok:1.16.6')
         compile("org.springframework.boot:spring-boot-starter-actuator")
@@ -71,16 +71,19 @@ subprojects {
         testCompile('org.springframework.boot:spring-boot-starter-test')
         testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 
+        testCompile 'com.intuit.karate:karate-junit4:0.6.0'
+        testCompile 'com.intuit.karate:karate-apache:0.6.0'
+
         testCompile "junit:junit:4.12"
     }
 
 
-    if (!project.name.startsWith("web")) {
+    if (!project.name.startsWith("bootstrap")) {
         println "Disabling BootRepackage for : " + project.name
-        bootRepackage.enabled = false;
+        bootRepackage.enabled = false
     } else {
         println "BootRepackage Enabled for : " + project.name
-        bootRepackage.enabled = true;
+        bootRepackage.enabled = true
     }
 
     compileJava.dependsOn(processResources)

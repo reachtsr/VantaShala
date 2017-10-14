@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
 public class APIBootstrap implements Bootstrap {
 
     public void initialize() {
-        log.info("Initializing the API Service...");
+        log.info("Initializing API Service...");
     }
 }
