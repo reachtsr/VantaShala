@@ -4,5 +4,6 @@
 /.idea/*
 .gradle/*
 */build/*
+logs
 out
 out/*
