@@ -1,20 +1,22 @@
 spring:
   application:
     name: VANTASHALA
+  main:
+    banner-mode: "console"
   velocity:
     cache: true
     resource-loader-path : classpath:/config/vm/
-
   jersey:
     application-path: /rest # Path that serves as the base URI for the application. Overrides the value of "@ApplicationPath" if specified.
     #filter.order: 0 # Jersey filter chain order.
     type: servlet # Jersey integration type. Can be either "servlet" or "filter".
     load-on-startup: -1
-
   data:
     mongodb:
       database: VantaShala
       repositories.enabled: true
+  profiles:
+    active: dev
 
 server:
   context-path: /vs

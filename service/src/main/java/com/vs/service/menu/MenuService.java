@@ -1,24 +1,16 @@
 package com.vs.service.menu;
 
-import com.vs.common.filters.AppConstants;
-import com.vs.model.AddNewFiledsToCollection;
-import com.vs.model.SaveFileModel;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
-import com.vs.model.user.User;
 import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
-import com.vs.service.SaveFile;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
@@ -34,7 +26,6 @@ public class MenuService implements IMenuService {
 
     @Autowired
     DBOperations dbOperations;
-
 
     @Override
     public void createUserMenu(Menu menu) {

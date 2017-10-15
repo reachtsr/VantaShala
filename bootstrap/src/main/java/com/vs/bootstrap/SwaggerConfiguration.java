@@ -38,8 +38,8 @@ public class SwaggerConfiguration {
     private void swaggerConfiguration() {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setSchemes(new String[]{"http", "https"});
-        beanConfig.setBasePath("/vs/rest");
-        beanConfig.setResourcePackage("com.vs.rest.api");
+        beanConfig.setBasePath("/com.vs/rest");
+        beanConfig.setResourcePackage("com.com.vs.rest.api");
         beanConfig.setPrettyPrint(true);
         beanConfig.setScan(true);
 

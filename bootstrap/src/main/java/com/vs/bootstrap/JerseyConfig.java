@@ -1,6 +1,5 @@
 package com.vs.bootstrap;
 
-import com.vs.rest.api.EchoController;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,7 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         log.info("Registering Jersey & Multipart Configuration");
 
-        packages("com.vs");
+        packages("com.com.vs");
         register(RequestContextFilter.class);
         register(MultiPartFeature.class);
 

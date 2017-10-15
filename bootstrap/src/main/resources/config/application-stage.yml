@@ -1,7 +1,4 @@
 spring:
-  main:
-    banner-mode: "on"
-
   data:
     mongodb:
       host: localhost

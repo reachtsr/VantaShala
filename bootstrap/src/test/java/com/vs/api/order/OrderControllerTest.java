@@ -5,8 +5,8 @@ import com.vs.api.common.BaseControllerTest;
 import com.vs.api.common.ConstantsGenerator;
 import com.vs.api.common.MenuConstantGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
-import com.vs.model.order.Order;
 import com.vs.model.order.CookMenuItem;
+import com.vs.model.order.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.core.MediaType;
-
 import java.util.ArrayList;
 import java.util.List;
 

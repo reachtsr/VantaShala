@@ -44,7 +44,7 @@
     <logger name="org.springframework" level="ERROR"/>
     <logger name="org.springframework.data" level="ERROR"/>
     <logger name="org.springframework.web" level="ERROR"/>
-    <logger name="org.springframework.boot" level="ERROR"/>
+    <logger name="org.springframework.boot" level="INFO"/>
     <logger name="org.springframework.social" level="ERROR"/>
     <logger name="org.springframework.security" level="ERROR"/>
 
@@ -63,7 +63,7 @@
     <logger name="javax.ws" level="ERROR" />
     <logger name="org.apache.catalina" level="ERROR" />
     <logger name="org.mongodb" level="ERROR" />
-    <logger name="com.vs" level="DEBUG" />
+    <logger name="com.vs" level="INFO" />
 
     <root level="ERROR">
         <appender-ref ref="STDOUT" />

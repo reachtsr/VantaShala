@@ -3,8 +3,6 @@ package com.vs.api.menu;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.vs.api.common.BaseControllerTest;
-import com.vs.api.common.ConstantsGenerator;
-import com.vs.api.common.MenuConstantGenerator;
 import com.vs.api.common.MenuConstantGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.common.filters.AppConstants;

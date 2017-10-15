@@ -5,18 +5,21 @@ import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
 import com.vs.model.props.ReadYML;
 import com.vs.repository.UserRepository;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.ui.velocity.VelocityEngineUtils;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Created by GeetaKrishna on 12/26/2015.
@@ -28,7 +31,7 @@ public abstract class CommonEmailService implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @Autowired
-    protected VelocityEngine velocityEngine;
+    private Configuration freemarkerConfiguration;
 
     @Autowired
     protected UserRepository userRepository;
@@ -39,13 +42,12 @@ public abstract class CommonEmailService implements ApplicationContextAware {
     @Autowired
     protected ReadYML readYML;
 
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    private Email getEmail(final String fromEmail, String subject, String template, Object templateValues)  throws AddressException{
+    private Email getEmail(final String fromEmail, String subject, String template, Object templateValues) throws AddressException {
         Email email = (Email) applicationContext.getBean("email");
         email.setFromEmail(new InternetAddress(readYML.getEmail().get(fromEmail)));
         email.setSubject(subject);
@@ -54,7 +56,7 @@ public abstract class CommonEmailService implements ApplicationContextAware {
     }
 
 
-    protected Email getEmail(final String fromEmail, String to, String subject, String template, Object templateValues)  {
+    protected Email getEmail(final String fromEmail, String to, String subject, String template, Object templateValues) {
         try {
             Email email = getEmail(fromEmail, subject, template, templateValues);
             email.setTo(to);
@@ -65,7 +67,7 @@ public abstract class CommonEmailService implements ApplicationContextAware {
         return null;
     }
 
-    protected Email getEmail(final String fromEmail, String[] to, String subject, String template, Object templateValues)  {
+    protected Email getEmail(final String fromEmail, String[] to, String subject, String template, Object templateValues) {
         try {
             Email email = getEmail(fromEmail, subject, template, templateValues);
             email.setTo(to);
@@ -78,10 +80,19 @@ public abstract class CommonEmailService implements ApplicationContextAware {
 
     private String mergeTemplateWithValues(String template, Object templateValues) {
         Map<String, Object> model = new HashMap<>();
-        if(templateValues!=null) {
+        if (templateValues != null) {
             model.put(VMConstants.VM_BEAN, templateValues);
         }
-        return VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, "UTF-8", model);
+        String output = "";
+        try {
+            output = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(template), templateValues);
+        } catch (IOException e) {
+
+        } catch (TemplateException e) {
+
+        }
+        return output;
+
     }
 
 
