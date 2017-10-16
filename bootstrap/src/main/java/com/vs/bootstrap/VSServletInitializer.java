@@ -9,7 +9,7 @@ public class VSServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		log.info("==========CONFIGURE==============");
+		log.info("Configuring Springboot Servlet");
 		return application.sources(ApplicationBootstrap.class);
 	}
 

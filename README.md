@@ -18,6 +18,12 @@
 ### Installation
 
 ```sh
- ClassPath
-     -Xbootclasspath/p:config -DcontextName=VS  -Dspring.profiles.active=dev
+
+Install MongoDB and make it up and running.
+
+Default Spring profile set to: dev
+If change needed provide the environment: -Dspring.profiles.active=dev
+Configuration available under bootstrap resources.
+
+No explict configuration required to set to run on your local machine
 ```

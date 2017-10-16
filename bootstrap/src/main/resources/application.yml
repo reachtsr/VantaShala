@@ -3,9 +3,10 @@ spring:
     name: VANTASHALA
   main:
     banner-mode: "console"
-  velocity:
+  freemarker:
     cache: true
-    resource-loader-path : classpath:/config/vm/
+    template-loader-path: classpath:email/templates
+    suffix: .ftl
   jersey:
     application-path: /rest # Path that serves as the base URI for the application. Overrides the value of "@ApplicationPath" if specified.
     #filter.order: 0 # Jersey filter chain order.

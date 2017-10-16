@@ -6,7 +6,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %highlight([%thread]) %cyan(%d{yyyy-MM-dd HH:mm:ss}) %boldRed(%-5level) %boldYellow(%logger{36}) - %boldMagenta(%msg%n)
+                %highlight([%thread]) %cyan(%d{yyyy-MM-dd HH:mm:ss}) %boldRed(%-5level) %boldMagenta(%logger{36}) - %boldYellow(%msg%n)
             </Pattern>
         </layout>
     </appender>

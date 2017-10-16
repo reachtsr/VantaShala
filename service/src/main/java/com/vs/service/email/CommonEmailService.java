@@ -1,6 +1,6 @@
 package com.vs.service.email;
 
-import com.vs.common.constants.VMConstants;
+import com.vs.common.constants.FreeMarkerConstants;
 import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
 import com.vs.model.props.ReadYML;
@@ -81,15 +81,15 @@ public abstract class CommonEmailService implements ApplicationContextAware {
     private String mergeTemplateWithValues(String template, Object templateValues) {
         Map<String, Object> model = new HashMap<>();
         if (templateValues != null) {
-            model.put(VMConstants.VM_BEAN, templateValues);
+            model.put(FreeMarkerConstants.VM_BEAN, templateValues);
         }
         String output = "";
         try {
             output = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(template), templateValues);
         } catch (IOException e) {
-
+            log.error("Error Freemarker Template:", e);
         } catch (TemplateException e) {
-
+            log.error("Error Freemarker Template:", e);
         }
         return output;
 

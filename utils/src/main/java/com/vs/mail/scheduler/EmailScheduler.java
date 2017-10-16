@@ -42,7 +42,7 @@ public class EmailScheduler {
 
     @Scheduled(fixedDelayString = "${vs.email.timer.scanTimer}")
     private synchronized void sendEmail() {
-        //log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
+        log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
         for (Email email; (email = mailsToSend.poll()) != null;){
             try {
                 log.info("Sending Email To: {}", email.getTo());
@@ -57,7 +57,7 @@ public class EmailScheduler {
 
     @Scheduled(fixedDelayString = "${vs.email.timer.updateDBTimer}")
     private synchronized void updateDB() {
-        //log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
+        log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
 
         for (Email email; (email = mailsSent.poll()) != null;){
             dbOperations.updateEmailStatus(email);

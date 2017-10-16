@@ -1,7 +1,7 @@
 package com.vs.service.email;
 
 import com.vs.common.constants.EmailConstants;
-import com.vs.common.constants.VMConstants;
+import com.vs.common.constants.FreeMarkerConstants;
 import com.vs.model.email.Email;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/26/2015.
@@ -24,7 +26,7 @@ public class EmailService extends CommonEmailService {
     public void sendOrderCreateEmail(Order order) {
         String to = userRepository.findOne(order.getOrderedBy()).getEmail();
 
-        Email email = getEmail(EmailConstants.FROM_ORDER, to, "Order Created", VMConstants.VM_SEND_EMAIL_NOTIFICATION, order);
+        Email email = getEmail(EmailConstants.FROM_ORDER, to, "Order Created", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, order);
 
         try {
             processEmail.sendEmail(email);
@@ -37,7 +39,9 @@ public class EmailService extends CommonEmailService {
 
          try {
              String to = "haigopi@gmail.com";
-             Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+             Map<String, String> message = new HashMap<>();
+             message.put("message", "Application Restarted");
+             Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, message);
 
              processEmail.sendEmail(email);
         } catch (MessagingException me) {
@@ -51,7 +55,7 @@ public class EmailService extends CommonEmailService {
 
         try {
             String to = userRepository.findOne(menu.getUserName()).getEmail();
-            Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+            Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
             processEmail.sendEmail(email);
         } catch (MessagingException me) {
@@ -61,7 +65,7 @@ public class EmailService extends CommonEmailService {
     public void sendMenuStatusUpdateEmail(String[] to) {
 
         // ToDo convert the usernames to emails. Query from DB.
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -73,7 +77,7 @@ public class EmailService extends CommonEmailService {
     public void sendOrderStatusUpdateEmail(Order order) {
 
         String to = userRepository.findOne(order.getOrderedBy()).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -87,7 +91,7 @@ public class EmailService extends CommonEmailService {
     public void sendContactusReplyEmail(String userName) {
 
         String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
@@ -100,7 +104,7 @@ public class EmailService extends CommonEmailService {
     public void sendSupportReplyEmail(String userName) {
 
         String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", VMConstants.VM_SEND_EMAIL_NOTIFICATION, null);
+        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
             processEmail.sendEmail(email);
