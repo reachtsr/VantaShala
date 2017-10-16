@@ -10,5 +10,5 @@ vs:
     mail.smtp.port: 587
     mail.smtp.user: alertsoalerts@gmail.com
     password: gopikrishna
-    send: false
+    send: true
 

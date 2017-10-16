@@ -1,31 +1,12 @@
 
-
-repositories {
-    mavenCentral()
-}
-
-apply plugin: 'org.springframework.boot'
-
-task createStartScripts(type: CreateStartScripts) {
-
-    classpath = files('../config/*')
-}
-
 dependencies {
 
-    compile project(':common')
     compile project(':api')
     compile project(':model')
-    compile project(':service')
     compile project(':utils')
+    compile project(':common')
+    compile project(':service')
 
-//    runtime project(':common')
-//    runtime project(':api')
-//    runtime project(':model')
-//    runtime project(':service')
-//    runtime project(':web')
-//    runtime project(':utils')
-//    runtime files('../config')
 }
 
 

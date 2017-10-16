@@ -111,6 +111,7 @@ public class ActualMailSender {
 
         // SEND THE MESSAGE
         if(sendMail) {
+            log.info("Sending email: {}", email.getTo());
             javaMailSender.send(message);
         } else {
             log.info("DEV ENV SET EMAIL TO SEND IF NEEDED");

@@ -39,8 +39,9 @@ public class EmailService extends CommonEmailService {
 
          try {
              String to = "haigopi@gmail.com";
-             Map<String, String> message = new HashMap<>();
-             message.put("message", "Application Restarted");
+             Map<String, Object> message = new HashMap<>();
+             message.put("generalMessage", "Application Restarted");
+             message.put("signature", "TestMessage");
              Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, message);
 
              processEmail.sendEmail(email);

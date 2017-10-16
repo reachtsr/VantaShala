@@ -6,6 +6,7 @@ import com.vs.model.email.Email;
 import com.vs.model.props.ReadYML;
 import com.vs.repository.UserRepository;
 import freemarker.template.Configuration;
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -85,7 +86,8 @@ public abstract class CommonEmailService implements ApplicationContextAware {
         }
         String output = "";
         try {
-            output = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfiguration.getTemplate(template), templateValues);
+            Template rTemplate = freemarkerConfiguration.getTemplate(template);
+            output = FreeMarkerTemplateUtils.processTemplateIntoString(rTemplate, templateValues);
         } catch (IOException e) {
             log.error("Error Freemarker Template:", e);
         } catch (TemplateException e) {
