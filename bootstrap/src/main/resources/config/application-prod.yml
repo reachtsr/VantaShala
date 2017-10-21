@@ -12,7 +12,7 @@ vs:
   email:
     host: in.mailjet.com
     port: 587
-    username: 8394886f02b223478a77157741f574b0
-    password: 4c51ed05b195547506c69524b7ee6c27
+    username: ENC(KRmdXpurm62F2vTYdHIS0rg/0HXXFv7MXsYwH/RMJiPlf5Oemyw2AuoZ8VmkoEt6)
+    password: ENC(mTddymjBnjolbj/aPlL79orG+/AGisXEW28b08rnHaqpeVhchX58UoQelF49XcV9)
     send: true
 

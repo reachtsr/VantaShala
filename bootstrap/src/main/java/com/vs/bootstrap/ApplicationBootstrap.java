@@ -1,5 +1,6 @@
 package com.vs.bootstrap;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import com.vs.common.Bootstrap;
 import com.vs.service.email.EmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,7 @@ import java.util.Arrays;
 @EnableMongoRepositories({"com.vs.repository"})
 @EnableConfigurationProperties
 @EnableScheduling
+@EnableEncryptableProperties
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class ApplicationBootstrap implements Bootstrap {
 
@@ -46,8 +48,6 @@ public class ApplicationBootstrap implements Bootstrap {
 
     @Autowired
     private EmailService emailService;
-
-
 
     public static void main(String[] args) {
 

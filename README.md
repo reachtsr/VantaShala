@@ -27,3 +27,19 @@ Configuration available under bootstrap resources.
 
 No explict configuration required to set to run on your local machine
 ```
+
+Below log represents a successful application start:
+
+[restartedMain] 2017-10-21 18:41:54 INFO  c.vs.bootstrap.VSServletInitializer - Configuring Springboot Servlet
+
+              A product of AlliBilli
+                               _          __ _           _
+             /\   /\__ _ _ __ | |_ __ _  / _\ |__   __ _| | __ _
+             \ \ / / _` | '_ \| __/ _` | \ \| '_ \ / _` | |/ _` |
+              \ V / (_| | | | | || (_| | _\ \ | | | (_| | | (_| |
+               \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
+
+                                           Personal organic chef.
+
+
+

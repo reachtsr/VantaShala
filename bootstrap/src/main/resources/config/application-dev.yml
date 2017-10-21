@@ -9,6 +9,6 @@ vs:
     mail.smtp.host: smtp.gmail.com
     mail.smtp.port: 587
     mail.smtp.user: alertsoalerts@gmail.com
-    password: gopikrishna
+    password: ENC(IRjKmIYXiEkrPnUzMO+JSWuH2tigI8+R)
     send: true
 

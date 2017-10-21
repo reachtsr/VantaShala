@@ -1,11 +1,11 @@
 
 ${AnsiColor.BRIGHT_YELLOW}              A product of AlliBilli
 
-            ${AnsiColor.BRIGHT_MAGENTA}                   _          __ _           _
-            ${AnsiColor.BRIGHT_MAGENTA} /\   /\__ _ _ __ | |_ __ _  / _\ |__   __ _| | __ _
+            ${AnsiColor.BRIGHT_CYAN}                   _          __ _           _
+            ${AnsiColor.BRIGHT_CYAN} /\   /\__ _ _ __ | |_ __ _  / _\ |__   __ _| | __ _
             ${AnsiColor.BRIGHT_MAGENTA} \ \ / / _` | '_ \| __/ _` | \ \| '_ \ / _` | |/ _` |
             ${AnsiColor.BRIGHT_MAGENTA}  \ V / (_| | | | | || (_| | _\ \ | | | (_| | | (_| |
-            ${AnsiColor.BRIGHT_MAGENTA}   \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
+            ${AnsiColor.BRIGHT_RED}   \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
 
 ${AnsiColor.BRIGHT_YELLOW}                                           Personal organic chef.
 

@@ -12,7 +12,6 @@ allprojects {
     version = '0.0.1-SNAPSHOT'
 }
 
-
 subprojects {
 
     apply plugin: 'idea'
@@ -39,7 +38,6 @@ subprojects {
 
     dependencies {
 
-
         compileOnly('org.projectlombok:lombok')
 
         compile('com.google.guava:guava:19.0')
@@ -65,7 +63,6 @@ subprojects {
         compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.24'
         compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '1.16'
 
-        testCompile('junit:junit:4.12')
         testCompile('com.intuit.karate:karate-apache:0.6.0')
         testCompile('com.intuit.karate:karate-junit4:0.6.0')
         testCompile('com.jayway.restassured:rest-assured:2.8.0')

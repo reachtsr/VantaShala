@@ -18,7 +18,14 @@ spring:
       repositories.enabled: true
   profiles:
     active: dev
-
+  endpoints:
+     enabled: true
+     info:
+       enabled: true
+     health:
+       enabled: true
+     metrics:
+       enabled: true
 server:
   context-path: /vs
   server.servlet-path: /
@@ -51,12 +58,4 @@ vs:
       scanTimer: 10000 # Scan the Q and send the email.
       updateDBTimer: 30000 # Update the status of sent email in the database from the Queue.
       dbArchive: 0 0 4 * * ? # Runs every day at 4:00 AM on Server Time.
-#
-#endpoints:
-#   enabled: true
-#   info:
-#     enabled: true
-#   health:
-#     enabled: true
-#   metrics:
-#     enabled: true
+

@@ -8,5 +8,5 @@ vs:
     host: smtp.gmail.com
     port: 587
     username: alertsoalerts@gmail.com
-    password: gopikrishna
+    password: ENC(IRjKmIYXiEkrPnUzMO+JSWuH2tigI8+R)
     send: true
