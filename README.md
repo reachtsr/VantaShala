@@ -1,5 +1,5 @@
 [![N|Solid](http://allibilli.com/coloredallibilli.jpg)](http://allibilli.com)
-# VantaShala
+# VantaShala.com
 
 - A Personal Organic Chef. 
 
