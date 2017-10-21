@@ -1,19 +1,21 @@
 [![N|Solid](http://allibilli.com/coloredallibilli.jpg)](http://allibilli.com)
 # VantaShala.com
-
-- A Personal Organic Chef. 
+    A Personal Organic Chef. 
 
 # Goals
 
   - Helping Society with healthy home cooked food. This is a real problem and we need a real solution.
   - Better than what you cook at home.
-  - Healty food doen't mean to be not tasty.
-  - Traditional way and slow cooking process
+  - Healthy food means to be tasty too.
+  - Traditional slow cooking process.
 
 # Features
   - Let the Chefs publish what they will be cooking for coming week.
-  - Users - place orders
-  - And Chefs to delivere. 
+  - Users can then place the orders
+  - Orders will get split dynamically to the chefs
+  - And Chefs should deliver.
+  - Cancellations can't be done once the chef accepted the order.
+  - Order visulization should be a priority to the customer. 
 
 ### Installation
 
@@ -27,7 +29,7 @@ Configuration available under bootstrap resources.
 
 No explict configuration required to set to run on your local machine
 ```
-
+````apple js
 Below log represents a successful application start:
 
 [restartedMain] 2017-10-21 18:41:54 INFO  c.vs.bootstrap.VSServletInitializer - Configuring Springboot Servlet
@@ -40,6 +42,5 @@ Below log represents a successful application start:
                \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
 
                                            Personal organic chef.
-
-
+````
 
