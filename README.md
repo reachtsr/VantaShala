@@ -44,3 +44,9 @@ Below log represents a successful application start:
                                            Personal organic chef.
 ````
 
+### Quick Technical Insights
+
+    - gradle htmlDependencyReport
+    - gradle build
+    - gradle war
+    - gradle projectReport
