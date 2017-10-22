@@ -24,7 +24,7 @@
 Install MongoDB and make it up and running.
 
 Default Spring profile set to: dev
-If change needed provide the environment: -Dspring.profiles.active=dev
+If change needed provide the environment: -Dspring.profiles.active=dev -Djasypt.encryptor.password=XXXXXXX
 Configuration available under bootstrap resources.
 
 No explict configuration required to set to run on your local machine
