@@ -1,8 +1,7 @@
 package com.vs.mail.scheduler;
 
-import com.vs.common.constants.EmailConstants;
 import com.vs.model.email.Email;
-import com.vs.model.props.ReadYML;
+import com.vs.model.props.EmailProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -25,7 +25,7 @@ import java.util.Properties;
 public class ActualMailSender {
 
     @Autowired
-    private ReadYML readYML;
+    private EmailProperties emailProperties;
 
     private JavaMailSenderImpl javaMailSender;
 
@@ -37,84 +37,102 @@ public class ActualMailSender {
 
         javaMailSender = new JavaMailSenderImpl();
         Properties mailProperties = new Properties();
-        mailProperties.putAll(readYML.getEmail());
+        mailProperties.putAll(emailProperties.getEmail());
 
         javaMailSender.setJavaMailProperties(mailProperties);
-        javaMailSender.setPassword(readYML.getEmail().get(EmailConstants.PASSWORD));
+        javaMailSender.setPassword(emailProperties.getPassword());
 
         log.info("Mail Sender Initialized with host: {}", javaMailSender.getHost());
     }
 
+    private boolean isOutgoingEmailPresent(Email email, MimeMessageHelper helper) throws MessagingException {
+
+        boolean isEmailPresent = false;
+
+        if (Objects.nonNull(email.getTo().getAddress())) {
+            helper.setTo(email.getTo());
+            isEmailPresent = true;
+        }
+        if (Objects.nonNull(email.getCc().getAddress())) {
+            helper.setCc(email.getCc());
+            isEmailPresent = true;
+        }
+        if (Objects.nonNull(email.getBcc().getAddress())) {
+            helper.setBcc(email.getBcc());
+            isEmailPresent = true;
+        }
+        if (!email.getToList().isEmpty()) {
+            email.getToList().add(email.getFromEmail());
+            helper.setTo(email.getToList().toArray(new InternetAddress[0]));
+            isEmailPresent = true;
+        }
+        if (!email.getBccList().isEmpty()) {
+            helper.setBcc(email.getBccList().toArray(new InternetAddress[0]));
+            isEmailPresent = true;
+        }
+        if (!email.getCcList().isEmpty()) {
+            helper.setCc(email.getCcList().toArray(new InternetAddress[0]));
+            isEmailPresent = true;
+        }
+
+        return isEmailPresent;
+    }
+
     protected void sendEmail(Email email) throws MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        log.info("Mail Props: {}", javaMailSender.getJavaMailProperties());
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        String from="";
-        // FROM
-        if(email.getFromEmail()!=null && !email.getFromEmail().toString().isEmpty()) {
-            from = "<"+readYML.getEmail().get(EmailConstants.EMAIL_FROM_TEXT)+">"+email.getFromEmail().getAddress();
-        } else {
-            log.error("Invalid From Address");
-            return;
-        }
-        helper.setFrom(from);
+            log.info("Mail Props: {}", javaMailSender.getJavaMailProperties());
 
-        Boolean isToFound = Boolean.FALSE;
-        // TO
-        if(!email.getToList().isEmpty()) {
-            for (InternetAddress address: email.getToList()) {
-                helper.setCc(address);
-                isToFound = Boolean.TRUE;
+            String from;
+            // FROM
+            from = email.getFromEmail().getAddress();
+            helper.setFrom(from, "VantaShala");
+
+            if (!isOutgoingEmailPresent(email, helper)) {
+                log.info("No Outgoing email found");
+                return;
             }
-        } else {
-            if(email.getTo()!=null && !email.getTo().toString().isEmpty()) {
-                helper.setTo(email.getTo());
-                isToFound = Boolean.TRUE;
+
+            // ATTACHMENT
+            if (!Objects.isNull(email.getAttachment())) {
+                helper.addAttachment(email.getAttachment(), new File(email.getAttachment()));
             }
-        }
 
-        if(!isToFound) {
-            log.error("To Not Found");
-            return;
-        }
+            // MESSAGE TEXT: Use the true flag to indicate the text included is HTML
+            if (!Objects.isNull(email.getMessage())) {
+                helper.setText(email.getMessage(), Boolean.TRUE);
+            } else {
+                log.error("Email Content to send not Found");
+                return;
+            }
 
-        // ATTACHMENT
-        if(email.getAttachment()!=null) {
-            helper.addAttachment(email.getAttachment(), new File(email.getAttachment()));
-        }
+            // SUBJECT
+            if (email.getSubject() != null && !email.getSubject().isEmpty()) {
+                helper.setSubject(email.getSubject());
+            } else {
+                log.error("Email Subject not Found");
+                return;
+            }
 
+            // REPLYTO
+            if (email.getReplyTo() != null && !email.getReplyTo().getAddress().isEmpty()) {
+                helper.setReplyTo(email.getReplyTo());
+            } else {
+                helper.setReplyTo(emailProperties.getReplyToEmail());
+            }
 
-        // MESSAGE TEXT: Use the true flag to indicate the text included is HTML
-        if(email.getMessage()!=null && !email.getMessage().isEmpty()) {
-            helper.setText(email.getMessage(), Boolean.TRUE);
-        } else {
-            log.error("Email Content to send not Found");
-            return;
-        }
-
-        // SUBJECT
-        if(email.getSubject()!=null && !email.getSubject().isEmpty()) {
-            helper.setSubject(email.getSubject());
-        } else {
-            log.error("Email Subject not Found");
-            return;
-        }
-
-        // REPLYTO
-        if(email.getReplyTo()!=null && !email.getReplyTo().isEmpty()) {
-            helper.setReplyTo(email.getReplyTo());
-        } else {
-            helper.setReplyTo(readYML.getEmail().get(EmailConstants.REPLYTO));
-        }
-
-        // SEND THE MESSAGE
-        if(sendMail) {
-            log.info("Sending email: {}", email.getTo());
-            javaMailSender.send(message);
-        } else {
-            log.info("DEV ENV SET EMAIL TO SEND IF NEEDED");
+            // SEND THE MESSAGE
+            if (sendMail) {
+                log.info("Sending email: {}", email.getTo());
+                javaMailSender.send(message);
+            } else {
+                log.info("No email sent. Configure as needed.");
+            }
+        } catch (Exception e) {
+            log.error("", e);
         }
     }
-    }
+}

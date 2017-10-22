@@ -1,14 +1,17 @@
 package com.vs.service.email;
 
-import com.vs.common.constants.EmailConstants;
 import com.vs.common.constants.FreeMarkerConstants;
+import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
+import com.vs.model.props.EmailProperties;
+import com.vs.model.props.ReadYML;
+import com.vs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,32 +23,55 @@ import java.util.Map;
 @Service
 public class EmailService extends CommonEmailService {
 
+    @Autowired
+    ReadYML readYML;
+
+    @Autowired
+    EmailProperties emailProperties;
+
+
+    @Autowired
+    protected UserRepository userRepository;
+
+    @Autowired
+    protected ProcessEmail processEmail;
+
     // ToDo Create VM Templates and update them accordingly.
     // ToDo Move String Constants to application yaml file and read them as needed.
     // ToDo Move haigopi@gmail.com to application yaml.
+
     public void sendOrderCreateEmail(Order order) {
-        String to = userRepository.findOne(order.getOrderedBy()).getEmail();
-
-        Email email = getEmail(EmailConstants.FROM_ORDER, to, "Order Created", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, order);
-
         try {
+
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, order);
+            String to = userRepository.findOne(order.getOrderedBy()).getEmail();
+            String from = emailProperties.getFromOrderEmail();
+            String subject = "Order Created";
+
+            Email email = new Email.EmailBuilder(from, to, subject, message).build();
             processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
     }
 
     public void sendAppStatusEmail() {
 
-         try {
-             String to = "haigopi@gmail.com";
-             Map<String, Object> message = new HashMap<>();
-             message.put("generalMessage", "Application Restarted");
-             message.put("signature", "TestMessage");
-             Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, message);
+        try {
 
-             processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+            Map<String, Object> messageValues = new HashMap<>();
+            messageValues.put("generalMessage", "Application Restarted");
+            messageValues.put("signature", "TestMessage");
+
+            String from = emailProperties.getFromContactEmail();
+            String to = "haigopi@gmail.com";
+            String subject = "Application Restarted";
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, messageValues);
+
+
+            Email email = new Email.EmailBuilder(from, to, subject, message).build();
+            processEmail.sendEmail(email);
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
 
@@ -53,36 +79,31 @@ public class EmailService extends CommonEmailService {
 
     public void sendMenuStatusUpdateEmail(Menu menu) {
 
-
         try {
             String to = userRepository.findOne(menu.getUserName()).getEmail();
-            Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
-            processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
     }
+
     public void sendMenuStatusUpdateEmail(String[] to) {
 
-        // ToDo convert the usernames to emails. Query from DB.
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
-
         try {
-            processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+            // ToDo convert the usernames to emails. Query from DB.
+
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
     }
 
     public void sendOrderStatusUpdateEmail(Order order) {
 
-        String to = userRepository.findOne(order.getOrderedBy()).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+            String to = userRepository.findOne(order.getOrderedBy()).getEmail();
+
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
 
@@ -91,12 +112,11 @@ public class EmailService extends CommonEmailService {
 
     public void sendContactusReplyEmail(String userName) {
 
-        String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+            String to = userRepository.findOne(userName).getEmail();
+
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
 
@@ -104,12 +124,11 @@ public class EmailService extends CommonEmailService {
 
     public void sendSupportReplyEmail(String userName) {
 
-        String to = userRepository.findOne(userName).getEmail();
-        Email email = getEmail(EmailConstants.FROM_CONTACT, to, "Application Restarted", FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, null);
 
         try {
-            processEmail.sendEmail(email);
-        } catch (MessagingException me) {
+            String to = userRepository.findOne(userName).getEmail();
+
+        } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
 

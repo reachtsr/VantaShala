@@ -45,15 +45,15 @@ vs:
       location:
         base: ../fileUploads/
   email:
-    from: VantaShala
-    fromOrderEmail: order@VantaShala.com
-    fromSupportEmail: support@VantaShala.com
-    fromContactEmail: contact@VantaShala.com
+    from:
+      order: <VantaShala>order@VantaShala.com
+      contact: contact@VantaShala.com
+    replyTo: support@VantaShala.com
     mail.smtp.auth: true
     mail.smtp.starttls.enable: true
     mail.smtp.starttls.required: true
     mail.smtp.debug: true
-    replyTo: support@VantaShala.com
+
     timer:
       scanTimer: 10000 # Scan the Q and send the email.
       updateDBTimer: 30000 # Update the status of sent email in the database from the Queue.

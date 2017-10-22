@@ -18,25 +18,12 @@ import java.util.HashMap;
 @Data
 public class ReadYML {
 
-    @Autowired
-    private EmailProperties emailProperties;
-
-    @Autowired
-    private RepoProperties repoProperties;
-
     @Value("${vs.uploads.location.base}")
     private String baseFileUploadLocation;
 
+
 //    @Autowired
 //    private FileUploadProperties fileUploadProperties;
-
-    public HashMap<String, String> getEmail() {
-        return emailProperties.getEmail();
-    }
-
-    public HashMap<String, String> getRepos() {
-        return repoProperties.getRepos();
-    }
 
 //    public String getFileUploadProperties(FileUploadTypeEnum fileUploadTypeEnum, String userName) {
 //        return fileUploadProperties.getPath(fileUploadTypeEnum, userName);
@@ -45,41 +32,11 @@ public class ReadYML {
     @PostConstruct
     public void init() {
         log.info("{} object initialized.", ReadYML.class.getName());
-        log.debug("Email Properties: {}", emailProperties);
-        log.debug("Repo Properties: {}", repoProperties);
         log.debug("File Upload Base Location : {}", baseFileUploadLocation);
     }
 
 }
 
-@Component
-@ConfigurationProperties(prefix = "vs")
-class EmailProperties {
-    private HashMap<String, String> email;
-
-    public HashMap<String, String> getEmail() {
-        return email;
-    }
-
-    public void setEmail(HashMap<String, String> email) {
-        this.email = email;
-    }
-}
-
-@Component
-@ConfigurationProperties(prefix = "vs.mongo")
-
-class RepoProperties {
-    private HashMap<String, String> repos;
-
-    public HashMap<String, String> getRepos() {
-        return repos;
-    }
-
-    public void setRepos(HashMap<String, String> repos) {
-        this.repos = repos;
-    }
-}
 //
 //@Component
 //@ConfigurationProperties(prefix = "vs.uploads")

@@ -19,6 +19,7 @@ public class ProcessEmail {
     EmailScheduler emailScheduler;
 
     public void sendEmail(Email email) throws MessagingException{
+        log.info("Email Scheduled to send: {}", email);
         emailScheduler.scheduleEmailToSend(email);
     }
 }

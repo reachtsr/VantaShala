@@ -1,25 +1,16 @@
 package com.vs.repository;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.AddNewFiledsToCollection;
-import com.vs.model.email.Email;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Update.update;

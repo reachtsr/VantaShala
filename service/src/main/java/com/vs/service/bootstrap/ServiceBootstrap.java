@@ -8,6 +8,7 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.OrderStatus;
 import com.vs.model.enums.Role;
 import com.vs.model.props.ReadYML;
+import com.vs.model.props.RepoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,6 +31,9 @@ public class ServiceBootstrap implements Bootstrap{
     @Autowired
     ReadYML readYML;
 
+    @Autowired
+    RepoProperties repoProperties;
+
 //    Todo Check unsent emails if there are any schedule them to send now and update the status in DB.
 
     public void initialize(){
@@ -37,7 +41,7 @@ public class ServiceBootstrap implements Bootstrap{
     }
 
     private void checkAndCreateCollections() {
-        String repo = readYML.getRepos().values().iterator().next();
+        String repo = repoProperties.getRepos().values().iterator().next();
 
         log.info("Checking Collection: {}", repo);
         boolean isCollectionExists = template.collectionExists(repo);
@@ -49,7 +53,7 @@ public class ServiceBootstrap implements Bootstrap{
             log.info("Collections not exists, Creating them now.");
             log.info("Reading Collections");
 
-            readYML.getRepos().forEach((k, v) -> {
+            repoProperties.getRepos().forEach((k, v) -> {
                 template.createCollection(v);
             });
 
@@ -64,7 +68,7 @@ public class ServiceBootstrap implements Bootstrap{
         BasicDBObject obj = new BasicDBObject();
         obj.put(name, enums);
         log.info("Enums {}, Repository Name: {}",enums.toString(), repositoryName.getName());
-        template.insert(obj, readYML.getRepos().get(repositoryName.getName()));
+        template.insert(obj, repoProperties.getRepos().get(repositoryName.getName()));
     }
 
     private void createRoles(){
