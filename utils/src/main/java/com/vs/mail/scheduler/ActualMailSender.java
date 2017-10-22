@@ -49,15 +49,15 @@ public class ActualMailSender {
 
         boolean isEmailPresent = false;
 
-        if (Objects.nonNull(email.getTo().getAddress())) {
+        if (Objects.nonNull(email.getTo())) {
             helper.setTo(email.getTo());
             isEmailPresent = true;
         }
-        if (Objects.nonNull(email.getCc().getAddress())) {
+        if (Objects.nonNull(email.getCc())) {
             helper.setCc(email.getCc());
             isEmailPresent = true;
         }
-        if (Objects.nonNull(email.getBcc().getAddress())) {
+        if (Objects.nonNull(email.getBcc())) {
             helper.setBcc(email.getBcc());
             isEmailPresent = true;
         }
