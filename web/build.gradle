@@ -21,7 +21,6 @@ dependencies {
     runtime project(':model')
     runtime project(':service')
     runtime project(':utils')
-    runtime files('../config')
 
 }
 
@@ -35,5 +34,6 @@ springBoot {
 
 bootRun {
     addResources = true
+    jvmArgs = ["-Djasypt.encryptor.password=XXXXX"]
 }
 

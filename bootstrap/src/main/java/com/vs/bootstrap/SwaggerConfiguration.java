@@ -3,6 +3,7 @@ package com.vs.bootstrap;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.props.ReadYML;
 import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.models.Contact;
 import io.swagger.models.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class SwaggerConfiguration {
     private void swaggerConfiguration() {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setSchemes(new String[]{"http", "https"});
-        beanConfig.setBasePath("/com.vs/rest");
-        beanConfig.setResourcePackage("com.com.vs.rest.api");
+        beanConfig.setBasePath("/vs/rest");
+        beanConfig.setResourcePackage("com.vs.rest.api");
         beanConfig.setPrettyPrint(true);
         beanConfig.setScan(true);
 
@@ -47,7 +48,11 @@ public class SwaggerConfiguration {
         info.setTitle("VantaShala.com - API");
         info.setDescription("EAT Healthy so that Live Healthy");
         info.setVersion("1.0.0");
-
+        Contact contact = new Contact();
+        contact.email("Gopi@VantaShala.com");
+        contact.setName("Gopi Krishna Kancharla");
+        contact.setUrl("www.vantashala.com");
+        info.setContact(contact);
         beanConfig.setInfo(info);
     }
 
