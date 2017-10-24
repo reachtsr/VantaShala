@@ -27,6 +27,8 @@ import java.util.List;
 @Component
 @Path("/menu")
 @Slf4j
+
+
 public class MenuController extends BaseController {
 
     @Autowired
@@ -35,28 +37,8 @@ public class MenuController extends BaseController {
     @Autowired
     IItemservice itemservice;
 
-    @GET
-    @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserMenus(@PathParam("userName") String userName) {
-        Preconditions.checkNotNull(userName);
-        List<Menu> menus = menuService.getUserMenus(userName);
-        return buildResponse(menus);
-    }
-
-    @GET
-    @Path("/{userName}/{menuNameOrId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getMenus(@PathParam("userName") String userName, @PathParam("menuNameOrId") String menuNameOrId) {
-        Preconditions.checkNotNull(userName);
-        List<Menu> menus = menuService.getUserMenuByNameOrId(userName, menuNameOrId);
-        return buildResponse(menus);
-    }
-
     @POST
     @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response createMenu(Menu menu) {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
@@ -66,10 +48,25 @@ public class MenuController extends BaseController {
         return buildResponse("Menu Created: " + menu.getMenuId());
     }
 
+    @GET
+    @Path("/{userName}")
+    public Response getUserMenus(@PathParam("userName") String userName) {
+        Preconditions.checkNotNull(userName);
+        List<Menu> menus = menuService.getUserMenus(userName);
+        return buildResponse(menus);
+    }
+
+    @GET
+    @Path("/{userName}/{menuNameOrId}")
+    public Response getMenus(@PathParam("userName") String userName, @PathParam("menuNameOrId") String menuNameOrId) {
+        Preconditions.checkNotNull(userName);
+        List<Menu> menus = menuService.getUserMenuByNameOrId(userName, menuNameOrId);
+        return buildResponse(menus);
+    }
+
+
     @PUT
     @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response updateMenu(Menu menu) throws Exception {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
@@ -106,8 +103,6 @@ public class MenuController extends BaseController {
 
     @DELETE
     @Path("/{userName}/{menuId}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response deleteMenu(@PathParam("userName") String userName, @PathParam("menuId") String menuId) throws Exception {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
@@ -117,8 +112,6 @@ public class MenuController extends BaseController {
 
     @POST
     @Path("status/{menuId}/{itemId}/{status}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response updateMenuItemStatus(@PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @PathParam("status") ItemStatus status) {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(itemId);

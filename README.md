@@ -57,3 +57,6 @@ Below log represents a successful application start:
     
     - http://localhost:8080/vs/rest/swagger.json
     - UI:  http://localhost:8080/vs/swagger/index.html
+    
+### CI/CD:
+    https://semaphoreci.com/haigopi/vantashala    

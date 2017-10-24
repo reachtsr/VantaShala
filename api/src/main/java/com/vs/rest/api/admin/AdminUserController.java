@@ -24,6 +24,8 @@ import javax.ws.rs.core.Response;
 @Path("/admn")
 @Slf4j
 @Api(value = "User Administration", description = "Admin User Controller")
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class AdminUserController extends UserController {
 
     @Autowired
@@ -38,42 +40,36 @@ public class AdminUserController extends UserController {
 
     @GET
     @Path("/{userName}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getUserByUserName(@PathParam("userName") String userName) {
         return super.getUserByUserName(userName);
     }
 
     @GET
     @Path("/list/cooks")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listCooks() {
         return super.listUsers(Role.COOK);
     }
 
     @GET
     @Path("/list/customers")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listCustomers() {
         return super.listUsers(Role.CUSTOMER);
     }
 
     @GET
     @Path("/list/users")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response listAllUsers() {
         return super.listUsers();
     }
 
     @GET
     @Path("/find/cook/{searchString}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response findCookBySearchString(@PathParam("searchString") String searchString) {
         return super.findUserBySearchString(searchString, Role.COOK);
     }
 
     @GET
     @Path("/find/customer/{searchString}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response findCustomerBySearchString(@PathParam("searchString") String searchString) {
         return super.findUserBySearchString(searchString, Role.CUSTOMER);
     }
@@ -81,14 +77,12 @@ public class AdminUserController extends UserController {
 
     @GET
     @Path("/find/{searchString}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response findUserBySearchString(@PathParam("searchString") String searchString) {
         return super.findUserBySearchString(searchString);
     }
 
     @GET
     @Path("cook/count")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getCooksCount() {
         return super.getUserCount(Role.COOK);
     }
@@ -96,14 +90,12 @@ public class AdminUserController extends UserController {
 
     @GET
     @Path("customer/{name}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getCustomerByFirstNamme(@PathParam("name") String name) {
         return super.findUserByFirstName(name, Role.CUSTOMER);
     }
 
     @GET
     @Path("cook/{name}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getCookByFirstNamme(@PathParam("name") String name) {
         return super.findUserByFirstName(name, Role.COOK);
     }
@@ -111,7 +103,6 @@ public class AdminUserController extends UserController {
 
     @GET
     @Path("customer/count")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getCustomersCount() {
         return super.getUserCount(Role.CUSTOMER);
     }
@@ -119,7 +110,6 @@ public class AdminUserController extends UserController {
 
     @GET
     @Path("/count")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllUserCount() {
         return super.getAllUserCount();
     }
@@ -132,8 +122,6 @@ public class AdminUserController extends UserController {
 
     @PUT
     @Path("/{userName}/disable")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void disableUser(@PathParam("userName") String userName) throws Exception {
         super.enableOrDisableUser(userName, UserStatusEnum.INACTIVE);
     }
@@ -146,8 +134,6 @@ public class AdminUserController extends UserController {
 
     @PUT
     @Path("/{userName}/enable")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void enableUser(@PathParam("userName") String userName) throws Exception {
         super.enableOrDisableUser(userName, UserStatusEnum.ACTIVE);
     }

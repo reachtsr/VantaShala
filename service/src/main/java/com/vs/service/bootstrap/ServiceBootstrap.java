@@ -58,7 +58,7 @@ public class ServiceBootstrap implements Bootstrap{
             });
 
             createRoles();
-            createMenuStatus();
+            createMenuItemStatus();
             createOrderStatus();
             createEmailStatus();
         }
@@ -75,9 +75,9 @@ public class ServiceBootstrap implements Bootstrap{
         String[] enums = Arrays.stream(Role.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("roles", enums, RepositoryConstantName.ROLE_COLLECTION_NAME);
     }
-    private void createMenuStatus(){
+    private void createMenuItemStatus(){
         String[] enums = Arrays.stream(ItemStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        createDBEnums("menuStatus", enums, RepositoryConstantName.MENU_STATUS_COLLECTION_NAME);
+        createDBEnums("menuItemStatus", enums, RepositoryConstantName.MENU_ITEM_STATUS_COLLECTION_NAME);
     }
     private void createOrderStatus(){
         String[] enums = Arrays.stream(OrderStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);

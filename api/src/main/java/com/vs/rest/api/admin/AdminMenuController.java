@@ -22,13 +22,13 @@ import java.util.List;
 @Path("/admn/menu")
 @Slf4j
 @Api(value = "Menu Administration", description = "Admin Search Controller")
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class AdminMenuController extends BaseController {
 
     @Autowired
     IMenuService menuService;
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllUserMenus() {
         List<Menu> menus = menuService.getMenus();
         return buildResponse(menus);
