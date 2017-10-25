@@ -4,6 +4,7 @@ import com.vs.common.filters.AppConstants;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.ItemStatus;
+import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
@@ -58,7 +59,7 @@ public class MenuController extends BaseController {
 
     @GET
     @Path("/{userName}/{menuNameOrId}")
-    public Response getMenus(@PathParam("userName") String userName, @PathParam("menuNameOrId") String menuNameOrId) {
+    public Response getMenu(@PathParam("userName") String userName, @PathParam("menuNameOrId") String menuNameOrId) {
         Preconditions.checkNotNull(userName);
         List<Menu> menus = menuService.getUserMenuByNameOrId(userName, menuNameOrId);
         return buildResponse(menus);
@@ -71,9 +72,6 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
 
-        boolean status = menuService.menuExists(menu.getMenuId());
-        log.info("menuId: {} - {}", menu.getMenuId(), status);
-        Preconditions.checkArgument(status, "Menu doesn't exists :" + menu.getMenuId());
         menuService.updateUserMenu(menu);
         return buildResponse("Menu Updated: " + menu.getMenuId());
 
@@ -120,5 +118,22 @@ public class MenuController extends BaseController {
         return buildResponse("Item Status Updated: menuId" + menuId + "itemId: " + itemId);
     }
 
+    @PUT
+    @Path("/{userName}/{menuId}")
+    public Response addMenuItem(@PathParam("userName") String userName, @PathParam("menuId") String menuId, Item item) throws Exception {
+        Preconditions.checkNotNull(menuId);
+        Preconditions.checkNotNull(userName);
+        itemservice.addMenuItem(menuId, item);
+        return buildResponse("Item Added: {}, Menu:{} " + menuId );
+    }
+
+    @DELETE
+    @Path("/{userName}/{menuId}/{itemId}")
+    public Response deleteMenuItem(@PathParam("userName") String userName, @PathParam("menuId") String menuId, @PathParam("itemId") String itemId) throws Exception {
+        Preconditions.checkNotNull(menuId);
+        Preconditions.checkNotNull(userName);
+        itemservice.deleteMenuItem(menuId, itemId);
+        return buildResponse("Item Added: {}, Menu:{} " + menuId );
+    }
 
 }
