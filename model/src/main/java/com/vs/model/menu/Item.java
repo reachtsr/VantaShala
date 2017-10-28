@@ -4,7 +4,11 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Measurment;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonType;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.File;
 import java.util.Date;
@@ -15,10 +19,11 @@ import java.util.UUID;
  */
 @Data
 @Slf4j
+@Document
 public class Item {
 
     @Id
-    private String id;
+    private ObjectId id;
     private String name;
     private Measurment measurment;
     private String quatity;

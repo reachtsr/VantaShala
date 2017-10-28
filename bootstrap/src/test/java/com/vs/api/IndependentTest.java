@@ -68,7 +68,7 @@ public class IndependentTest {
         String itemId = "f4c6a141-deb4-44dd-a127-7d040cf4d095";
 //
 //        BasicDBObject toAdd=new BasicDBObject();
-//        BasicDBObject q=new BasicDBObject("_id",menuId).append("items._id", itemId);
+//        BasicDBObject q=new BasicDBObject("id",id).append("items.id", itemId);
 //
 //        DBCursor cursor =  template.getCollection(collectionName).find(q);
 //        DBCursor cursor1 =  template.getCollection("items").find(q);
@@ -83,8 +83,8 @@ public class IndependentTest {
 //        template.getCollection(collectionName).update(q, new BasicDBObject("$set",toAdd), true, false);
 
         template.findAndModify(
-                Query.query(where("_id").is(menuId).
-                        and("items._id").is(itemId)), update("items.$.profilePicture", "gopi.jpg"), Menu.class
+                Query.query(where("id").is(menuId).
+                        and("items.id").is(itemId)), update("items.$.profilePicture", "gopi.jpg"), Menu.class
         );
     }
 
@@ -92,16 +92,16 @@ public class IndependentTest {
 
 
         template.findAndModify(
-                Query.query(where("_id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
-                and("items._id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.LOCKED), Menu.class
+                Query.query(where("id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
+                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.LOCKED), Menu.class
         );
 
 
 
 
 //        MongoConverter converter = template.getConverter();
-//        Query query = Query.query(Criteria.where("_id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").and("items._id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1"));
-//        query.fields().include("items._id");
+//        Query query = Query.query(Criteria.where("id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1"));
+//        query.fields().include("items.id");
 //
 //        Item item = new Item();// template.findOne(query, Item.class);
 //        item.setStatus(ItemStatus.LOCKED);
@@ -118,7 +118,7 @@ public class IndependentTest {
 //        Item item = new Item();
 //        item.setStatus(ItemStatus.LOCKED);
 //
-//        Query query = Query.query(Criteria.where("_id").is(id.toString()));
+//        Query query = Query.query(Criteria.where("id").is(id.toString()));
 //
 //        Update update = new Update();
 //        update.addToSet("items", item);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class AdminSearchController extends BaseController{
     ISearchService searchService;
 
     @GET
-    public Response getMenusByUser(String userName) {
+    @Path("/{userName}")
+    public Response getMenusByUser(@PathParam("userName") String userName) {
        return  null;
     }
 }

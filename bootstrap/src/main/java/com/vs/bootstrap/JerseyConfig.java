@@ -19,7 +19,7 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         log.info("Registering Jersey & Multipart Configuration");
 
-        packages("com.com.vs");
+        packages("com.vs");
         register(RequestContextFilter.class);
         register(MultiPartFeature.class);
 

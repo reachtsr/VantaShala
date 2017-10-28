@@ -42,7 +42,6 @@ public class CustomerController extends UserController {
             @ApiResponse(code = 500, message = "Failure")})
 
     @POST
-    @Path("/")
     public Response createUser(Customer user) throws Exception{
         return super.createUser(user);
     }

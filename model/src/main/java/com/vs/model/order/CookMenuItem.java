@@ -2,6 +2,7 @@ package com.vs.model.order;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 
 /**
  * Created by gopi on 10/24/16.
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CookMenuItem {
 
-    String cookId;
-    String menuId;
-    String itemId;
+    ObjectId cookId;
+    ObjectId menuId;
+    ObjectId itemId;
 }

@@ -9,6 +9,7 @@ import com.vs.repository.OrderRepository;
 import com.vs.service.email.EmailService;
 import com.vs.service.menu.MenuService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class OrderService implements IOrderService {
     public Order createOrder(Order order) {
 
         //Group By
-        Map<String, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
+        Map<ObjectId, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
        // List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
 
         double computedTotalPrice = orderCalculations.computeTotalPrice(order, menuToItems);

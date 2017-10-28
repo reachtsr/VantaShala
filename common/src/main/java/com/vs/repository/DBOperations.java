@@ -30,7 +30,7 @@ public class DBOperations {
     private MongoTemplate mongoTemplate;
 
     public void updateEmailStatus(Email email){
-        mongoOperations.updateFirst(new Query(Criteria.where("_id").is(email.get_id())),
+        mongoOperations.updateFirst(new Query(Criteria.where("id").is(email.get_id())),
                 Update.update("status", email.getStatus()), Email.class);
     }
     public void addFieldsToCollection(AddNewFiledsToCollection addNewFiledsToCollection){
@@ -42,7 +42,7 @@ public class DBOperations {
         String collectionName = addNewFiledsToCollection.getCollectionType();
 
         BasicDBObject toAdd=new BasicDBObject();
-        BasicDBObject q=new BasicDBObject("_id",addNewFiledsToCollection.getId());
+        BasicDBObject q=new BasicDBObject("id",addNewFiledsToCollection.getId());
 
         toAdd.putAll(addNewFiledsToCollection.getKeyValues());
 

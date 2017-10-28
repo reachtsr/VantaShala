@@ -5,6 +5,7 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.OrderCutOffHours;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Document
 public class Menu {
 
+    @JsonIgnore
     private String userName;
     private String name;
     private List<Item> items;
@@ -26,7 +28,7 @@ public class Menu {
     private OrderCutOffHours cutOffHours = OrderCutOffHours.TWENTY_FOUR;
 
     @Id
-    private String menuId;
+    private ObjectId id;
 
     @JsonIgnore
     private Date createdDate = Calendar.getInstance().getTime();

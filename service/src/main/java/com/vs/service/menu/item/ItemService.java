@@ -11,6 +11,7 @@ import com.vs.repository.MenuRepository;
 import com.vs.service.SaveFile;
 import com.vs.service.menu.MenuService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -47,18 +48,18 @@ public class ItemService implements IItemservice {
     MenuService menuService;
 
     @Override
-    public void updateUserMenuItemStatus(String menuId, String itemId, ItemStatus status) {
+    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) {
         itemOperations.updateUserMenuItemStatus(menuId, itemId, status);
     }
 
     @Override
-    public Item getMenuItem(String menuId, String itemId) {
-        List<Item> items = repository.findByMenuIdAndItems_Id(menuId, itemId).getItems();
+    public Item getMenuItem(ObjectId menuId, ObjectId itemId) {
+        List<Item> items = repository.findByIdAndItems_Id(menuId, itemId).getItems();
         return items.stream().filter(item -> item.getId().equals(itemId)).findFirst().get();
     }
 
     @Override
-    public void addMenuItem(String menuId, Item item) throws Exception {
+    public void addMenuItem(ObjectId menuId, Item item) throws Exception {
         Menu menu = menuService.getMenuById(menuId);
         String itemName = item.getName();
         Item nItem = menu.getItems().stream().filter(item1 -> item1.getName().equalsIgnoreCase(itemName)).findFirst().get();
@@ -71,7 +72,7 @@ public class ItemService implements IItemservice {
     }
 
     @Override
-    public void updateMenuItem(String menuId, Item item) throws  Exception{
+    public void updateMenuItem(ObjectId menuId, Item item) throws  Exception{
         Item nItem = getMenuItem(menuId, item.getId());
         if(nItem.getStatus() == ItemStatus.ACTIVE) {
             itemOperations.updateExistingItem(
@@ -83,7 +84,7 @@ public class ItemService implements IItemservice {
     }
 
     @Override
-    public void deleteMenuItem(String menuId, String itemId) throws Exception {
+    public void deleteMenuItem(ObjectId menuId, ObjectId itemId) throws Exception {
         Item nItem = getMenuItem(menuId, itemId);
         if(nItem.getStatus() == ItemStatus.ACTIVE) {
             itemOperations.deleteExistingItem(
@@ -96,7 +97,7 @@ public class ItemService implements IItemservice {
 
 
     @Override
-    public String saveFile(String menuId, String itemId, SaveFileModel saveFileModel) {
+    public String saveFile(ObjectId menuId, ObjectId itemId, SaveFileModel saveFileModel) {
 
         String id = menuId+"_"+itemId;
         String path = saveFile.saveFile(id, saveFileModel);

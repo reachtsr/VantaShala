@@ -1,7 +1,7 @@
 rootProject.name = 'VantaShala'
 include 'api'
 include 'model'
-include 'web'
+include 'ui'
 include 'utils'
 include 'service'
 include 'common'

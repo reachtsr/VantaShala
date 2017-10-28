@@ -9,8 +9,11 @@ import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
 import com.vs.service.menu.item.IItemservice;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +31,9 @@ import java.util.List;
 @Component
 @Path("/menu")
 @Slf4j
-
-
+@Api(value = "Customer Menu Management", description = "Menu Controller")
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class MenuController extends BaseController {
 
     @Autowired
@@ -38,49 +42,65 @@ public class MenuController extends BaseController {
     @Autowired
     IItemservice itemservice;
 
+    //@Todo Allow only menu creation for a given duration/verify based on the date.
     @POST
-    @Path("/{userName}")
-    public Response createMenu(Menu menu) {
-        Preconditions.checkNotNull(menu.getUserName());
+    @ApiOperation(value = "Create Menu", nickname = "createMenu")
+    public Menu createMenu(@HeaderParam("userName") String userName, Menu menu) {
+        Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menu.getName());
         Preconditions.checkNotNull(menu.getCutOffHours());
         Preconditions.checkNotNull(menu.getEndDate());
-        menuService.createUserMenu(menu);
-        return buildResponse("Menu Created: " + menu.getMenuId());
+        menuService.createUserMenu(userName, menu);
+        return menu;
+        //return buildResponse("Menu Created: " + menu.getId());
     }
 
     @GET
-    @Path("/{userName}")
-    public Response getUserMenus(@PathParam("userName") String userName) {
+    @Path("/{menuId}")
+    @ApiOperation(value = "Get the Menus for this user by Id", nickname = "getMenu")
+    public Response getMenu(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId id) {
+        Preconditions.checkNotNull(userName);
+        Menu menu = menuService.getUserMenuById(userName, id);
+        return buildResponse(menu);
+    }
+
+    @GET
+    @Path("/list")
+    @ApiOperation(value = "Get All Menus for this user", nickname = "getMenu")
+    public Response getUserMenus(@HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
         List<Menu> menus = menuService.getUserMenus(userName);
         return buildResponse(menus);
     }
 
+
     @GET
-    @Path("/{userName}/{menuNameOrId}")
-    public Response getMenu(@PathParam("userName") String userName, @PathParam("menuNameOrId") String menuNameOrId) {
+    @Path("/name/{menuName}")
+    @ApiOperation(value = "Get the Menus for this user by Id", nickname = "getMenu")
+    public Response getMenuByName(@HeaderParam("userName") String userName, @PathParam("menuName") String menuName) {
         Preconditions.checkNotNull(userName);
-        List<Menu> menus = menuService.getUserMenuByNameOrId(userName, menuNameOrId);
+        List<Menu> menus = menuService.getUserMenuByName(userName, menuName);
         return buildResponse(menus);
     }
 
 
     @PUT
     @Path("/{userName}")
+    @ApiOperation(value = "Update a Menu for this user by Id", nickname = "updateMenu")
     public Response updateMenu(Menu menu) throws Exception {
         Preconditions.checkNotNull(menu.getUserName());
         Preconditions.checkNotNull(menu.getName());
 
         menuService.updateUserMenu(menu);
-        return buildResponse("Menu Updated: " + menu.getMenuId());
+        return buildResponse("Menu Updated: " + menu.getId());
 
     }
 
     @POST
     @Path("/upload/itemPicture/{userName}/{menuId}/{itemId}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadItemPicture(@PathParam("userName") String userName, @PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @FormDataParam("file") InputStream file,
+    @ApiOperation(value = "Uploads a picture for a given user/menu/item id", nickname = "uploadPicture")
+    public Response uploadItemPicture(@PathParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @FormDataParam("file") InputStream file,
                                       @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
 
 
@@ -101,7 +121,8 @@ public class MenuController extends BaseController {
 
     @DELETE
     @Path("/{userName}/{menuId}")
-    public Response deleteMenu(@PathParam("userName") String userName, @PathParam("menuId") String menuId) throws Exception {
+    @ApiOperation(value = "Deletes  a picture for a given user/menu/item id", nickname = "uploadPicture")
+    public Response deleteMenu(@PathParam("userName") String userName, @PathParam("menuId") ObjectId menuId) throws Exception {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
         menuService.deleteUserMenu(userName, menuId);
@@ -110,17 +131,19 @@ public class MenuController extends BaseController {
 
     @POST
     @Path("status/{menuId}/{itemId}/{status}")
-    public Response updateMenuItemStatus(@PathParam("menuId") String menuId, @PathParam("itemId") String itemId, @PathParam("status") ItemStatus status) {
+    @ApiOperation(value = "Change the status of the Menu Item", nickname = "changeItemStatus")
+    public Response updateMenuItemStatus(@PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status) {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(itemId);
         Preconditions.checkNotNull(status);
         itemservice.updateUserMenuItemStatus(menuId, itemId, status);
-        return buildResponse("Item Status Updated: menuId" + menuId + "itemId: " + itemId);
+        return buildResponse("Item Status Updated: id" + menuId + "itemId: " + itemId);
     }
 
     @PUT
     @Path("/{userName}/{menuId}")
-    public Response addMenuItem(@PathParam("userName") String userName, @PathParam("menuId") String menuId, Item item) throws Exception {
+    @ApiOperation(value = "Adds a new item to the menu", nickname = "addItem")
+    public Response addMenuItem(@PathParam("userName") String userName, @PathParam("menuId") ObjectId menuId, Item item) throws Exception {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(userName);
         itemservice.addMenuItem(menuId, item);
@@ -129,7 +152,8 @@ public class MenuController extends BaseController {
 
     @DELETE
     @Path("/{userName}/{menuId}/{itemId}")
-    public Response deleteMenuItem(@PathParam("userName") String userName, @PathParam("menuId") String menuId, @PathParam("itemId") String itemId) throws Exception {
+    @ApiOperation(value = "Checks and delete the item from a Menu", nickname = "addItem")
+    public Response deleteMenuItem(@PathParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId) throws Exception {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(userName);
         itemservice.deleteMenuItem(menuId, itemId);

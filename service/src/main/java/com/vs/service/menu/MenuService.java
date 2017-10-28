@@ -5,9 +5,9 @@ import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
-import com.vs.service.menu.item.IItemservice;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -31,18 +31,24 @@ public class MenuService implements IMenuService {
     DBOperations dbOperations;
 
     @Override
-    public void createUserMenu(Menu menu) {
+    public void createUserMenu(String userName, Menu menu) {
+
+        menu.setUserName(userName);
+        for (Item item : menu.getItems()) {
+            item.setId(new ObjectId());
+        }
+
         repository.insert(menu);
     }
 
     @Override
     public void updateUserMenu(Menu menu) {
 
-        boolean status = menuExists(menu.getMenuId());
-        log.info("menuId: {} - {}", menu.getMenuId(), status);
-        Preconditions.checkArgument(status, "Menu doesn't exists :" + menu.getMenuId());
+        boolean status = menuExists(menu.getId());
+        log.info("id: {} - {}", menu.getId(), status);
+        Preconditions.checkArgument(status, "Menu doesn't exists :" + menu.getId());
 
-        Menu nMenu = repository.findByMenuId(menu.getMenuId());
+        Menu nMenu = repository.findById(menu.getId());
 
         List<Item> items = nMenu.getItems(ItemStatus.LOCKED);
         Preconditions.checkState((items.size() == 0), "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
@@ -54,9 +60,9 @@ public class MenuService implements IMenuService {
     }
 
     @Override
-    public void deleteUserMenu(String userName, String menuId) throws Exception {
+    public void deleteUserMenu(String userName, ObjectId menuId) throws Exception {
 
-        Menu menu = repository.findByMenuId(menuId);
+        Menu menu = repository.findById(menuId);
         Preconditions.checkNotNull(menu, "Menu not found:" + menuId);
 
         List<Item> items = menu.getItems(ItemStatus.LOCKED);
@@ -80,17 +86,12 @@ public class MenuService implements IMenuService {
     }
 
     @Override
-    public List<Menu> getUserMenuByNameOrId(String userName, String menuNameOrId) {
-        return repository.findByUserNameOrNameAndMenuId(userName, menuNameOrId, userName);
+    public Menu getUserMenuById(String userName, ObjectId id) {
+        return repository.findByUserNameAndId(userName, id);
     }
 
     @Override
-    public Menu getUserMenuById(String userName, String menuId) {
-        return repository.findByUserNameAndMenuId(userName, menuId);
-    }
-
-    @Override
-    public boolean menuExists(String menuId) {
+    public boolean menuExists(ObjectId menuId) {
         return repository.exists(menuId);
     }
 
@@ -106,8 +107,8 @@ public class MenuService implements IMenuService {
 
 
     @Override
-    public Menu getMenuById(String menuId) {
-        return repository.findByMenuId(menuId);
+    public Menu getMenuById(ObjectId menuId) {
+        return repository.findById(menuId);
     }
 
 

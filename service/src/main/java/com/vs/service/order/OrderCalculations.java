@@ -8,6 +8,7 @@ import com.vs.model.order.Order;
 import com.vs.service.menu.MenuService;
 import com.vs.service.menu.item.ItemService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,7 @@ public class OrderCalculations {
     @Autowired
     ItemService itemService;
 
-    public double computeTotalPrice(Order order, Map<String, List<CookMenuItem>> menuToItems){
+    public double computeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems){
         List<Double> prices = new ArrayList<>();
         menuToItems.forEach((menuId,v) -> {
             v.forEach(menuToItem -> {
