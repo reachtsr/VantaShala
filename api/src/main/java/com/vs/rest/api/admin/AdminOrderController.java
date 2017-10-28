@@ -32,7 +32,7 @@ public class AdminOrderController extends BaseController {
     @Path("/{userName}")
     public Response getMenusByUser(@PathParam("userName") String userName) {
         List<Order> orders = orderService.getAllCustomerOrders(userName);
-        return buildResponse(orders);
+        return build200Response(orders);
     }
 
 }

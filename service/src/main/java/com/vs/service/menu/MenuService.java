@@ -42,19 +42,18 @@ public class MenuService implements IMenuService {
     }
 
     @Override
-    public void updateUserMenu(Menu menu) {
+    public void updateUserMenu(String userName, Menu menu) {
 
+        menu.setUserName(userName);
         boolean status = menuExists(menu.getId());
-        log.info("id: {} - {}", menu.getId(), status);
-        Preconditions.checkArgument(status, "Menu doesn't exists :" + menu.getId());
+        Preconditions.checkArgument(status, "Sorry! Unable to find the menu :" + menu.getId());
 
         Menu nMenu = repository.findById(menu.getId());
+        Preconditions.checkState(nMenu.getUserName().equals(userName), "Operation Not Allowed");
 
-        List<Item> items = nMenu.getItems(ItemStatus.LOCKED);
-        Preconditions.checkState((items.size() == 0), "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
-
-        items = menu.getItems(ItemStatus.HOLD);
-        Preconditions.checkState((items.size() == 0), "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Hold Items in menu. ");
+        Preconditions.checkState(
+                (nMenu.getItems(ItemStatus.LOCKED).size() == 0 || menu.getItems(ItemStatus.HOLD).size() == 0),
+                "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. ");
 
         repository.save(menu);
     }

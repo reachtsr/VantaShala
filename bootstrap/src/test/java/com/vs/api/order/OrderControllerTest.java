@@ -8,6 +8,7 @@ import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -42,9 +43,9 @@ public class OrderControllerTest extends BaseControllerTest {
         for(int i=0; i<4; ++i) {
             CookMenuItem item = new CookMenuItem();
             String menuId = MenuConstantGenerator.retriveMenuIdFromGeneratedList();
-            item.setMenuId(menuId);
-            item.setItemId(MenuConstantGenerator.getMenuItemId(menuId));
-            item.setCookId(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK));
+            item.setMenuId(new ObjectId(menuId));
+            item.setItemId(new ObjectId(MenuConstantGenerator.getMenuItemId(menuId)));
+            item.setCookId(new ObjectId(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK)));
             items.add(item);
         }
         order.setCookMenuItems(items);

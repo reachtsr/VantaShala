@@ -9,6 +9,7 @@ import com.vs.model.user.Cook;
 import com.vs.repository.CookRepository;
 import com.vs.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class IndependentTest {
 
         ArrayList l = new ArrayList();
         l.add("d3d01414-c416-431a-ab08-fc650054598f");
-      Menu item = menuRepository.findByMenuIdAndItems_Id("e0fc5f20-86e1-456b-9515-b411c576c62f","d3d01414-c416-431a-ab08-fc650054598f");
+      Menu item = null;// menuRepository.findByMenuIdAndItems_Id("e0fc5f20-86e1-456b-9515-b411c576c62f","d3d01414-c416-431a-ab08-fc650054598f");
       log.info("List: {}", item);
     }
 
@@ -130,7 +131,7 @@ public class IndependentTest {
 
     public void m1() {
 
-        boolean exists = menuRepository.exists(("b7470eee-c1c9-a393-3b0b-842cefe42299"));
+        boolean exists = menuRepository.exists(new ObjectId("b7470eee-c1c9-a393-3b0b-842cefe42299"));
         log.info("===>{} - {}", exists, null);
     }
 }

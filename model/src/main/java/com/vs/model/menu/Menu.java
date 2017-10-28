@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 @Document
 public class Menu {
 
+    @Id
+    private ObjectId id;
+
     @JsonIgnore
     private String userName;
     private String name;
@@ -27,10 +30,6 @@ public class Menu {
     private Date endDate;
     private OrderCutOffHours cutOffHours = OrderCutOffHours.TWENTY_FOUR;
 
-    @Id
-    private ObjectId id;
-
-    @JsonIgnore
     private Date createdDate = Calendar.getInstance().getTime();
 
     public List<Item> getItems(ItemStatus status){

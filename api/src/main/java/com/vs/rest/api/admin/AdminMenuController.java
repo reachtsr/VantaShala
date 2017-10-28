@@ -31,7 +31,7 @@ public class AdminMenuController extends BaseController {
     @GET
     public Response getAllUserMenus() {
         List<Menu> menus = menuService.getMenus();
-        return buildResponse(menus);
+        return build200Response(menus);
     }
 
 }

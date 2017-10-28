@@ -12,7 +12,7 @@ public interface IMenuService {
 
     public void createUserMenu(String userName, Menu menu);
 
-    public void updateUserMenu(Menu menu);
+    public void updateUserMenu(String userName, Menu menu);
 
     public void deleteUserMenu(String userName, ObjectId menuId) throws Exception;
 

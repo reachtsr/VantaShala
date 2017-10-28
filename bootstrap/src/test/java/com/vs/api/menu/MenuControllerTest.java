@@ -7,11 +7,12 @@ import com.vs.api.common.MenuConstantGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.enums.ItemStatus;
-import com.vs.model.enums.Measurment;
+import com.vs.model.enums.Measurement;
 import com.vs.model.enums.OrderCutOffHours;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,18 +49,18 @@ public class MenuControllerTest extends BaseControllerTest {
         menu.setEndDate(getNextWeek(getToday()).getTime());
         menu.setCutOffHours(OrderCutOffHours.FORTY_EIGHT);
         String menuId = MenuConstantGenerator.createMenuId();
-        menu.setId(menuId);
+        menu.setId(new ObjectId(menuId));
         menu.setUserName(MenuConstantGenerator.getCook_username());
         menu.setName("Healthy Week");
         menu.getEndDate();
 
         for (int i = 0; i <= 4; ++i) {
             Item item = new Item();
-            item.setId(MenuConstantGenerator.generateMenuItemId(menuId));
+            item.setId(new ObjectId(MenuConstantGenerator.generateMenuItemId(menuId)));
             item.setName(TestItemEnum.randomItemName().toString());
             item.setPrice(ThreadLocalRandom.current().nextDouble(4, 11));
-            item.setQuatity(String.valueOf(ThreadLocalRandom.current().nextInt(4, 11 + 1)));
-            item.setMeasurment(Measurment.randomMeasurment());
+            item.setQuantity(String.valueOf(ThreadLocalRandom.current().nextInt(4, 11 + 1)));
+            item.setMeasurement(Measurement.randomMeasurment());
             item.setDescription("RANDOM DESCRIPTION in maximum of 4 lines.");
             item.setStatus(ItemStatus.ACTIVE);
             item.setCreatedDate(Calendar.getInstance().getTime());
@@ -91,8 +92,8 @@ public class MenuControllerTest extends BaseControllerTest {
         log.info("Creating Menu {}", RestAssured.basePath);
         Menu menu = createMenu();
         // Don't move this line.
-        MenuConstantGenerator.deleteMenu_id(menu.getId());
-        menu.setId(MenuConstantGenerator.retriveMenuIdFromGeneratedList());
+        MenuConstantGenerator.deleteMenu_id(menu.getId().toHexString());
+        menu.setId(new ObjectId(MenuConstantGenerator.retriveMenuIdFromGeneratedList()));
         log.info("Existing: {} - New: {}", MenuConstantGenerator.retriveMenuIdFromGeneratedList(), menu.getId());
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).
                 body(menu).log().all().when().post("/menu/{userName}");

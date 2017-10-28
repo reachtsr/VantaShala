@@ -41,35 +41,35 @@ public abstract class UserController extends BaseController {
     public Response listUsers(Role role) {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers(role);
-        return buildResponse(users);
+        return build200Response(users);
     }
 
     // List all Users
     public Response listUsers() {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers();
-        return buildResponse(users);
+        return build200Response(users);
     }
 
     public Response findUserBySearchString(String search, Role role) {
         log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search, role);
         log.info("No of Users found: {}", users.size());
-        return buildResponse(users);
+        return build200Response(users);
     }
 
     public Response findUserBySearchString(String search) {
         log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search);
         log.info("No of Users found: {}", users.size());
-        return buildResponse(users);
+        return build200Response(users);
     }
 
     public Response getCookByKitchenName(String kitchenName) {
         log.info(" Retrieving User: {}", kitchenName);
         User user = userService.getUserByKitchenName(kitchenName);
         log.info("UserDetails : {}", user);
-        return buildResponse(user);
+        return build200Response(user);
     }
 
     // @Todo send an email when a cook pub
@@ -77,7 +77,7 @@ public abstract class UserController extends BaseController {
 
         boolean status = userService.subscribeCustomerToCook(cookId, customerId);
         Preconditions.checkState(status);
-        return buildOKResponse();
+        return buildOKResponse(status);
 
     }
 
@@ -86,10 +86,10 @@ public abstract class UserController extends BaseController {
 
         if (role == Role.COOK) {
             List<User> users = userService.getCookByFirstName(name);
-            return buildResponse(users);
+            return build200Response(users);
         } else {
             List<User> users = userService.getCustomerByFirstName(name);
-            return buildResponse(users);
+            return build200Response(users);
         }
     }
 
@@ -97,7 +97,7 @@ public abstract class UserController extends BaseController {
         log.info(" Retrieving User: {}", userName);
         User user = userService.getUserByUserName(userName);
         log.info("UserDetails : {}", user);
-        return buildResponse(user);
+        return build200Response(user);
     }
 
     public Response createUser(User user) throws Exception{

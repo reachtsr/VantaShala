@@ -37,7 +37,7 @@ public class OrderController extends BaseController {
     public Response getOrders(@PathParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
         List<Order> orders = orderService.getAllCustomerOrders(userName);
-        return buildResponse(orders);
+        return build200Response(orders);
     }
 
     @GET
@@ -46,7 +46,7 @@ public class OrderController extends BaseController {
     public Response getCookSpecificOrders(@PathParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
         List<Order> orders = orderService.retrieveOrdersPlacedForCooks(userName);
-        return buildResponse(orders);
+        return build200Response(orders);
     }
 
 
@@ -66,7 +66,7 @@ public class OrderController extends BaseController {
 
         order.setOrderedBy(userName);
         Order nOrder = orderService.createOrder(order);
-        return buildResponse(nOrder);
+        return build200Response(nOrder);
     }
 
     @PUT
@@ -78,7 +78,7 @@ public class OrderController extends BaseController {
         Preconditions.checkNotNull(orderService.exists(orderId));
         order.setId(orderId);
         orderService.updateOrder(order);
-        return buildResponse("");
+        return build200Response("");
     }
 
     @POST
@@ -89,7 +89,7 @@ public class OrderController extends BaseController {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(status);
 
-        return buildResponse("Menu Updated: " + id);
+        return build200Response("Menu Updated: " + id);
     }
 
 
@@ -100,7 +100,7 @@ public class OrderController extends BaseController {
     public Response cancelOrder(@PathParam("orderId") String orderId) {
         Preconditions.checkNotNull(orderId);
         orderService.cancelOrder(orderId);
-        return buildResponse("Order Deleted");
+        return build200Response("Order Deleted");
     }
 
 }
