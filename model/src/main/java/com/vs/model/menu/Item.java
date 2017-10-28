@@ -1,18 +1,14 @@
 package com.vs.model.menu;
 
 import com.vs.model.enums.ItemStatus;
-import com.vs.model.enums.Measurment;
+import com.vs.model.enums.Measurement;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonType;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.File;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
@@ -25,8 +21,8 @@ public class Item {
     @Id
     private ObjectId id;
     private String name;
-    private Measurment measurment;
-    private String quatity;
+    private Measurement measurement;
+    private String quantity;
     private Double price;
     private Date createdDate;
     private String description;

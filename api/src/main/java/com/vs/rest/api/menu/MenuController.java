@@ -57,12 +57,23 @@ public class MenuController extends BaseController {
 
     @GET
     @Path("/{menuId}")
-    @ApiOperation(value = "Get the Menus for this user by Id", nickname = "getMenu")
+    @ApiOperation(value = "Get the Menus for a user by menu Id", nickname = "getMenu")
     public Response getMenu(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId id) {
-        Preconditions.checkNotNull(userName);
+        Preconditions.checkNotNull(userName, "User Not found");
         Menu menu = menuService.getUserMenuById(userName, id);
+        Preconditions.checkNotNull(menu, "No Menu found");
         return buildResponse(menu);
     }
+
+    @GET
+    @Path("/name/{menuName}")
+    @ApiOperation(value = "Get the Menus for a user by menu name", nickname = "getMenu")
+    public Response getMenuByName(@HeaderParam("userName") String userName, @PathParam("menuName") String menuName) {
+        Preconditions.checkNotNull(userName);
+        List<Menu> menus = menuService.getUserMenuByName(userName, menuName);
+        return buildResponse(menus);
+    }
+
 
     @GET
     @Path("/list")
@@ -74,24 +85,14 @@ public class MenuController extends BaseController {
     }
 
 
-    @GET
-    @Path("/name/{menuName}")
-    @ApiOperation(value = "Get the Menus for this user by Id", nickname = "getMenu")
-    public Response getMenuByName(@HeaderParam("userName") String userName, @PathParam("menuName") String menuName) {
-        Preconditions.checkNotNull(userName);
-        List<Menu> menus = menuService.getUserMenuByName(userName, menuName);
-        return buildResponse(menus);
-    }
-
-
     @PUT
-    @Path("/{userName}")
     @ApiOperation(value = "Update a Menu for this user by Id", nickname = "updateMenu")
-    public Response updateMenu(Menu menu) throws Exception {
-        Preconditions.checkNotNull(menu.getUserName());
-        Preconditions.checkNotNull(menu.getName());
+    public Response updateMenu(@HeaderParam("userName") String userName, Menu menu) throws Exception {
 
-        menuService.updateUserMenu(menu);
+        Preconditions.checkNotNull(userName, "No user found");
+        Preconditions.checkNotNull(menu.getName(), "Invalid menu Name");
+
+        menuService.updateUserMenu(userName, menu);
         return buildResponse("Menu Updated: " + menu.getId());
 
     }
