@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IOrderService {
 
-    public Order createOrder(Order menu);
+    public Order createOrder(Order menu) throws Exception;
 
     public Order updateOrder(Order menu);
 

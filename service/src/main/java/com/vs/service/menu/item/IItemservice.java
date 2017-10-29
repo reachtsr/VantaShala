@@ -11,7 +11,7 @@ import org.bson.types.ObjectId;
 public interface IItemservice {
     public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status);
 
-    public Item getMenuItem(ObjectId menuId, ObjectId itemId);
+    public Item getMenuItem(ObjectId menuId, ObjectId itemId) throws Exception;
 
     public void addMenuItem(ObjectId menuId, Item item) throws Exception;
 

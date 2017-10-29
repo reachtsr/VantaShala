@@ -46,7 +46,7 @@ public class OrderService implements IOrderService {
     OrderCalculations orderCalculations;
 
     @Override
-    public Order createOrder(Order order) {
+    public Order createOrder(Order order) throws Exception {
 
         //Group By
         Map<ObjectId, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));

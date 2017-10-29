@@ -7,12 +7,14 @@ import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by GeetaKrishna on 12/23/2015.
@@ -34,10 +36,11 @@ public class MenuService implements IMenuService {
     public void createUserMenu(String userName, Menu menu) {
 
         menu.setUserName(userName);
-        for (Item item : menu.getItems()) {
-            item.setId(new ObjectId());
+        if(!Objects.isNull(menu.getItems())){
+            for (Item item : menu.getItems()) {
+                item.setId(new ObjectId());
+            }
         }
-
         repository.insert(menu);
     }
 

@@ -1,10 +1,5 @@
 package com.vs.rest.api.menu;
 
-import com.vs.common.filters.AppConstants;
-import com.vs.model.SaveFileModel;
-import com.vs.model.enums.FileUploadTypeEnum;
-import com.vs.model.enums.ItemStatus;
-import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.IMenuService;
@@ -14,15 +9,12 @@ import io.swagger.annotations.ApiOperation;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,9 +31,6 @@ public class MenuController extends BaseController {
 
     @Autowired
     IMenuService menuService;
-
-    @Autowired
-    IItemservice itemservice;
 
     //@Todo Allow only menu creation for a given duration/verify based on the date.
     @POST
@@ -62,7 +51,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(userName, "User Not found");
         Menu menu = menuService.getUserMenuById(userName, id);
         if (Objects.isNull(menu)) {
-            return build404Response(menu);
+            return build404Response();
         }
         return build200Response(menu);
     }
@@ -95,7 +84,7 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(menu.getName(), "Invalid menu Name");
 
         menuService.updateUserMenu(userName, menu);
-        return build204Response(menu.getId());
+        return build204Response();
 
     }
 
@@ -106,63 +95,8 @@ public class MenuController extends BaseController {
         Preconditions.checkNotNull(userName);
         Preconditions.checkNotNull(menuId);
         menuService.deleteUserMenu(userName, menuId);
-        return build204Response(menuId);
+        return build204Response();
     }
 
-
-    @POST
-    @Path("status/{menuId}/{itemId}/{status}")
-    @ApiOperation(value = "Change the status of the Menu Item", nickname = "changeItemStatus")
-    public Response updateMenuItemStatus(@PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status) {
-        Preconditions.checkNotNull(menuId);
-        Preconditions.checkNotNull(itemId);
-        Preconditions.checkNotNull(status);
-        itemservice.updateUserMenuItemStatus(menuId, itemId, status);
-        return build200Response("Item Status Updated: id" + menuId + "itemId: " + itemId);
-    }
-
-    @PUT
-    @Path("/{userName}/{menuId}")
-    @ApiOperation(value = "Adds a new item to the menu", nickname = "addItem")
-    public Response addMenuItem(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, Item item) throws Exception {
-        Preconditions.checkNotNull(menuId);
-        Preconditions.checkNotNull(userName);
-        itemservice.addMenuItem(menuId, item);
-        return build200Response("Item Added: {}, Menu:{} " + menuId);
-    }
-
-    @DELETE
-    @Path("/{userName}/{menuId}/{itemId}")
-    @ApiOperation(value = "Checks and delete the item from a Menu", nickname = "addItem")
-    public Response deleteMenuItem(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId) throws Exception {
-        Preconditions.checkNotNull(menuId);
-        Preconditions.checkNotNull(userName);
-        itemservice.deleteMenuItem(menuId, itemId);
-        return build200Response("Item Added: {}, Menu:{} " + menuId);
-    }
-
-
-    @POST
-    @Path("/upload/itemPicture/{menuId}/{itemId}")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @ApiOperation(value = "Uploads a picture for a given user/menu/item id", nickname = "uploadPicture")
-    public Response uploadItemPicture(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @FormDataParam("file") InputStream file,
-                                      @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
-
-
-        log.info("Uploading Item Pic with size: {}", fileDisposition.getSize());
-
-        Preconditions.checkArgument(!(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE), "Too Big File.");
-        SaveFileModel saveFile = new SaveFileModel();
-        saveFile.setContentDisposition(fileDisposition);
-        saveFile.setInputStream(file);
-        saveFile.setFileUploadTypeEnum(FileUploadTypeEnum.MENU_ITEM_PICTURE);
-        saveFile.validate();
-
-        itemservice.saveFile(menuId, itemId, saveFile);
-
-        return Response.status(200).build();
-
-    }
 
 }

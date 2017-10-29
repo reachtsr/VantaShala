@@ -1,18 +1,20 @@
 package com.vs.common.errorHandling;
 
+import javax.ws.rs.core.Response;
+
 public class CustomReasonPhraseException extends Exception {
 		
 	private static final long serialVersionUID = -271582074543512905L;
 	
-	private final int businessCode;
+	private final Response.Status status;
 
-	public CustomReasonPhraseException(int businessCode, String message) {
+	public CustomReasonPhraseException(Response.Status status, String message) {
 		super(message);
-		this.businessCode = businessCode;
+		this.status = status;
 	}
 
-	public int getBusinessCode() {
-		return businessCode;
+	public Response.Status getBusinessCode() {
+		return status;
 	}
 		
 }

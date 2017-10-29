@@ -24,7 +24,7 @@ public class LoggingResponseFilter
 		log.info("Requesting: {} for path: {}" ,method, requestContext.getUriInfo().getPath());
 		Object entity = responseContext.getEntity();
 		if (entity != null) {
-			log.info("Response: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
+			log.debug("Response: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
 		}
 		
 	}

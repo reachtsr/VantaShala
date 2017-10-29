@@ -2,6 +2,7 @@ package com.vs.api;
 
 import com.mongodb.MongoClient;
 import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.Measurement;
 import com.vs.model.enums.Role;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -39,6 +42,8 @@ public class IndependentTest {
     @Autowired
     private MenuRepository menuRepository;
 
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Autowired
     private CookRepository cookRepository;
@@ -46,7 +51,30 @@ public class IndependentTest {
     @Autowired
     private MongoTemplate template;
 
+
     @Test
+    public void m6() {
+
+        String menuId = "59f54ddf5bf6cf07142d6f3c";
+
+        Item item = new Item();
+        item.setName("Gopi");
+        item.setMeasurement(Measurement.COUNT);
+        item.setQuantity("1");
+        item.setDescription("saasdada");
+
+
+        Update update = new Update();
+        update.addToSet("items", item);
+        Criteria criteria = Criteria.where("_id").is(menuId);
+        template.updateFirst(Query.query(criteria), update, Menu.class);
+
+//
+//        Query query = Query.query(where("id").is(menuId));
+//        Update update = new Update().addToSet("items.$", item);
+//        mongoTemplate.findAndModify(query, update, Menu.class);
+    }
+
     public void m5() {
 
         ArrayList l = new ArrayList();

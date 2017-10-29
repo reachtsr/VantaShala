@@ -4,6 +4,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 9/27/2016.
@@ -20,14 +22,23 @@ public abstract class BaseController {
         return Response.ok().entity(object).build();
     }
 
-    public static Response build201Response(Object entity) {
-        return Response.status(201).entity(entity).build();
+    public static Response build201Response(Object object) {
+
+        if(object instanceof  String) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", object);
+            return Response.status(201).entity(map).build();
+        }
+        else{
+            return Response.status(201).entity(object).build();
+        }
+
     }
 
-    public static Response build404Response(Object entity) {
+    public static Response build404Response() {
         return Response.status(404).build();
     }
-    public static Response build204Response(Object entity) {
+    public static Response build204Response() {
         return Response.status(204).build();
     }
 }

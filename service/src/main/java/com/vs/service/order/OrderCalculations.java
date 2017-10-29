@@ -29,18 +29,22 @@ public class OrderCalculations {
     @Autowired
     ItemService itemService;
 
-    public double computeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems){
+    public double computeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems) throws Exception {
         List<Double> prices = new ArrayList<>();
-        menuToItems.forEach((menuId,v) -> {
-            v.forEach(menuToItem -> {
-                Preconditions.checkNotNull(menuId);
-                Preconditions.checkNotNull(menuToItem.getItemId());
-                itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.LOCKED);
-                Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
-                Preconditions.checkNotNull(item);
-                prices.add(item.getPrice());
-            });
-        });
+        menuToItems.forEach((menuId, v) ->
+                v.forEach(menuToItem -> {
+                    try {
+                        Preconditions.checkNotNull(menuId);
+                        Preconditions.checkNotNull(menuToItem.getItemId());
+                        itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.LOCKED);
+                        Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
+                        Preconditions.checkNotNull(item);
+                        prices.add(item.getPrice());
+                    } catch (Exception e) {
+                        log.error("", e);
+                    }
+                })
+        );
 
         double totalPrice = prices.stream().mapToDouble(price -> price.doubleValue()).sum();
         log.info("Order: {} Total found: {}", order.getId(), totalPrice);

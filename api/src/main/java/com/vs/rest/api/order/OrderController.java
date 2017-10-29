@@ -52,11 +52,11 @@ public class OrderController extends BaseController {
 
     @POST
     @Path("/{userName}")
-    public Response createOrder(@NotNull @PathParam("userName") String userName, @NotNull Order order) {
+    public Response createOrder(@NotNull @PathParam("userName") String userName, @NotNull Order order) throws Exception {
         order.setOrderedBy(userName);
         Preconditions.checkNotNull(order.getOrderedBy(), "Who is ordering?");
         Preconditions.checkNotNull(order.getCookMenuItems(), "No Items found");
-        Preconditions.checkState(order.getCookMenuItems().size()!=0, "No Items found");
+        Preconditions.checkState(order.getCookMenuItems().size() != 0, "No Items found");
 
         order.getCookMenuItems().forEach(t -> {
             Preconditions.checkNotNull(t.getCookId(), "No Cook found to place an order");
