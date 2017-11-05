@@ -5,10 +5,10 @@ package com.vs.model.enums;
  */
 public enum ItemStatus {
 
-    HOLD, ACTIVE, LOCKED
+    READY_FOR_ORDER, ORDER_IN_PLACE, ORDER_LIMIT_REACHED
 
-    // HOLD Orders OverFilled - can't take an order
-    // ACTIVE ready to place an order
-    // LOCKED can't update menu. orders in place.
+    // ORDER_LIMIT_REACHED Orders OverFilled - can't take an order
+    // READY_FOR_ORDER ready to place an order
+    // ORDER_IN_PLACE can't update menu. orders in place.
 
 }

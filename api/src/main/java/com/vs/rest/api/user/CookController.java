@@ -1,6 +1,5 @@
 package com.vs.rest.api.user;
 
-import com.vs.common.filters.AppConstants;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.user.Cook;
@@ -9,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;

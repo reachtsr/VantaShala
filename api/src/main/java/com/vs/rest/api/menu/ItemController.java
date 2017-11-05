@@ -5,7 +5,6 @@ import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
-import com.vs.model.menu.Menu;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.item.IItemservice;
 import io.swagger.annotations.Api;
@@ -28,8 +27,6 @@ import java.util.Objects;
 @Path("/menu/{menuId}/item")
 @Slf4j
 @Api(value = "Customer Menu's Item Management", description = "Item Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class ItemController extends BaseController {
 
 
@@ -48,7 +45,7 @@ public class ItemController extends BaseController {
     @GET
     @Path("/{itemId}")
     @ApiOperation(value = "Get the Item for a user in the menu", nickname = "getItem")
-    public Response getMenu(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId id) throws  Exception {
+    public Response getMenu(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId id) throws Exception {
         Preconditions.checkNotNull(userName, "User Not found");
         Preconditions.checkNotNull(menuId, "MenuId is null");
         Preconditions.checkNotNull(id, "ItemId is null");
@@ -59,6 +56,7 @@ public class ItemController extends BaseController {
         }
         return build200Response(item);
     }
+
 
     @PUT
     @Path("/{itemId}")
@@ -83,36 +81,38 @@ public class ItemController extends BaseController {
     }
 
     @PUT
-    @Path("/{menuId}/{itemId}/status/{status}")
+    @Path("/{itemId}/status/{status}")
     @ApiOperation(value = "Change the status of the Menu Item", nickname = "changeItemStatus")
-    public Response updateMenuItemStatus(@PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status) {
-        Preconditions.checkNotNull(menuId);
-        Preconditions.checkNotNull(itemId);
-        Preconditions.checkNotNull(status);
+    public Response updateMenuItemStatus(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status) {
+        Preconditions.checkNotNull(menuId, "MenuId is null");
+        Preconditions.checkNotNull(itemId, "ItemId is null");
+        Preconditions.checkNotNull(userName, "Username not found");
+        Preconditions.checkNotNull(status, "Status not found");
         itemservice.updateUserMenuItemStatus(menuId, itemId, status);
-        return build200Response("Item Status Updated: id" + menuId + "itemId: " + itemId);
+        return build204Response();
     }
 
+    //Todo -- Reject those other than jpg, png, gif
     @POST
-    @Path("/upload/itemPicture/{menuId}/{itemId}")
+    @Path("/{itemId}/uploadItemPicture")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @ApiOperation(value = "Uploads a picture for a given user/menu/item id", nickname = "uploadPicture")
-    public Response uploadItemPicture(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @FormDataParam("file") InputStream file,
-                                      @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
+    public Response uploadItemPicture(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @FormDataParam("picture") InputStream picture,
+                                      @FormDataParam("picture") FormDataContentDisposition fileDisposition) throws Exception {
 
 
         log.info("Uploading Item Pic with size: {}", fileDisposition.getSize());
 
-        Preconditions.checkArgument(!(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE), "Too Big File.");
+        Preconditions.checkArgument(!(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE), "Too Big File. Must be less than an MB.");
         SaveFileModel saveFile = new SaveFileModel();
         saveFile.setContentDisposition(fileDisposition);
-        saveFile.setInputStream(file);
+        saveFile.setInputStream(picture);
         saveFile.setFileUploadTypeEnum(FileUploadTypeEnum.MENU_ITEM_PICTURE);
         saveFile.validate();
 
         itemservice.saveFile(menuId, itemId, saveFile);
 
-        return Response.status(200).build();
+        return build204Response();
 
     }
 }

@@ -50,7 +50,7 @@ Below log represents a successful application start:
     - gradle build
     - gradle war
     - gradle projectReport
-    - gradle :web:bootRun - UI: http://localhost:8080/vs/index.html
+    - gradle :ui:bootRun - UI: http://localhost:8080/vs/index.html
     
 
 ### Swagger

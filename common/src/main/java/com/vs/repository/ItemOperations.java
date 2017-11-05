@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.repository.DeleteQuery;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,17 +33,17 @@ public class ItemOperations {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void addPictureTotem(ObjectId menuId, ObjectId itemId, AddNewFiledsToCollection addNewFiledsToCollection){
+    public void addPictureTotem(ObjectId menuId, ObjectId itemId, String path) {
 
-        String newField = "items.$."+ AppConstants.MENU_ITEM_PICTURE;
+        Update mergeUserUpdate = new Update();
+        mergeUserUpdate.set("items.$.picture", path);
 
-        mongoTemplate.findAndModify(
-                Query.query(where("id").is(menuId).
-                        and("items.id").is(itemId)), update(newField, addNewFiledsToCollection.getKeyValues().get(AppConstants.MENU_ITEM_PICTURE)), Menu.class
-        );
+        mongoTemplate.findAndModify(Query.query(where("id").is(menuId).
+                and("items.id").is(itemId)), mergeUserUpdate, Menu.class);
+
     }
 
-    public void addNewItemToExistingItems(ObjectId menuId, Item item){
+    public void addNewItemToExistingItems(ObjectId menuId, Item item) {
 
         Update update = new Update();
         update.addToSet("items", item);
@@ -52,7 +51,7 @@ public class ItemOperations {
         mongoTemplate.updateFirst(Query.query(criteria), update, Menu.class);
     }
 
-    public void addNewItemToMenu(ObjectId menuId, Item item){
+    public void addNewItemToMenu(ObjectId menuId, Item item) {
 
         List<Item> list = new ArrayList<>();
         list.add(item);
@@ -65,7 +64,7 @@ public class ItemOperations {
     }
 
 
-    public void updateExistingItem(ObjectId menuId, Item item){
+    public void updateExistingItem(ObjectId menuId, Item item) {
 
         mongoTemplate.findAndModify(
                 Query.query(where("id").is(menuId).
@@ -74,7 +73,7 @@ public class ItemOperations {
 
     }
 
-    public void deleteExistingItem(ObjectId menuId, ObjectId itemId){
+    public void deleteExistingItem(ObjectId menuId, ObjectId itemId) {
 
         Update update = new Update();
         update.pull("items", new BasicDBObject("_id", itemId));

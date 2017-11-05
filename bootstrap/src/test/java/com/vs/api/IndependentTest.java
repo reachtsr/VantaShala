@@ -53,6 +53,63 @@ public class IndependentTest {
 
 
     @Test
+    public void m8() {
+
+        ObjectId menuId = new ObjectId("59ff33fd44b7921484670dd3");
+        ObjectId itemId = new ObjectId("59ff33fd44b7921484670dd4");
+
+        Update mergeUserUpdate = new Update();
+        mergeUserUpdate.set("items.$.picture", "ITEM TEST");
+        mergeUserUpdate.set("items.$.status", "MY STAUS");
+        //mergeUserUpdate.set(AppConstants.MENU_ITEM_PICTURE_LOCATION, "LOCATION");
+
+        mongoTemplate.findAndModify(Query.query(where("id").is(menuId).
+                and("items.id").is(itemId)), mergeUserUpdate, Menu.class);
+
+
+
+//        mongoTemplate.findAndModify(
+//                Query.query(where("id").is(menuId).
+//                        and("items.id").is(itemId)), update("items.$.status", ItemStatus.ORDER_IN_PLACE), Menu.class
+//        );
+//
+//        mongoTemplate.findAndModify(
+//                Query.query(where("id").is(menuId).
+//                        and("items.id").is(itemId)), update("items.$.picture", "ITEM"), Menu.class
+//        );
+
+
+//        Update mergeUserUpdate = new Update();
+//        mergeUserUpdate.set("item.$.picture", "ITEM");
+//        mergeUserUpdate.set("item.$.test", "LOCATION");
+//       // mergeUserUpdate.set(AppConstants.MENU_ITEM_PICTURE_LOCATION, "LOCATION");
+//
+//        mongoTemplate.findAndModify(Query.query(where("id").is(menuId).
+//                and("items.id").is(itemId)), mergeUserUpdate, ITEM.class);
+    }
+
+    public void m7() {
+
+        String menuId = "59f7da7b5bf6cf0588f3d8e5";
+        String itemId = "59f7da7b5bf6cf0588f3d8e6";
+
+
+
+        mongoTemplate.findAndModify(
+                Query.query(where("id").is(menuId).
+                        and("items.id").is(itemId)), update("items.$.picture", "ITEM"), Menu.class
+        );
+
+
+//        Update mergeUserUpdate = new Update();
+//        mergeUserUpdate.set("item.$.picture", "ITEM");
+//        mergeUserUpdate.set("item.$.test", "LOCATION");
+//       // mergeUserUpdate.set(AppConstants.MENU_ITEM_PICTURE_LOCATION, "LOCATION");
+//
+//        mongoTemplate.findAndModify(Query.query(where("id").is(menuId).
+//                and("items.id").is(itemId)), mergeUserUpdate, ITEM.class);
+    }
+
     public void m6() {
 
         String menuId = "59f54ddf5bf6cf07142d6f3c";
@@ -122,7 +179,7 @@ public class IndependentTest {
 
         template.findAndModify(
                 Query.query(where("id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
-                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.LOCKED), Menu.class
+                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.ORDER_LIMIT_REACHED), Menu.class
         );
 
 
@@ -133,7 +190,7 @@ public class IndependentTest {
 //        query.fields().include("items.id");
 //
 //        Item item = new Item();// template.findOne(query, Item.class);
-//        item.setStatus(ItemStatus.LOCKED);
+//        item.setStatus(ItemStatus.ORDER_LIMIT_REACHED);
 //        DBObject newSectionRec = (DBObject) converter.convertToMongoType(item);
 //
 //
@@ -145,7 +202,7 @@ public class IndependentTest {
 //
 //        UUID id = UUID.fromString("5b5d4740-eb05-4242-8dd7-494bb9569fac");
 //        Item item = new Item();
-//        item.setStatus(ItemStatus.LOCKED);
+//        item.setStatus(ItemStatus.ORDER_LIMIT_REACHED);
 //
 //        Query query = Query.query(Criteria.where("id").is(id.toString()));
 //

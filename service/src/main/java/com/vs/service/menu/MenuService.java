@@ -7,7 +7,6 @@ import com.vs.repository.DBOperations;
 import com.vs.repository.MenuRepository;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -55,7 +54,7 @@ public class MenuService implements IMenuService {
         Preconditions.checkState(nMenu.getUserName().equals(userName), "Operation Not Allowed");
 
         Preconditions.checkState(
-                (nMenu.getItems(ItemStatus.LOCKED).size() == 0 || menu.getItems(ItemStatus.HOLD).size() == 0),
+                (nMenu.getItems(ItemStatus.ORDER_LIMIT_REACHED).size() == 0 || menu.getItems(ItemStatus.ORDER_IN_PLACE).size() == 0),
                 "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. ");
 
         repository.save(menu);
@@ -67,11 +66,11 @@ public class MenuService implements IMenuService {
         Menu menu = repository.findById(menuId);
         Preconditions.checkNotNull(menu, "Menu not found:" + menuId);
 
-        List<Item> items = menu.getItems(ItemStatus.LOCKED);
-        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Locked Items in menu. ");
+        List<Item> items = menu.getItems(ItemStatus.ORDER_IN_PLACE);
+        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS.");
 
-        items = menu.getItems(ItemStatus.HOLD);
-        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS. There are Hold Items in menu. ");
+        items = menu.getItems(ItemStatus.ORDER_LIMIT_REACHED);
+        Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS.");
 
         repository.delete(menuId);
     }

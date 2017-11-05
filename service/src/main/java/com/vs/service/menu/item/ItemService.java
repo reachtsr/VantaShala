@@ -1,9 +1,6 @@
 package com.vs.service.menu.item;
 
 import com.vs.common.errorHandling.CustomReasonPhraseException;
-import com.vs.common.errorHandling.ErrorMessage;
-import com.vs.common.filters.AppConstants;
-import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
@@ -12,7 +9,6 @@ import com.vs.repository.ItemOperations;
 import com.vs.repository.MenuRepository;
 import com.vs.service.SaveFile;
 import com.vs.service.menu.MenuService;
-import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +16,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by gopi on 11/19/16.
@@ -60,7 +56,7 @@ public class ItemService implements IItemservice {
     public Item getMenuItem(ObjectId menuId, ObjectId itemId) throws Exception {
 
         Menu menu = repository.findByIdAndItems_Id(menuId, itemId);
-        if(Objects.isNull(menu)){
+        if (Objects.isNull(menu)) {
             CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.NOT_FOUND, "Check your Ids Provided");
             throw exception;
         }
@@ -93,7 +89,7 @@ public class ItemService implements IItemservice {
     @Override
     public void updateMenuItem(ObjectId menuId, Item item) throws Exception {
         Item nItem = getMenuItem(menuId, item.getId());
-        if (nItem.getStatus() == ItemStatus.ACTIVE) {
+        if (nItem.getStatus() == ItemStatus.READY_FOR_ORDER) {
             itemOperations.updateExistingItem(
                     menuId, item
             );
@@ -106,12 +102,13 @@ public class ItemService implements IItemservice {
     @Override
     public void deleteMenuItem(ObjectId menuId, ObjectId itemId) throws Exception {
         Item nItem = getMenuItem(menuId, itemId);
-        if (nItem.getStatus() == ItemStatus.ACTIVE) {
+        if (nItem.getStatus() == ItemStatus.READY_FOR_ORDER) {
             itemOperations.deleteExistingItem(
                     menuId, itemId
             );
         } else {
-            throw new Exception("ITEM IS NOT ACTIVE TO DELETE");
+            CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, "Not allowed to delete, Orders are already in place.");
+            throw exception;
         }
     }
 
@@ -121,17 +118,7 @@ public class ItemService implements IItemservice {
 
         String id = menuId + "_" + itemId;
         String path = saveFile.saveFile(id, saveFileModel);
-
-        Map<String, String> map = new HashMap();
-        map.put(AppConstants.MENU_ITEM_PICTURE, path);
-
-        AddNewFiledsToCollection addNewFiledsToCollection = new AddNewFiledsToCollection();
-        addNewFiledsToCollection.setId(id);
-        addNewFiledsToCollection.setCollectionType(Menu.class.getName());
-        addNewFiledsToCollection.setKeyValues(map);
-
-        itemOperations.addPictureTotem(menuId, itemId, addNewFiledsToCollection);
-
+        itemOperations.addPictureTotem(menuId, itemId, path);
 
         return path;
     }

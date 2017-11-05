@@ -26,7 +26,7 @@ public class Item {
     private Double price;
     private Date createdDate;
     private String description;
-    private ItemStatus status = ItemStatus.ACTIVE;
+    private ItemStatus status = ItemStatus.READY_FOR_ORDER;
     private String picture;
 
 }

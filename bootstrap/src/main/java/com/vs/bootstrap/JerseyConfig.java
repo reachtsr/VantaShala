@@ -7,13 +7,14 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by GeetaKrishna on 12/18/2015.
  */
 @Slf4j
-@Component
+@Configuration
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {

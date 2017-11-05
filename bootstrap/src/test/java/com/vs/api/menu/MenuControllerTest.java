@@ -62,7 +62,7 @@ public class MenuControllerTest extends BaseControllerTest {
             item.setQuantity(String.valueOf(ThreadLocalRandom.current().nextInt(4, 11 + 1)));
             item.setMeasurement(Measurement.randomMeasurment());
             item.setDescription("RANDOM DESCRIPTION in maximum of 4 lines.");
-            item.setStatus(ItemStatus.ACTIVE);
+            item.setStatus(ItemStatus.ORDER_IN_PLACE);
             item.setCreatedDate(Calendar.getInstance().getTime());
             itemList.add(item);
         }
@@ -117,7 +117,7 @@ public class MenuControllerTest extends BaseControllerTest {
     public void a6_updateMenuItemStatusToLOCKED() throws Exception {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).
                 pathParam("itemId", MenuConstantGenerator.getMenuItemId(MenuConstantGenerator.getMenu_id())).
-                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.LOCKED).
+                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.ORDER_LIMIT_REACHED).
                 post("/menu/status/{id}/{itemId}/{status}").then().contentType(ContentType.JSON).log().all();
     }
 
@@ -129,7 +129,7 @@ public class MenuControllerTest extends BaseControllerTest {
     @Test
     public void a8_updateMenuItemStatusToACTIVE() throws Exception {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).
-                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.ACTIVE).
+                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.ORDER_IN_PLACE).
                 pathParam("itemId", MenuConstantGenerator.getMenuItemId(MenuConstantGenerator.getMenu_id())).
                 post("/menu/status/{id}/{itemId}/{status}").then().contentType(ContentType.JSON).log().all();
     }
@@ -219,7 +219,7 @@ public class MenuControllerTest extends BaseControllerTest {
                 post("/menu/upload/itemPicture/{userName}/{id}/{itemId}");
 
         given().pathParam("userName", cookUserName).get("/menu/{userName}").then().contentType(ContentType.JSON).log().all().
-                body(AppConstants.MENU_ITEM_PICTURE,  not("null")).log().all();
+                body(AppConstants.MENU_ITEM_PICTURE_LOCATION,  not("null")).log().all();
 
     }
 

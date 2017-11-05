@@ -6,7 +6,8 @@ public class AppConstants {
     public static final String BLOG_POST_URL = "http://www.VantaShala.com";
 
     public static final String PROFILE_PICTURE = "profilePicture";
-    public static final String MENU_ITEM_PICTURE = "menuPicture";
+    public static final String MENU_ITEM_PICTURE_LOCATION = "menuPictureLocation";
+    public static final String MENU_ITEM_PICTURE_NAME = "picture";
     public static long MAX_PROFILE_SIZE = 1024 * 1024 *1024; // 1MB
 
 }
