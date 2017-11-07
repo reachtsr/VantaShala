@@ -23,14 +23,9 @@ public class Order {
     private Date orderedDate = Calendar.getInstance().getTime();
 
     private double totalPrice;
-
     private OrderStatus orderStatus = OrderStatus.PLACED;
 
     @Id
     private String id;
-
-    @JsonIgnore
-    private OrderArchivedReason archivedReason;
-
 
 }

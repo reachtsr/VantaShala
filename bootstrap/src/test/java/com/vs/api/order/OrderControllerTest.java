@@ -45,7 +45,7 @@ public class OrderControllerTest extends BaseControllerTest {
             String menuId = MenuConstantGenerator.retriveMenuIdFromGeneratedList();
             item.setMenuId(new ObjectId(menuId));
             item.setItemId(new ObjectId(MenuConstantGenerator.getMenuItemId(menuId)));
-            item.setCookId(new ObjectId(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK)));
+            item.setCookUserName(new ObjectId(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK)));
             items.add(item);
         }
         order.setCookMenuItems(items);
@@ -106,7 +106,7 @@ public class OrderControllerTest extends BaseControllerTest {
     public void a7_createOrderWithInvalidInput() throws Exception {
         log.info("Creating Order {}", RestAssured.basePath);
         Order order = createOrder();
-        order.getCookMenuItems().get(0).setCookId(null);
+        order.getCookMenuItems().get(0).setCookUserName(null);
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).
                 body(order).log().all().when().post("/order/{userName}");
 
@@ -115,7 +115,7 @@ public class OrderControllerTest extends BaseControllerTest {
     public void a8_createOrderWithInvalidInput() throws Exception {
         log.info("Creating Order {}", RestAssured.basePath);
         Order order = createOrder();
-        order.getCookMenuItems().get(0).setCookId(null);
+        order.getCookMenuItems().get(0).setCookUserName(null);
         order.getCookMenuItems().get(0).setMenuId(null);
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).
                 body(order).log().all().when().post("/order/{userName}");
@@ -125,7 +125,7 @@ public class OrderControllerTest extends BaseControllerTest {
     public void a9_createOrderWithInvalidInput() throws Exception {
         log.info("Creating Order {}", RestAssured.basePath);
         Order order = createOrder();
-        order.getCookMenuItems().get(0).setCookId(null);
+        order.getCookMenuItems().get(0).setCookUserName(null);
         order.getCookMenuItems().get(0).setMenuId(null);
         order.getCookMenuItems().get(0).setItemId(null);
         expect().statusCode(500).given().contentType(MediaType.APPLICATION_JSON).pathParam("userName", MenuConstantGenerator.getCook_username()).

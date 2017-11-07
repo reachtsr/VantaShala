@@ -237,21 +237,21 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void c1_subscribeCustomer() throws Exception {
         String cook = ConstantsGenerator.getCook_username();
-        expect().statusCode(200).given().pathParam("cookId", cook).pathParam("customerId", ConstantsGenerator.getCustomer_username()).contentType(ContentType.JSON).
-                post("customer/subscribe/{cookId}/{customerId}").then().log().all();
+        expect().statusCode(200).given().pathParam("cookUserName", cook).pathParam("customerId", ConstantsGenerator.getCustomer_username()).contentType(ContentType.JSON).
+                post("customer/subscribe/{cookUserName}/{customerId}").then().log().all();
     }
 
     @Test
     public void c2_subscribeSameCustomer() throws Exception {
         String cook = ConstantsGenerator.getCook_username();
-        expect().statusCode(200).given().pathParam("cookId", cook).pathParam("customerId", ConstantsGenerator.getCustomer_username()).contentType(ContentType.JSON).
-                post("customer/subscribe/{cookId}/{customerId}").then().log().all();
+        expect().statusCode(200).given().pathParam("cookUserName", cook).pathParam("customerId", ConstantsGenerator.getCustomer_username()).contentType(ContentType.JSON).
+                post("customer/subscribe/{cookUserName}/{customerId}").then().log().all();
     }
 
     @Test
     public void c3_subscribeNewCustomer() throws Exception {
         String cook = ConstantsGenerator.getCook_username();
-        expect().statusCode(200).given().pathParam("cookId", cook).pathParam("customerId", ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.CUSTOMER)).contentType(ContentType.JSON).
-                post("customer/subscribe/{cookId}/{customerId}").then().log().all();
+        expect().statusCode(200).given().pathParam("cookUserName", cook).pathParam("customerId", ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.CUSTOMER)).contentType(ContentType.JSON).
+                post("customer/subscribe/{cookUserName}/{customerId}").then().log().all();
     }
 }

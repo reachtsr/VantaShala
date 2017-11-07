@@ -98,7 +98,7 @@ public class OrderService implements IOrderService {
             List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
             List<CookMenuItem> itemsToRemove = new ArrayList<>();
             cookMenuItems.forEach(cookMenuItem -> {
-                if(!cookMenuItem.getCookId().equals(cookId)){
+                if(!cookMenuItem.getCookUserName().equals(cookId)){
                     itemsToRemove.add(cookMenuItem);
                 }
             });

@@ -24,7 +24,7 @@ public class Item {
     @Indexed
     private String name;
     private Measurement measurement;
-    private String quantity;
+    private Integer quantity;
     private Double price;
     private Date createdDate;
     private String description;

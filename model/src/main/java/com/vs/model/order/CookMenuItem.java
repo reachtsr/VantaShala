@@ -11,7 +11,9 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class CookMenuItem {
 
-    ObjectId cookId;
+    ObjectId cookUserName;
     ObjectId menuId;
     ObjectId itemId;
+    Integer orderQuantity;
+    Double totalQuantityPrice;
 }
