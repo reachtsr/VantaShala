@@ -28,12 +28,13 @@ Install MongoDB and make it up and running.
 Default Spring profile set to: dev
 If change needed provide the environment: -Dspring.profiles.active=dev -Djasypt.encryptor.password=XXXXXXX
 Configuration available under bootstrap resources.
-
 No explict configuration required to set to run on your local machine
 ```
 ````apple js
-Below log represents a successful application start:
+Below log represents a successful context load:
+[![N|Solid](/docs/Context.png)](http://allibilli.com)
 
+Below log represents a successful application start:
 [restartedMain] 2017-10-21 18:41:54 INFO  c.vs.bootstrap.VSServletInitializer - Configuring Springboot Servlet
 
               A product of AlliBilli
@@ -44,6 +45,10 @@ Below log represents a successful application start:
                \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
 
                                            Personal organic chef.
+........                                           
+[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   ****************************   ****
+[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   Hurray! Application Started.   ****
+[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   ****************************   ****                                           
 ````
 
 ### Quick Technical Insights
