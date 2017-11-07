@@ -31,7 +31,7 @@ Configuration available under bootstrap resources.
 No explict configuration required to set to run on your local machine
 ```
 Below log represents a successful context load:
-[![N|Solid](Context.jpg)](http://allibilli.com)
+[![N|Solid](Context.png)](http://allibilli.com)
 
 ````apple js
 Below log represents a successful application start:
