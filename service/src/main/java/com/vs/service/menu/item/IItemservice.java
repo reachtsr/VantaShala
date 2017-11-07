@@ -5,19 +5,23 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
 import org.bson.types.ObjectId;
 
+import java.util.List;
+
 /**
  * Created by gopi on 11/19/16.
  */
 public interface IItemservice {
-    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status);
+    void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) throws Exception;
 
-    public Item getMenuItem(ObjectId menuId, ObjectId itemId) throws Exception;
+    List<Item> listMenuItems(ObjectId menuId) throws Exception;
 
-    public void addMenuItem(ObjectId menuId, Item item) throws Exception;
+    Item getMenuItem(ObjectId menuId, ObjectId itemId) throws Exception;
 
-    public void updateMenuItem(ObjectId menuId, Item item) throws Exception;
+    void addMenuItem(ObjectId menuId, List<Item> item) throws Exception;
 
-    public void deleteMenuItem(ObjectId menuId, ObjectId itemId) throws Exception;
+    void updateMenuItem(ObjectId menuId, Item item) throws Exception;
 
-    public String saveFile(ObjectId menuId, ObjectId itemId, SaveFileModel saveFile);
+    void deleteMenuItem(ObjectId menuId, ObjectId itemId) throws Exception;
+
+    String saveFile(ObjectId menuId, ObjectId itemId, SaveFileModel saveFile);
 }

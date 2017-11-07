@@ -48,7 +48,13 @@ public class ItemService implements IItemservice {
     MenuService menuService;
 
     @Override
-    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) {
+    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) throws Exception {
+        Item nItem = getMenuItem(menuId, itemId);
+        if (nItem.getStatus() != ItemStatus.READY_FOR_ORDER) {
+            CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, "Not allowed to update, Orders are already in place.");
+            throw exception;
+        }
+
         itemOperations.updateUserMenuItemStatus(menuId, itemId, status);
     }
 
@@ -65,24 +71,42 @@ public class ItemService implements IItemservice {
     }
 
     @Override
-    public void addMenuItem(ObjectId menuId, Item item) throws Exception {
+    public void addMenuItem(ObjectId menuId, List<Item> items) throws Exception {
         Menu menu = menuService.getMenuById(menuId);
 
-        String itemName = item.getName();
-        ObjectId id = new ObjectId();
-        item.setId(id);
+        boolean doTransct = true;
+        StringBuilder error = new StringBuilder();
 
         if (!Objects.isNull(menu.getItems()) && menu.getItems().size() > 0) {
-            Item nItem = menu.getItems().stream().
-                    filter(item1 -> itemName.equalsIgnoreCase(item1.getName())).findAny().orElse(null);
-            if (nItem == null) {
-                itemOperations.addNewItemToExistingItems(menuId, item);
+            for (Item item : items) {
+
+                String itemName = item.getName();
+                Item nItem = menu.getItems().stream().
+                        filter(item1 -> itemName.equalsIgnoreCase(item1.getName())).findAny().orElse(null);
+                if (nItem != null) {
+                    error.append(item.getName()).append(" ");
+                    doTransct = false;
+                }
+            }
+            if (doTransct) {
+                generateIds(items);
+                itemOperations.addNewItemToExistingItems(menuId, items);
             } else {
-                CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, "Item with same name already exists");
+                error.append("already exists");
+                CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, error.toString());
                 throw exception;
             }
         } else {
-            itemOperations.addNewItemToMenu(menuId, item);
+            generateIds(items);
+            itemOperations.addNewItemToMenu(menuId, items);
+        }
+
+    }
+
+    private void generateIds(List<Item> items) {
+        for (Item item : items) {
+            ObjectId id = new ObjectId();
+            item.setId(id);
         }
     }
 
@@ -123,4 +147,8 @@ public class ItemService implements IItemservice {
         return path;
     }
 
+    @Override
+    public List<Item> listMenuItems(ObjectId menuId) throws Exception {
+        return null;
+    }
 }

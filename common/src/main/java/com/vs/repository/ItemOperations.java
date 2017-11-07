@@ -43,22 +43,20 @@ public class ItemOperations {
 
     }
 
-    public void addNewItemToExistingItems(ObjectId menuId, Item item) {
+    public void addNewItemToExistingItems(ObjectId menuId, List<Item> items) {
 
         Update update = new Update();
-        update.addToSet("items", item);
+        update.pushAll("items", items.toArray());
+        //update.addToSet("items", items);
         Criteria criteria = Criteria.where("_id").is(menuId);
         mongoTemplate.updateFirst(Query.query(criteria), update, Menu.class);
     }
 
-    public void addNewItemToMenu(ObjectId menuId, Item item) {
-
-        List<Item> list = new ArrayList<>();
-        list.add(item);
+    public void addNewItemToMenu(ObjectId menuId, List<Item> item) {
 
         Query query = Query.query(where("id").is(menuId));
         Menu menu = mongoTemplate.find(query, Menu.class).get(0);
-        menu.setItems(list);
+        menu.setItems(item);
         mongoOperations.save(menu);
 
     }

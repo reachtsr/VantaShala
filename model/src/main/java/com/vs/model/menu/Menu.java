@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
@@ -18,13 +21,18 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 @Document
+@CompoundIndexes({
+        @CompoundIndex(name = "user_menuName_idx", def = "{'userName': 1, 'name': -1}")
+})
 public class Menu {
 
     @Id
     private ObjectId id;
 
     @JsonIgnore
+    @Indexed
     private String userName;
+    @Indexed
     private String name;
     private List<Item> items;
     private Date endDate;

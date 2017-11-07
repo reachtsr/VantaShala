@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface MenuRepository extends MongoRepository<Menu, ObjectId> {
 
-    public List<Menu> findByUserNameAndName(String userName, String name);
+    public Menu findByUserNameAndName(String userName, String name);
     public List<Menu> findByUserName(String userName);
     public Menu findByUserNameAndId(String userName, ObjectId id);
 

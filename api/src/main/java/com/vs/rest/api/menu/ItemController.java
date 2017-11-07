@@ -21,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -35,7 +36,7 @@ public class ItemController extends BaseController {
 
     @POST
     @ApiOperation(value = "Adds a new item to the menu", nickname = "addItem")
-    public Response addMenuItem(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, Item item) throws Exception {
+    public Response addMenuItem(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, List<Item> item) throws Exception {
         Preconditions.checkNotNull(menuId);
         Preconditions.checkNotNull(userName);
         itemservice.addMenuItem(menuId, item);
@@ -83,7 +84,7 @@ public class ItemController extends BaseController {
     @PUT
     @Path("/{itemId}/status/{status}")
     @ApiOperation(value = "Change the status of the Menu Item", nickname = "changeItemStatus")
-    public Response updateMenuItemStatus(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status) {
+    public Response updateMenuItemStatus(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status)   throws Exception {
         Preconditions.checkNotNull(menuId, "MenuId is null");
         Preconditions.checkNotNull(itemId, "ItemId is null");
         Preconditions.checkNotNull(userName, "Username not found");

@@ -8,6 +8,7 @@ import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.model.user.Cook;
 import com.vs.repository.CookRepository;
+import com.vs.repository.ItemRepository;
 import com.vs.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -49,10 +50,36 @@ public class IndependentTest {
     private CookRepository cookRepository;
 
     @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
     private MongoTemplate template;
 
-
     @Test
+    public void m10() {
+
+        ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
+
+        String userName = "saradaKitchen";
+        String menuName = "Oct15-SaradaKitchen";
+        menuRepository.findByUserNameAndId(userName, menuId);
+        List<Menu> menus = menuRepository.findByUserName(userName);
+
+
+         menuRepository.findByUserNameAndName(userName, menuName);
+
+
+    }
+
+    public void m9() {
+
+        ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
+        ObjectId itemId = new ObjectId("59ff81bc44b7922cc8946151");
+        Menu item = itemRepository.findByUserNameAndIdAndItems_Id("saradaKitchen", menuId, itemId);
+        log.info("{}", item);
+
+    }
+
     public void m8() {
 
         ObjectId menuId = new ObjectId("59ff33fd44b7921484670dd3");
