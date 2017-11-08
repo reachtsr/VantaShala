@@ -144,7 +144,7 @@ public class IndependentTest {
         Item item = new Item();
         item.setName("Gopi");
         item.setMeasurement(Measurement.COUNT);
-        item.setQuantity("1");
+        item.setQuantity(1);
         item.setDescription("saasdada");
 
 

@@ -59,7 +59,7 @@ public class MenuControllerTest extends BaseControllerTest {
             item.setId(new ObjectId(MenuConstantGenerator.generateMenuItemId(menuId)));
             item.setName(TestItemEnum.randomItemName().toString());
             item.setPrice(ThreadLocalRandom.current().nextDouble(4, 11));
-            item.setQuantity(String.valueOf(ThreadLocalRandom.current().nextInt(4, 11 + 1)));
+            item.setQuantity(ThreadLocalRandom.current().nextInt(4, 11 + 1));
             item.setMeasurement(Measurement.randomMeasurment());
             item.setDescription("RANDOM DESCRIPTION in maximum of 4 lines.");
             item.setStatus(ItemStatus.ORDER_IN_PLACE);
