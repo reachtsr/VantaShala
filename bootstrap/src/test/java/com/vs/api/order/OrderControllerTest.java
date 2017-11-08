@@ -45,7 +45,7 @@ public class OrderControllerTest extends BaseControllerTest {
             String menuId = MenuConstantGenerator.retriveMenuIdFromGeneratedList();
             item.setMenuId(new ObjectId(menuId));
             item.setItemId(new ObjectId(MenuConstantGenerator.getMenuItemId(menuId)));
-            item.setCookUserName(new ObjectId(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK)));
+            item.setCookUserName(ConstantsGenerator.retriveRandomIdFromGeneratedList(ConstantsGenerator.TYPE.COOK));
             items.add(item);
         }
         order.setCookMenuItems(items);
