@@ -6,8 +6,7 @@ import com.vs.model.user.Cook;
 import com.vs.service.user.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -48,28 +48,25 @@ public class CookController extends UserController {
         log.info("{} Initiated.", this.getClass().getName());
     }
 
+
+    @GET
+    public Response getCook(@HeaderParam("userName") String userName) {
+        Preconditions.checkNotNull(userName, "User Not found:" + userName);
+        return super.getUserByUserName(userName);
+    }
+
     @ApiOperation(value = "Create Cook", nickname = "createCook")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
-
-
     @POST
     public Response createCook(Cook user) throws Exception {
         return super.createUser(user);
     }
 
     @ApiOperation(value = "Upload Image", nickname = "uploadImage")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
-
-
     @POST
-    @Path("/upload/profile/{userName}")
+    @Path("/upload/profile")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadProfilePicture(@PathParam("userName") String userName, @FormDataParam("file") InputStream file,
-                                  @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
+    public Response uploadProfilePicture(@HeaderParam("userName") String userName, @FormDataParam("file") InputStream file,
+                                         @FormDataParam("file") FormDataContentDisposition fileDisposition) throws Exception {
         log.info("Uploading UserProfile Pic");
 
         //Preconditions.checkArgument(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE);
@@ -85,25 +82,16 @@ public class CookController extends UserController {
 
     }
 
-
     @ApiOperation(value = "Update Cook", nickname = "updateCook")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
-
     @PUT
-    @Path("/{userName}")
-    public void updateCook(@PathParam("userName") String userName, Cook user) {
-        super.updateUser(userName, user);
+    public Response updateUser(@NotNull @HeaderParam("userName") String userName, @NotNull Cook user) {
+        return super.updateUser(userName, user);
     }
 
-    @ApiOperation(value = "Find Cook by Kitchen Name", response = Cook.class, nickname = "kitchName")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "Find Cook by Kitchen Name", response = Cook.class, nickname = "kitchenName")
     @GET
     @Path("/kitchenName/{kitchenName}")
-    public Response getCook(@PathParam("kitchenName") String kitchenName) {
+    public Response getCookByKitcheName(@PathParam("kitchenName") String kitchenName) {
         return super.getCookByKitchenName(kitchenName);
     }
 

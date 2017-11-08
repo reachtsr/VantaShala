@@ -54,8 +54,10 @@ public class OrderService implements IOrderService {
 
         double computedTotalPrice = orderCalculations.computeTotalPrice(order, menuToItems);
         Preconditions.checkState(computedTotalPrice != order.getTotalPrice());
-
+        order.setTotalPrice(computedTotalPrice);
         Order savedOrder = repository.insert(order);
+
+        // Notify the users
         emailService.sendOrderCreateEmail(savedOrder);
 
         return savedOrder;

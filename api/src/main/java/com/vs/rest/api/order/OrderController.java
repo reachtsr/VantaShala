@@ -62,6 +62,7 @@ public class OrderController extends BaseController {
             Preconditions.checkNotNull(t.getCookUserName(), "No Cook found to place an order");
             Preconditions.checkNotNull(t.getItemId(), "Missing item found to place an order");
             Preconditions.checkNotNull(t.getMenuId(), "Missing cook's menu found to place an order");
+            Preconditions.checkNotNull(t.getOrderQuantity(), "Quantity required");
         });
 
         Order nOrder = orderService.createOrder(order);

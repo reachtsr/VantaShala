@@ -39,7 +39,7 @@ public class OrderCalculations {
                         itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.ORDER_IN_PLACE);
                         Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
                         Preconditions.checkNotNull(item);
-                        prices.add(item.getPrice());
+                        prices.add(item.getPrice() * menuToItem.getOrderQuantity());
                     } catch (Exception e) {
                         log.error("", e);
                     }

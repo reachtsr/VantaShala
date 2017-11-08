@@ -94,8 +94,8 @@ public abstract class UserServiceImpl implements IUserService {
 
 
     @Override
-    public void updateUser(User user) {
-        userRepository.save(user);
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override

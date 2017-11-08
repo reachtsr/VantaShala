@@ -17,7 +17,7 @@ public interface IUserService {
 
     public void createUser(User user) throws Exception;
 
-    public void updateUser(User user);
+    public User updateUser(User user);
 
     public void enableOrDisableUser(String user, UserStatusEnum userStatusEnum) throws Exception;
 

@@ -1,6 +1,8 @@
 package com.vs.rest.api.user;
 
 import com.google.common.base.Preconditions;
+import com.mongodb.DuplicateKeyException;
+import com.vs.common.errorHandling.CustomReasonPhraseException;
 import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
@@ -100,17 +102,23 @@ public abstract class UserController extends BaseController {
         return build200Response(user);
     }
 
-    public Response createUser(User user) throws Exception{
+    public Response createUser(User user) throws Exception {
 
-        log.info("Create User - User Details: {}", user);
-        userService.createUser(user);
-        return Response.status(200).build();
+        try {
+            log.info("Create User - User Details: {}", user);
+            userService.createUser(user);
+            return build201Response(user);
+        } catch (DuplicateKeyException exception) {
+            CustomReasonPhraseException customReasonPhraseException = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, exception.getMessage());
+            throw customReasonPhraseException;
+        }
+
 
     }
 
-    public void updateUser(String userName, User user) {
+    public Response updateUser(String userName, User user) {
         log.info("Update User: {} - User Details: {}", userName, user);
-        userService.updateUser(user);
+        return build200Response(userService.updateUser(user));
     }
 
     public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) throws Exception {

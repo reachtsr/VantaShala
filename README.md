@@ -1,7 +1,7 @@
 [![N|Solid](http://allibilli.com/coloredallibilli.jpg)](http://allibilli.com)  
 
 [![Build Status](https://semaphoreci.com/api/v1/haigopi/vantashala/branches/master/shields_badge.svg)](https://semaphoreci.com/haigopi/vantashala)
-
+[![GitHub commits](https://img.shields.io/github/commits-since/SubtitleEdit/subtitleedit/3.4.7.svg)]()
 
 # VantaShala.com
     A Personal Organic Chef. 

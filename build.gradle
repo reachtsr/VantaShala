@@ -4,7 +4,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.6.RELEASE")
-        classpath 'com.updateimpact:updateimpact-gradle-plugin:1.1.6'
     }
 }
 
@@ -87,11 +86,4 @@ subprojects {
     }
 
 }
-configure(subprojects.findAll()) {
-    apply plugin: 'com.updateimpact.updateimpact'
 
-    updateImpactSubmit {
-        apiKey = updateimpactApiKey
-        openBrowser = updateimpactOpenBrowser
-    }
-}
