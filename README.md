@@ -1,4 +1,6 @@
-[![N|Solid](http://allibilli.com/coloredallibilli.jpg)](http://allibilli.com)  [![Build Status](https://semaphoreci.com/api/v1/haigopi/vantashala/branches/master/shields_badge.svg)](https://semaphoreci.com/haigopi/vantashala)
+[![N|Solid](http://allibilli.com/coloredallibilli.jpg)](http://allibilli.com)  
+
+[![Build Status](https://semaphoreci.com/api/v1/haigopi/vantashala/branches/master/shields_badge.svg)](https://semaphoreci.com/haigopi/vantashala)
 
 
 # VantaShala.com
