@@ -7,15 +7,10 @@ buildscript {
         classpath 'com.updateimpact:updateimpact-gradle-plugin:1.1.6'
     }
 }
-apply plugin: 'com.updateimpact.updateimpact'
-updateImpactSubmit {
-    apiKey = updateimpactApiKey
-    openBrowser = updateimpactOpenBrowser
-}
+
 
 allprojects {
     group = 'com.com.vs'
-
 }
 
 subprojects {
