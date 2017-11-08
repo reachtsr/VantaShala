@@ -32,10 +32,12 @@ If change needed provide the environment: -Dspring.profiles.active=dev -Djasypt.
 Configuration available under bootstrap resources.
 No explict configuration required to set to run on your local machine
 ```
-#####Below one represents a successful context load:
+###Below one represents a successful context load:
+````apple js
 [![N|Solid](Context.png)](http://allibilli.com)
+````
 
-#####Below log represents a successful application start:
+###Below log represents a successful application start:
 ````apple js
 [restartedMain] 2017-10-21 18:41:54 INFO  c.vs.bootstrap.VSServletInitializer - Configuring Springboot Servlet
 
