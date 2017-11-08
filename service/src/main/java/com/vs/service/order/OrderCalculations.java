@@ -36,7 +36,7 @@ public class OrderCalculations {
                     try {
                         Preconditions.checkNotNull(menuId);
                         Preconditions.checkNotNull(menuToItem.getItemId());
-                        itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.ORDER_LIMIT_REACHED);
+                        itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.ORDER_IN_PLACE);
                         Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
                         Preconditions.checkNotNull(item);
                         prices.add(item.getPrice());

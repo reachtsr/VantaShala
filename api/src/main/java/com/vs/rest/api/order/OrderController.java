@@ -65,7 +65,7 @@ public class OrderController extends BaseController {
         });
 
         Order nOrder = orderService.createOrder(order);
-        return build200Response(nOrder);
+        return build201Response(nOrder);
     }
 
     @PUT

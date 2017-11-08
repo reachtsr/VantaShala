@@ -21,7 +21,7 @@ public class LoggingResponseFilter
 			ContainerResponseContext responseContext) throws IOException {
 		String method = requestContext.getMethod();
 
-		log.info("Requesting: {} for path: {}" ,method, requestContext.getUriInfo().getPath());
+		log.info("Requesting: {} for path: {} - by : {}" ,method, requestContext.getUriInfo().getPath(), requestContext.getHeaders().get("userName"));
 		Object entity = responseContext.getEntity();
 		if (entity != null) {
 			log.debug("Response: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(entity));
