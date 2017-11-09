@@ -5,7 +5,8 @@ package com.vs.common.constants;
  */
 public class FreeMarkerConstants {
     public static final String VM_BEAN = "notificationBean";
-    public static final String VM_SEND_EMAIL_NOTIFICATION = "sendEmail.ftl";
+    public static final String VM_SEND_EMAIL_NOTIFICATION = "sendAppRestartEmail.ftl";
+    public static final String VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION = "sendOrderPlacedEmail.ftl";
 
 
 }

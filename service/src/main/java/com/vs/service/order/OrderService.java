@@ -52,9 +52,13 @@ public class OrderService implements IOrderService {
         Map<ObjectId, List<CookMenuItem>> menuToItems = order.getCookMenuItems().stream().collect(Collectors.groupingBy(CookMenuItem::getMenuId));
        // List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
 
-        double computedTotalPrice = orderCalculations.computeTotalPrice(order, menuToItems);
+        double computedTotalPrice = orderCalculations.attachItemAndcomputeTotalPrice(order, menuToItems);
         Preconditions.checkState(computedTotalPrice != order.getTotalPrice());
         order.setTotalPrice(computedTotalPrice);
+
+        //attach Item details.
+
+
         Order savedOrder = repository.insert(order);
 
         // Notify the users

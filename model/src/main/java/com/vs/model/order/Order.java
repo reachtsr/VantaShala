@@ -1,10 +1,7 @@
 package com.vs.model.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vs.model.enums.OrderArchivedReason;
 import com.vs.model.enums.OrderStatus;
 import lombok.Data;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;

@@ -1,5 +1,6 @@
 package com.vs.model.order;
 
+import com.vs.model.menu.Item;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -23,4 +24,5 @@ public class CookMenuItem {
     ObjectId itemId;
     Integer orderQuantity;
     Double totalQuantityPrice;
+    Item itemDetails;
 }

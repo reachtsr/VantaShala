@@ -43,7 +43,7 @@ public class EmailService extends CommonEmailService {
     public void sendOrderCreateEmail(Order order) {
         try {
 
-            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, order);
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION, order);
             String to = userRepository.findOne(order.getOrderedBy()).getEmail();
             String from = emailProperties.getFromOrderEmail();
             String subject = "Order Created";

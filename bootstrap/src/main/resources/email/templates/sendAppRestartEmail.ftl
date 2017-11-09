@@ -24,7 +24,7 @@
 					<span style="line-height: 150%">${generalMessage}</span></font><font size="2"><span style="line-height: 150%">
 					</span></font></li>
 				</ul>
-				<font size="2" color="#FFFFFF"><span style="line-height: 150%">${signature}</span></font></td>
+				<font size="2" color="#FFFFFF"><span style="line-height: 150%">ADD signature here</span></font></td>
 			</tr>
 		</table>
 		</td>

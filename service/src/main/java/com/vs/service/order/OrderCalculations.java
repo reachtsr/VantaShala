@@ -29,7 +29,7 @@ public class OrderCalculations {
     @Autowired
     ItemService itemService;
 
-    public double computeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems) throws Exception {
+    public double attachItemAndcomputeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems) throws Exception {
         List<Double> prices = new ArrayList<>();
         menuToItems.forEach((menuId, v) ->
                 v.forEach(menuToItem -> {
@@ -38,6 +38,7 @@ public class OrderCalculations {
                         Preconditions.checkNotNull(menuToItem.getItemId());
                         itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.ORDER_IN_PLACE);
                         Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
+                        menuToItem.setItemDetails(item);
                         Preconditions.checkNotNull(item);
                         prices.add(item.getPrice() * menuToItem.getOrderQuantity());
                     } catch (Exception e) {
