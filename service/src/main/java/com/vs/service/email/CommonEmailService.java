@@ -41,7 +41,7 @@ public abstract class CommonEmailService {
         String output = "";
         try {
             Template rTemplate = freemarkerConfiguration.getTemplate(template);
-            output = FreeMarkerTemplateUtils.processTemplateIntoString(rTemplate, templateValues);
+            output = FreeMarkerTemplateUtils.processTemplateIntoString(rTemplate, model);
         } catch (IOException e) {
             log.error("Error Freemarker Template:", e);
         } catch (TemplateException e) {

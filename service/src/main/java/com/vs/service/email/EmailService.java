@@ -46,7 +46,7 @@ public class EmailService extends CommonEmailService {
             String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION, order);
             String to = userRepository.findOne(order.getOrderedBy()).getEmail();
             String from = emailProperties.getFromOrderEmail();
-            String subject = "Order Created";
+            String subject = "Order Placed";
 
             Email email = new Email.EmailBuilder(from, to, subject, message).build();
             processEmail.sendEmail(email);
@@ -59,14 +59,10 @@ public class EmailService extends CommonEmailService {
 
         try {
 
-            Map<String, Object> messageValues = new HashMap<>();
-            messageValues.put("generalMessage", "Application Restarted");
-            messageValues.put("signature", "TestMessage");
-
             String from = emailProperties.getFromContactEmail();
             String to = "haigopi@gmail.com";
             String subject = "Application Restarted";
-            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, messageValues);
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, "Application Restarted");
 
 
             Email email = new Email.EmailBuilder(from, to, subject, message).build();

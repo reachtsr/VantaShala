@@ -46,7 +46,7 @@ vs:
         base: ../fileUploads/
   email:
     from:
-      order: <VantaShala>order@VantaShala.com
+      order: order@VantaShala.com
       contact: contact@VantaShala.com
     replyTo: support@VantaShala.com
     mail.smtp.auth: true

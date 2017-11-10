@@ -8,7 +8,8 @@
             <table border="0" width="100%" cellpadding="15" cellspacing="0">
                 <tr>
                     <td width="100%" style="color: #FFFFFF" align="right">
-                        <b><font size="2">Notification from AlliBilli</font></b></td>
+                        <b><font size="2"><font color="#C0C0C0">Notification from</font><font color="#946EA9">
+                        </font>VantaShala</font></b></td>
                 </tr>
             </table>
         </td>
@@ -19,12 +20,22 @@
                 <tr>
                     <td width="100%" height="100%" bgcolor="#946EA9">
                         <font color="#FFFFFF"><span style="font-weight: 700; ">
-				<font size="2">Dear Customer,</font></span><ul type="circle">
-                            <li type="square"><font size="2">Thank you for for trusting
-                                and placing an order. Please find the below order details.</font></li>
-                            <li type="square">${notificationBean.orderedBy} </font></li>
-                        </ul>
-                        <font size="2" color="#FFFFFF"><span style="line-height: 150%">ADD signature here</span></font></td>
+						<font size="2" color="#DBCEE1"># ${notificationBean.id} - Order Placed. </font></span>
+                            <p><span style="font-weight: 700; ">
+						<font size="2">Order Total: $${notificationBean.totalPrice}<hr></font></span></p>
+                            <font size="2">
+                                <ul type="circle">
+                                <#list notificationBean.cookMenuItems as cookMenuItem>
+                                    <li><b>${cookMenuItem.cookDetails.kitchenName}</b> <br>
+                                        &nbsp;&nbsp;${cookMenuItem.itemDetails.name} - ${cookMenuItem.orderQuantity} -
+                                        $${cookMenuItem.itemDetails.price} per item. <br><br>
+                                    </li>
+                                </#list>
+                                </ul>
+                            </font>
+                            &nbsp;<p>&nbsp;</p>
+                            <p><font size="2" color="#FFFFFF">See you again soon.<br>
+                                VantaShala.com</font></td>
                 </tr>
             </table>
         </td>
@@ -34,7 +45,10 @@
             <table border="0" width="100%" cellpadding="15" cellspacing="0">
                 <tr>
                     <td width="100%" style="color: #C0C0C0; font-size:8pt; font-family:Tahoma" align="center">
-                        All Rights Reserved. A Product of AlliBilli.</td>
+                        All Rights Reserved.
+                        <p>This email was sent from a notification-only address
+                            that cannot accept incoming email. Please do not reply
+                            to this message.</td>
                 </tr>
             </table>
         </td>

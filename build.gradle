@@ -59,6 +59,9 @@ subprojects {
         compile('org.springframework.boot:spring-boot-configuration-processor')
         compile('org.springframework.boot:spring-boot-starter-social-facebook')
 
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+        compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
         compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3'
         compile 'org.glassfish.jersey.media:jersey-media-multipart:2.+'

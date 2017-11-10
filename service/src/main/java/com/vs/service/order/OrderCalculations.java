@@ -5,8 +5,12 @@ import com.vs.model.enums.ItemStatus;
 import com.vs.model.menu.Item;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
+import com.vs.model.user.Cook;
+import com.vs.model.user.User;
 import com.vs.service.menu.MenuService;
 import com.vs.service.menu.item.ItemService;
+import com.vs.service.user.CookService;
+import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,9 @@ public class OrderCalculations {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    CookService cookService;
+
     public double attachItemAndcomputeTotalPrice(Order order, Map<ObjectId, List<CookMenuItem>> menuToItems) throws Exception {
         List<Double> prices = new ArrayList<>();
         menuToItems.forEach((menuId, v) ->
@@ -38,7 +45,9 @@ public class OrderCalculations {
                         Preconditions.checkNotNull(menuToItem.getItemId());
                         itemService.updateUserMenuItemStatus(menuId, menuToItem.getItemId(), ItemStatus.ORDER_IN_PLACE);
                         Item item = itemService.getMenuItem(menuId, menuToItem.getItemId());
+                        Cook cook = (Cook)cookService.getUserByUserName(menuToItem.getCookUserName());
                         menuToItem.setItemDetails(item);
+                        menuToItem.setCookDetails(cook);
                         Preconditions.checkNotNull(item);
                         prices.add(item.getPrice() * menuToItem.getOrderQuantity());
                     } catch (Exception e) {

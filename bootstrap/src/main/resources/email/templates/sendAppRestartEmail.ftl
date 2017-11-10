@@ -21,7 +21,7 @@
 				<font color="#FFFFFF"><span style="font-weight: 700; ">
 				<font size="2">Dear Parent,</font></span><ul type="circle">
 					<li type="square"><font color="#FFFFFF" size="2">
-					<span style="line-height: 150%">${generalMessage}</span></font><font size="2"><span style="line-height: 150%">
+					<span style="line-height: 150%">${notificationBean}</span></font><font size="2"><span style="line-height: 150%">
 					</span></font></li>
 				</ul>
 				<font size="2" color="#FFFFFF"><span style="line-height: 150%">ADD signature here</span></font></td>
