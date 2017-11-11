@@ -3,16 +3,20 @@ package com.vs.service.email;
 import com.vs.common.constants.FreeMarkerConstants;
 import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
+import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
+import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
 import com.vs.model.props.EmailProperties;
 import com.vs.model.props.ReadYML;
 import com.vs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,21 +43,43 @@ public class EmailService extends CommonEmailService {
     // ToDo Create VM Templates and update them accordingly.
     // ToDo Move String Constants to application yaml file and read them as needed.
     // ToDo Move haigopi@gmail.com to application yaml.
-
+    @Async
     public void sendOrderCreateEmail(Order order) {
         try {
 
-            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION, order);
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION, getMap(order));
             String to = userRepository.findOne(order.getOrderedBy()).getEmail();
             String from = emailProperties.getFromOrderEmail();
             String subject = "Order Placed";
 
             Email email = new Email.EmailBuilder(from, to, subject, message).build();
             processEmail.sendEmail(email);
+
+
+
         } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }
     }
+
+    @Async
+    public void notifyCooks(Order order, String cookEmail, List<CookMenuItem> items) {
+        try {
+
+            HashMap<String, Object> map = getMap(items);
+            map.put("customer", order.getOrderedBy());
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION_TO_COOK, getMap(items));
+            String from = emailProperties.getFromOrderEmail();
+            String subject = "New Order in Place";
+
+            Email email = new Email.EmailBuilder(from, cookEmail, subject, message).build();
+            processEmail.sendEmail(email);
+
+        } catch (Exception me) {
+            log.error(" Error Sending email to cook {}", cookEmail, me);
+        }
+    }
+
 
     public void sendAppStatusEmail() {
 
@@ -62,7 +88,7 @@ public class EmailService extends CommonEmailService {
             String from = emailProperties.getFromContactEmail();
             String to = "haigopi@gmail.com";
             String subject = "Application Restarted";
-            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, "Application Restarted");
+            String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, getMap("Application Restarted"));
 
 
             Email email = new Email.EmailBuilder(from, to, subject, message).build();
