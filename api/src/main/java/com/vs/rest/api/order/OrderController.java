@@ -33,19 +33,27 @@ public class OrderController extends BaseController {
     private IOrderService orderService;
 
     @GET
-    @ApiOperation(value = "Retrieve All Orders created by this user", nickname = "getOrders")
-    public Response getOrders(@HeaderParam("userName") String userName) {
+    @ApiOperation(value = "Retrieve All Customer Orders created by this user", nickname = "getOrders")
+    public Response listCustomerOrders(@HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
         List<Order> orders = orderService.getAllCustomerOrders(userName);
         return build200Response(orders);
     }
 
     @GET
+    @Path("/cook/{status}")
+    @ApiOperation(value = "Retrieve All Orders created for a cook by order type", nickname = "getOrdersCreatedForCook")
+    public Response getCookSpecificOrders(@HeaderParam("userName") String userName, @PathParam("status") OrderStatus status) {
+        Preconditions.checkNotNull(userName);
+        List<Order> orders = orderService.retrieveOrdersForCooks(userName, status);
+        return build200Response(orders);
+    }
+    @GET
     @Path("/cook")
     @ApiOperation(value = "Retrieve All Orders created for a cook", nickname = "getOrdersCreatedForCook")
     public Response getCookSpecificOrders(@HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(userName);
-        List<Order> orders = orderService.retrieveOrdersPlacedForCooks(userName);
+        List<Order> orders = orderService.retrieveAllOrdersTypesForCooks(userName);
         return build200Response(orders);
     }
 

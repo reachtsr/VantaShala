@@ -3,13 +3,13 @@ package com.vs.api;
 import com.mongodb.MongoClient;
 import com.vs.model.enums.ItemStatus;
 import com.vs.model.enums.Measurement;
+import com.vs.model.enums.OrderStatus;
 import com.vs.model.enums.Role;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
+import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
-import com.vs.repository.CookRepository;
-import com.vs.repository.ItemRepository;
-import com.vs.repository.MenuRepository;
+import com.vs.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -50,12 +50,32 @@ public class IndependentTest {
     private CookRepository cookRepository;
 
     @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
     private MongoTemplate template;
 
     @Test
+    public void m11() {
+
+        String orderedBy = "";
+        String loggedInCook = "haigopi@gmail.com";
+        OrderStatus status = OrderStatus.PLACED;
+        ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
+
+        Query query = Query.query(where("orderStatus").is(status).and("cookMenuItems.cookUserName").is(loggedInCook));
+        List<Order> orders = mongoTemplate.find(query, Order.class);
+        log.info("{}", orders);
+
+        orders = orderRepository.findByCookMenuItems_CookUserNameAndOrderStatus(loggedInCook, OrderStatus.PLACED);
+        log.info("{}", orders);
+
+    }
+
+
     public void m10() {
 
         ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");

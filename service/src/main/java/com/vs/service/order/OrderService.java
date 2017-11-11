@@ -1,7 +1,6 @@
 package com.vs.service.order;
 
 import com.vs.model.enums.OrderStatus;
-import com.vs.model.menu.Item;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
@@ -111,11 +110,20 @@ public class OrderService implements IOrderService {
         return repository.findByOrderedBy(userName);
     }
 
+
     @Override
-    public List<Order> retrieveOrdersPlacedForCooks(final String cookId) {
-        List<Order> orders = repository.findByCookMenuItemsIn(cookId);
+    public List<Order> retrieveOrdersForCooks(final String cookId, final OrderStatus status) {
+
+        List<Order> orders = repository.findByCookMenuItems_CookUserNameAndOrderStatus(cookId, OrderStatus.ACCEPTED);
+        log.info("Orders found: {}", orders);
+        filterOrders(orders, cookId);
+
+        return orders;
+    }
+
+    private void filterOrders(List<Order> orders, final String cookId ){
         log.info("Before processing Orders: {}", orders);
-        Map<Order, List<CookMenuItem>> ordersToProcess = new HashMap<>();
+        Map<Order, List<CookMenuItem>> ordersToProcess = new HashMap();
         orders.forEach(order -> {
             List<CookMenuItem> cookMenuItems = order.getCookMenuItems();
             List<CookMenuItem> itemsToRemove = new ArrayList<>();
@@ -134,9 +142,16 @@ public class OrderService implements IOrderService {
             }
         });
         log.info("After processing Orders: {}", orders);
-        return orders;
     }
 
+
+    @Override
+    public List<Order> retrieveAllOrdersTypesForCooks(final String cookId) {
+        List<Order> orders = repository.findByCookMenuItems_CookUserName(cookId);
+        log.info("Orders found: {}", orders);
+        filterOrders(orders, cookId);
+        return orders;
+    }
 
     @Override
     public Order getOrderById(String orderId) {
