@@ -2,8 +2,8 @@
 
 [![Build Status](https://semaphoreci.com/api/v1/haigopi/vantashala/branches/master/shields_badge.svg)](https://semaphoreci.com/haigopi/vantashala)
 [![GitHub commits](https://img.shields.io/badge/Author-Gopi%20K%20Kancharla-brightgreen.svg)](http://allibilli.com)
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg?style=plastic)](https://raw.githubusercontent.com/spring-social/spring-social-google/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/spring-social/spring-social-google.svg?style=plastic)](https://github.com/haigopi/VantaShala/issues)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/spring-social/spring-social-google/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/spring-social/spring-social-google.svg)](https://github.com/haigopi/VantaShala/issues)
 
 # VantaShala.com
     A Personal Organic Chef. 
