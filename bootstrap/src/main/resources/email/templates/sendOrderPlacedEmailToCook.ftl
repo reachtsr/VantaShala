@@ -20,22 +20,20 @@
                 <tr>
                     <td width="100%" height="100%" bgcolor="#946EA9">
                         <font color="#FFFFFF"><span style="font-weight: 700; ">
-						<font size="2" color="#DBCEE1"># ${notificationBean.id} - Order Placed. </font></span>
+						<font size="2" color="#DBCEE1"># ${order.id} - Order Placed. </font></span>
                             <p><span style="font-weight: 700; ">
-						<font size="2">Order from: $${notificationBean.customer}<hr></font></span></p>
+						<font size="2">Order from: ${order.orderedBy}<hr></font></span></p>
                             <font size="2">
                                 <ul type="circle">
-                                <#list notificationBean.cookMenuItems as cookMenuItem>
-                                    <li>${cookMenuItem.itemDetails.name} - ${cookMenuItem.orderQuantity} -
-                                        $${cookMenuItem.itemDetails.price} per item. <br>
+                                <#list notificationBean as cookMenuItem>
+                                    <li> Ordered Quantity: ${cookMenuItem.orderQuantity} - Price Per Item:
+                                        $${cookMenuItem.itemDetails.price} - Item: ${cookMenuItem.itemDetails.name} <br>
                                     </li>
                                 </#list>
                                 </ul>
                             </font>
                             &nbsp;<p>&nbsp;</p>
-                            <p><font size="2" color="#FFFFFF">Born for
-                                happening.<br>
-                                VantaShala.com</font></td>
+                            <p><font size="2" color="#FFFFFF">Login to VanataShala.com and accept the order as soon as possible. Order can't be cancelled once accepted.</font></td>
                 </tr>
             </table>
         </td>
