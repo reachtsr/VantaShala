@@ -18,7 +18,7 @@ import java.util.List;
  * Created by GeetaKrishna on 12/26/2015.
  */
 @Getter
-@ToString
+@ToString(exclude="message")
 public class Email {
 
     @Id
