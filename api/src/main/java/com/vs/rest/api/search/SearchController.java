@@ -34,7 +34,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/{zip}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response findCooksByZIP(@PathParam("zip") String zip) {
         List<Cook> users = searchService.findCooksByZIP(zip);
         return Response.status(200).entity(users).build();
@@ -42,7 +42,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("customers/{zip}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response findCustomersByZIP(@PathParam("zip") String zip) {
         List<Cook> users = searchService.findCooksByZIP(zip);
         return Response.status(200).entity(users).build();
@@ -50,7 +50,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/currentLocation/{zip}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response findCooksByCurrentLocation(@PathParam("zip") String zip) {
         List<Cook> users = searchService.findCooksByCurrentLocation(zip);
         return Response.status(200).entity(users).build();
@@ -58,7 +58,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("customers/currentLocation/{zip}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
     public Response findCustomersByCurrentLocation(@PathParam("zip") String zip) {
         List<Cook> users = searchService.findCustomersByCurrentLocation(zip);
         return Response.status(200).entity(users).build();

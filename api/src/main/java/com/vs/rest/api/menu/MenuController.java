@@ -26,8 +26,6 @@ import java.util.Objects;
 @Path("/menu")
 @Slf4j
 @Api(value = "Customer Menu Management", description = "Menu Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class MenuController extends BaseController {
 
     @Autowired

@@ -46,7 +46,7 @@ public class SwaggerConfiguration {
 
         Info info = new Info();
         info.setTitle("VantaShala.com - API");
-        info.setDescription("EAT Healthy so that Live Healthy");
+        info.setDescription("Eat organic");
         info.setVersion("1.0.0");
         Contact contact = new Contact();
         contact.email("Gopi@VantaShala.com");

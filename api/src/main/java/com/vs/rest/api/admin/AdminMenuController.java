@@ -22,7 +22,7 @@ import java.util.List;
 @Path("/admn/menu")
 @Slf4j
 @Api(value = "Menu Administration", description = "Admin Search Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
 public class AdminMenuController extends BaseController {
 
     @Autowired

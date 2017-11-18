@@ -25,8 +25,8 @@ import javax.ws.rs.core.Response;
 @Path("/customer")
 @Slf4j
 @Api(value = "Customer Management", description = "Customer Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
+
 public class CustomerController extends UserController {
 
     @Autowired

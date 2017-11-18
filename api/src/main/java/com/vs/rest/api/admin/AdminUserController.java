@@ -24,8 +24,8 @@ import javax.ws.rs.core.Response;
 @Path("/admn")
 @Slf4j
 @Api(value = "User Administration", description = "Admin User Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
+
 public class AdminUserController extends UserController {
 
     @Autowired

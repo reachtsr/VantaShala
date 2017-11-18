@@ -23,7 +23,7 @@ import java.util.List;
 @Path("/admn/order")
 @Slf4j
 @Api(value = "/admn/order", description = "Admin Order Controller")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
 public class AdminOrderController extends BaseController {
 
     IOrderService orderService;

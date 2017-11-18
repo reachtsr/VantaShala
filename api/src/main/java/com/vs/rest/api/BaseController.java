@@ -11,8 +11,8 @@ import java.util.Map;
  * Created by GeetaKrishna on 9/27/2016.
  */
 
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
 public abstract class BaseController {
     public static Response build200Response(Object entity) {
         return Response.status(200).entity(entity).build();

@@ -25,8 +25,8 @@ import java.util.List;
 @Path("/order/")
 @Slf4j
 @Api(value = "/order/", description = "Operations about Orders")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+
+
 public class OrderController extends BaseController {
 
     @Autowired
