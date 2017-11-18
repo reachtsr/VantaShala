@@ -66,7 +66,7 @@ No explict configuration required to set to run on your local machine
     - gradle :ui:bootRun - UI: http://localhost:8080/vs/index.html
     
 
-### Swagger
+### Swagger(BootRun)
     
     - http://localhost:8080/vs/rest/swagger.json
     - UI:  http://localhost:8080/vs/swagger/index.html
