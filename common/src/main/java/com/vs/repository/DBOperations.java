@@ -6,6 +6,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.email.Email;
+import com.vs.model.menu.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,8 +31,12 @@ public class DBOperations {
     private MongoTemplate mongoTemplate;
 
     public void updateEmailStatus(Email email){
-        mongoOperations.updateFirst(new Query(Criteria.where("id").is(email.get_id())),
-                Update.update("status", email.getStatus()), Email.class);
+
+        Update update = new Update();
+        update.set("status", email.getStatus().name());
+        Criteria criteria = Criteria.where("_id").is(email.get_id());
+        mongoTemplate.updateFirst(Query.query(criteria), update, Email.class);
+
     }
     public void addFieldsToCollection(AddNewFiledsToCollection addNewFiledsToCollection){
 

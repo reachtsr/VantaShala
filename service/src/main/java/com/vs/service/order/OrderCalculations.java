@@ -50,6 +50,8 @@ public class OrderCalculations {
                         menuToItem.setCookDetails(cook);
                         Preconditions.checkNotNull(item);
                         prices.add(item.getPrice() * menuToItem.getOrderQuantity());
+
+                        log.info("Order with item details: {}", order);
                     } catch (Exception e) {
                         log.error("", e);
                     }

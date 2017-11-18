@@ -32,9 +32,8 @@ public class EmailScheduler {
     private DBOperations dbOperations;
 
     private Queue<Email> mailsToSend = new ConcurrentLinkedQueue<>();
-    private Queue<Email> mailsSent = new ConcurrentLinkedQueue<>();
 
-    public void scheduleEmailToSend(Email _email){
+    public void scheduleEmailToSend(Email _email) {
         // First save to DB and cache them.
         Email email = emailRepository.save(_email);
         mailsToSend.add(email);
@@ -42,32 +41,36 @@ public class EmailScheduler {
 
     @Scheduled(fixedDelayString = "${vs.email.timer.scanTimer}")
     private synchronized void sendEmail() {
-        log.debug("Scanning emails to Send : {}",  dateFormat.format(new Date()));
-        for (Email email; (email = mailsToSend.poll()) != null;){
+        log.debug("Scanning emails to Send : {}", dateFormat.format(new Date()));
+        for (Email email; (email = mailsToSend.poll()) != null; ) {
             try {
                 log.info("Sending Email To: {}", email.getTo());
                 mailSender.sendEmail(email);
                 email.setStatus(EmailStatus.SENT);
-                mailsSent.add(email);
-            }catch (Exception e) {
+                dbOperations.updateEmailStatus(email);
+                log.info("Updating Email Sent Status in DB: {},  Status: {}", email.get_id(), email.getStatus());
+            } catch (Exception e) {
                 log.error(" Error while sending Email: {}", e);
+
+                email.setStatus(EmailStatus.FAILED);
+                dbOperations.updateEmailStatus(email);
+                log.info("Updating Email Failed Status in DB: {},  Status: {}", email.get_id(), email.getStatus());
             }
         }
     }
 
-    @Scheduled(fixedDelayString = "${vs.email.timer.updateDBTimer}")
-    private synchronized void updateDB() {
-        log.debug("Running Update EmailSent Status: {}",  dateFormat.format(new Date()));
-
-        for (Email email; (email = mailsSent.poll()) != null;){
-            dbOperations.updateEmailStatus(email);
-            log.info("Updating Email Sent Status into DB: {}", email.get_id());
-        }
+    @Scheduled(fixedDelayString = "${vs.email.timer.dbTable}")
+    private synchronized void scanDatabase() {
+        log.debug("Scanning emails to Send in DB: {}", dateFormat.format(new Date()));
+        List<Email> scheduled = emailRepository.findByStatus(EmailStatus.SCHEDULED.name());
+        List<Email> failed = emailRepository.findByStatus(EmailStatus.FAILED.name());
+        scheduled.forEach(e -> mailsToSend.add(e));
+        failed.forEach(e -> mailsToSend.add(e));
     }
 
     @Scheduled(cron = "${vs.email.timer.dbArchive}")
     private synchronized void archiveEmailEntries() {
-        log.debug("Archiving Send emails to another document {}",  dateFormat.format(new Date()));
+        log.debug("Archiving Send emails to another document {}", dateFormat.format(new Date()));
 
         //@TODO Complete this. Should be written on mongo side. Write a Function or procedure on mongo db to move the sent items from
         // email document to emailArchive document.

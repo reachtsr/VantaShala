@@ -68,7 +68,7 @@ public class EmailService extends CommonEmailService {
 
             HashMap<String, Object> map = getMap(items);
             map.put("order", order);
-
+            log.info("Template: {}", map);
             String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_ORDER_PLACED_EMAIL_NOTIFICATION_TO_COOK, map);
             String from = emailProperties.getFromOrderEmail();
             String subject = "New Order in Place";

@@ -77,6 +77,7 @@ public class OrderService implements IOrderService {
         byCooks.forEach((cookUserName, list) -> {
 
             Cook cook = (Cook) cookService.getUserByUserName(cookUserName);
+            log.info("Cook: {}, Order: {}", cook, order);
             emailService.notifyCooks(order, cook.getEmail(), list);
 
         });

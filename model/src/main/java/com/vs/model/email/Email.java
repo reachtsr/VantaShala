@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @Getter
 @ToString(exclude="message")
+@Document
 public class Email {
 
     @Id
@@ -56,6 +59,7 @@ public class Email {
     private final InternetAddress replyTo;
     private final String attachment;
 
+    @Indexed
     private EmailStatus status = EmailStatus.SCHEDULED;
 
     public void setStatus(EmailStatus status) {
