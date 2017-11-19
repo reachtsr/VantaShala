@@ -340,7 +340,7 @@ html {
 }
 .content-2 .container {
   padding: 0;
-  position: relative;
+  /*position: relative;*/
   z-index: 3;
 }
 .content-2 .row {
@@ -1456,7 +1456,7 @@ html {
   top: 8px;
 }
 .mbr-hero__subtext {
-  font-size: 21px;
+  font-size: 16px;
   line-height: 29px;
   margin: -32px 0 3px 0;
   padding: 0 0 41px 0;
@@ -1621,8 +1621,8 @@ html {
 .mbr-reviews__text {
   background: #fafafa;
   border-radius: 3px;
-  border: 1px solid #ededed;
-  color: #777;
+  border: 1px solid #bfdb65;
+  color: #041f01;
   font-size: 16px;
   line-height: 26px;
   padding: 20px;
@@ -1636,7 +1636,7 @@ html {
   width: 14px;
   height: 14px;
   background-color: #fafafa;
-  border-color: #ededed;
+  border-color: #bfdb65;
   border-style: none solid solid none;
   border-width: 0 1px 1px 0;
   bottom: -8px;
@@ -1702,7 +1702,7 @@ html {
   top: 10px;
 }
 .mbr-header--std-padding {
-  padding-bottom: 41px;
+  /*padding-bottom: 41px;*/
 }
 .mbr-header--center {
   text-align: center;
@@ -1714,6 +1714,7 @@ html {
   letter-spacing: 6px;
   line-height: 1.5em;
   margin: 0;
+  color: #1c496e;
 }
 .mbr-header__subtext {
   color: #777;

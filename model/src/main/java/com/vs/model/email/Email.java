@@ -39,24 +39,24 @@ public class Email {
 
     private List<InternetAddress> toList = new ArrayList<>();
 
-    private final InternetAddress cc;
-    private final InternetAddress bcc;
+    private final InternetAddress cc ;
+    private final InternetAddress bcc ;
 
     private List<InternetAddress> ccList = new ArrayList<>();
     private List<InternetAddress> bccList = new ArrayList<>();
 
     @NotNull
     @NotBlank
-    private final String message;
+    private final String message ;
 
     @NotNull
     @NotBlank
-    private final String subject;
+    private final String subject ;
 
     @NotNull
     @NotBlank
     @org.hibernate.validator.constraints.Email
-    private final InternetAddress replyTo;
+    private final InternetAddress replyTo ;
     private final String attachment;
 
     @Indexed
