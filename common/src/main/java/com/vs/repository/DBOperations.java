@@ -6,7 +6,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.email.Email;
-import com.vs.model.menu.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;

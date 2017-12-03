@@ -3,7 +3,7 @@ package com.vs.service.email;
 import com.vs.common.constants.FreeMarkerConstants;
 import com.vs.mail.ProcessEmail;
 import com.vs.model.email.Email;
-import com.vs.model.menu.Item;
+import com.vs.model.email.EmailGenerator;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
@@ -11,13 +11,13 @@ import com.vs.model.props.EmailProperties;
 import com.vs.model.props.ReadYML;
 import com.vs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/26/2015.
@@ -52,8 +52,8 @@ public class EmailService extends CommonEmailService {
             String from = emailProperties.getFromOrderEmail();
             String subject = "Order Placed";
 
-            Email email = new Email.EmailBuilder(from, to, subject, message).build();
-            processEmail.sendEmail(email);
+            EmailGenerator emailModel = new EmailGenerator.EmailBuilder(from, to, subject, message).build();
+            processEmail.sendEmail(emailModel);
 
 
 
@@ -73,8 +73,8 @@ public class EmailService extends CommonEmailService {
             String from = emailProperties.getFromOrderEmail();
             String subject = "New Order in Place";
 
-            Email email = new Email.EmailBuilder(from, cookEmail, subject, message).build();
-            processEmail.sendEmail(email);
+            EmailGenerator emailGenerator = new EmailGenerator.EmailBuilder(from, cookEmail, subject, message).build();
+            processEmail.sendEmail(emailGenerator);
 
         } catch (Exception me) {
             log.error(" Error Sending email to cook {}", cookEmail, me);
@@ -92,8 +92,8 @@ public class EmailService extends CommonEmailService {
             String message = mergeTemplateWithValues(FreeMarkerConstants.VM_SEND_EMAIL_NOTIFICATION, getMap("Application Restarted"));
 
 
-            Email email = new Email.EmailBuilder(from, to, subject, message).build();
-            processEmail.sendEmail(email);
+            EmailGenerator emailGenerator = new EmailGenerator.EmailBuilder(from, to, subject, message).build();
+            processEmail.sendEmail(emailGenerator);
         } catch (Exception me) {
             log.error(" Error Sending email {}", me);
         }

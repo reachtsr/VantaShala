@@ -1,8 +1,6 @@
 package com.vs.repository;
 
 import com.vs.model.email.Email;
-import com.vs.model.menu.Menu;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
