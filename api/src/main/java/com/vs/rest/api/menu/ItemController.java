@@ -3,7 +3,7 @@ package com.vs.rest.api.menu;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.menu.Item;
 import com.vs.rest.api.BaseController;
 import com.vs.service.menu.item.IItemservice;
@@ -84,7 +84,7 @@ public class ItemController extends BaseController {
     @PUT
     @Path("/{itemId}/status/{status}")
     @ApiOperation(value = "Change the status of the Menu Item", nickname = "changeItemStatus")
-    public Response updateMenuItemStatus(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatus status)   throws Exception {
+    public Response updateMenuItemStatus(@HeaderParam("userName") String userName, @PathParam("menuId") ObjectId menuId, @PathParam("itemId") ObjectId itemId, @PathParam("status") ItemStatusEnum status)   throws Exception {
         Preconditions.checkNotNull(menuId, "MenuId is null");
         Preconditions.checkNotNull(itemId, "ItemId is null");
         Preconditions.checkNotNull(userName, "Username not found");

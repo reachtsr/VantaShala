@@ -34,13 +34,9 @@ vs:
   mongo:
     repos:
       userCollectionName: user
-      roleCollectionName: role
-      orderStatusCollectionName: orderStatus
-      menuItemStatusCollectionName: menuItemStatus
-      emailStatusCollectionName: emailStatus
+      enumCollectionName: custom_enums
       emailCollectionName: email
-      archivedEmailCollectionName: archivedEmail
-      userStatusCollectionName: userStatus
+      archivedEmailCollectionName: emailArchival
   uploads:
       location:
         base: ../fileUploads/

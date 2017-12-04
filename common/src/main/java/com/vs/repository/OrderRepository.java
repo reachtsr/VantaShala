@@ -1,9 +1,8 @@
 package com.vs.repository;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.order.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
@@ -17,6 +16,6 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     Order findById(String id);
 
     List<Order> findByCookMenuItemsIn(String cookId);
-    List<Order> findByCookMenuItems_CookUserNameAndOrderStatus(String cookId, OrderStatus status);
+    List<Order> findByCookMenuItems_CookUserNameAndOrderStatus(String cookId, OrderStatusEnum status);
     List<Order> findByCookMenuItems_CookUserName(String cookId);
 }

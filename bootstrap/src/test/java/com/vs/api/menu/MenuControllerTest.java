@@ -6,7 +6,7 @@ import com.vs.api.common.BaseControllerTest;
 import com.vs.api.common.MenuConstantGenerator;
 import com.vs.bootstrap.ApplicationBootstrap;
 import com.vs.common.filters.AppConstants;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.enums.Measurement;
 import com.vs.model.enums.OrderCutOffHours;
 import com.vs.model.menu.Item;
@@ -62,7 +62,7 @@ public class MenuControllerTest extends BaseControllerTest {
             item.setQuantity(ThreadLocalRandom.current().nextInt(4, 11 + 1));
             item.setMeasurement(Measurement.randomMeasurment());
             item.setDescription("RANDOM DESCRIPTION in maximum of 4 lines.");
-            item.setStatus(ItemStatus.ORDER_IN_PLACE);
+            item.setStatus(ItemStatusEnum.ORDER_IN_PLACE);
             item.setCreatedDate(Calendar.getInstance().getTime());
             itemList.add(item);
         }
@@ -117,7 +117,7 @@ public class MenuControllerTest extends BaseControllerTest {
     public void a6_updateMenuItemStatusToLOCKED() throws Exception {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).
                 pathParam("itemId", MenuConstantGenerator.getMenuItemId(MenuConstantGenerator.getMenu_id())).
-                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.ORDER_LIMIT_REACHED).
+                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatusEnum.ORDER_LIMIT_REACHED).
                 post("/menu/status/{id}/{itemId}/{status}").then().contentType(ContentType.JSON).log().all();
     }
 
@@ -129,7 +129,7 @@ public class MenuControllerTest extends BaseControllerTest {
     @Test
     public void a8_updateMenuItemStatusToACTIVE() throws Exception {
         expect().statusCode(200).given().contentType(MediaType.APPLICATION_JSON).
-                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatus.ORDER_IN_PLACE).
+                pathParam("id", MenuConstantGenerator.getMenu_id()).pathParam("status", ItemStatusEnum.ORDER_IN_PLACE).
                 pathParam("itemId", MenuConstantGenerator.getMenuItemId(MenuConstantGenerator.getMenu_id())).
                 post("/menu/status/{id}/{itemId}/{status}").then().contentType(ContentType.JSON).log().all();
     }

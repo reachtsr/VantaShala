@@ -1,9 +1,9 @@
 package com.vs.api;
 
 import com.mongodb.MongoClient;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.enums.Measurement;
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
@@ -63,14 +63,14 @@ public class IndependentTest {
 
         String orderedBy = "";
         String loggedInCook = "haigopi@gmail.com";
-        OrderStatus status = OrderStatus.PLACED;
+        OrderStatusEnum status = OrderStatusEnum.PLACED;
         ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
 
-        Query query = Query.query(where("orderStatus").is(status).and("cookMenuItems.cookUserName").is(loggedInCook));
+        Query query = Query.query(where("orderStatusEnum").is(status).and("cookMenuItems.cookUserName").is(loggedInCook));
         List<Order> orders = mongoTemplate.find(query, Order.class);
         log.info("{}", orders);
 
-        orders = orderRepository.findByCookMenuItems_CookUserNameAndOrderStatus(loggedInCook, OrderStatus.PLACED);
+        orders = orderRepository.findByCookMenuItems_CookUserNameAndOrderStatus(loggedInCook, OrderStatusEnum.PLACED);
         log.info("{}", orders);
 
     }
@@ -117,7 +117,7 @@ public class IndependentTest {
 
 //        mongoTemplate.findAndModify(
 //                Query.query(where("id").is(menuId).
-//                        and("items.id").is(itemId)), update("items.$.status", ItemStatus.ORDER_IN_PLACE), Menu.class
+//                        and("items.id").is(itemId)), update("items.$.status", ItemStatusEnum.ORDER_IN_PLACE), Menu.class
 //        );
 //
 //        mongoTemplate.findAndModify(
@@ -226,7 +226,7 @@ public class IndependentTest {
 
         template.findAndModify(
                 Query.query(where("id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
-                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatus.ORDER_LIMIT_REACHED), Menu.class
+                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatusEnum.ORDER_LIMIT_REACHED), Menu.class
         );
 
 
@@ -237,7 +237,7 @@ public class IndependentTest {
 //        query.fields().include("items.id");
 //
 //        Item item = new Item();// template.findOne(query, Item.class);
-//        item.setStatus(ItemStatus.ORDER_LIMIT_REACHED);
+//        item.setStatus(ItemStatusEnum.ORDER_LIMIT_REACHED);
 //        DBObject newSectionRec = (DBObject) converter.convertToMongoType(item);
 //
 //
@@ -249,7 +249,7 @@ public class IndependentTest {
 //
 //        UUID id = UUID.fromString("5b5d4740-eb05-4242-8dd7-494bb9569fac");
 //        Item item = new Item();
-//        item.setStatus(ItemStatus.ORDER_LIMIT_REACHED);
+//        item.setStatus(ItemStatusEnum.ORDER_LIMIT_REACHED);
 //
 //        Query query = Query.query(Criteria.where("id").is(id.toString()));
 //

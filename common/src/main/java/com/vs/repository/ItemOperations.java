@@ -1,9 +1,7 @@
 package com.vs.repository;
 
 import com.mongodb.BasicDBObject;
-import com.vs.common.filters.AppConstants;
-import com.vs.model.AddNewFiledsToCollection;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import org.bson.types.ObjectId;
@@ -15,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -84,7 +81,7 @@ public class ItemOperations {
 
     }
 
-    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) {
+    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatusEnum status) {
 
         mongoTemplate.findAndModify(
                 Query.query(where("id").is(menuId).

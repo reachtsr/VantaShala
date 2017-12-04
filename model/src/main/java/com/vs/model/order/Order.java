@@ -1,6 +1,6 @@
 package com.vs.model.order;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
@@ -29,7 +29,7 @@ public class Order {
 
     private double totalPrice;
     @Indexed
-    private OrderStatus orderStatus = OrderStatus.PLACED;
+    private OrderStatusEnum orderStatus = OrderStatusEnum.PLACED;
 
     @Id
     private String id;

@@ -1,6 +1,6 @@
 package com.vs.rest.api.order;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.order.Order;
 import com.vs.rest.api.BaseController;
 import com.vs.service.order.IOrderService;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class OrderController extends BaseController {
     @GET
     @Path("/cook/{status}")
     @ApiOperation(value = "Retrieve All Orders created for a cook by order type", nickname = "getOrdersCreatedForCook")
-    public Response getCookSpecificOrders(@HeaderParam("userName") String userName, @PathParam("status") OrderStatus status) {
+    public Response getCookSpecificOrders(@HeaderParam("userName") String userName, @PathParam("status") OrderStatusEnum status) {
         Preconditions.checkNotNull(userName);
         List<Order> orders = orderService.retrieveOrdersForCooks(userName, status);
         return build200Response(orders);
@@ -91,7 +90,7 @@ public class OrderController extends BaseController {
     @PUT
     @Path("/{orderId}/status/{status}")
     @ApiOperation(value = "Update an Order status", nickname = "updateOrderStatus")
-    public Response updateOrderStatus(@PathParam("orderId") String id, @PathParam("status") OrderStatus status, @NotNull @HeaderParam("userName") String userName) {
+    public Response updateOrderStatus(@PathParam("orderId") String id, @PathParam("status") OrderStatusEnum status, @NotNull @HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(id);
         Preconditions.checkNotNull(status);
         // PLACED, RECIEVED, PROCESSING, READY, DELEIVERED, CANCELLED

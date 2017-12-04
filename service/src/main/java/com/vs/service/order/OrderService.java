@@ -1,11 +1,10 @@
 package com.vs.service.order;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.order.CookMenuItem;
 import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
 import com.vs.repository.MenuRepository;
-import com.vs.repository.OrderOperations;
 import com.vs.repository.OrderRepository;
 import com.vs.service.email.EmailService;
 import com.vs.service.menu.MenuService;
@@ -102,7 +101,7 @@ public class OrderService implements IOrderService {
     @Override
     public void cancelOrder(String orderId) {
         Order eOrder = getOrderById(orderId);
-        eOrder.setOrderStatus(OrderStatus.CANCELLED);
+        eOrder.setOrderStatus(OrderStatusEnum.CANCELLED);
         Order nOrder = repository.save(eOrder);
 
     }
@@ -114,9 +113,9 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public List<Order> retrieveOrdersForCooks(final String cookId, final OrderStatus status) {
+    public List<Order> retrieveOrdersForCooks(final String cookId, final OrderStatusEnum status) {
 
-        List<Order> orders = repository.findByCookMenuItems_CookUserNameAndOrderStatus(cookId, OrderStatus.ACCEPTED);
+        List<Order> orders = repository.findByCookMenuItems_CookUserNameAndOrderStatus(cookId, OrderStatusEnum.ACCEPTED);
         log.info("Orders found: {}", orders);
         filterOrders(orders, cookId);
 

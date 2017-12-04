@@ -3,10 +3,7 @@ package com.vs.service.bootstrap;
 import com.mongodb.BasicDBObject;
 import com.vs.common.Bootstrap;
 import com.vs.common.constants.RepositoryConstantName;
-import com.vs.model.enums.EmailStatus;
-import com.vs.model.enums.ItemStatus;
-import com.vs.model.enums.OrderStatus;
-import com.vs.model.enums.Role;
+import com.vs.model.enums.*;
 import com.vs.model.props.ReadYML;
 import com.vs.model.props.RepoProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -53,14 +50,13 @@ public class ServiceBootstrap implements Bootstrap{
             log.info("Collections not exists, Creating them now.");
             log.info("Reading Collections");
 
-            repoProperties.getRepos().forEach((k, v) -> {
-                template.createCollection(v);
-            });
+            repoProperties.getRepos().forEach((k, v) -> template.createCollection(v));
 
             createRoles();
             createMenuItemStatus();
             createOrderStatus();
             createEmailStatus();
+            createUserStatus();
         }
     }
 
@@ -73,19 +69,22 @@ public class ServiceBootstrap implements Bootstrap{
 
     private void createRoles(){
         String[] enums = Arrays.stream(Role.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        createDBEnums("roles", enums, RepositoryConstantName.ROLE_COLLECTION_NAME);
+        createDBEnums("roles", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
     private void createMenuItemStatus(){
-        String[] enums = Arrays.stream(ItemStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        createDBEnums("menuItemStatus", enums, RepositoryConstantName.MENU_ITEM_STATUS_COLLECTION_NAME);
+        String[] enums = Arrays.stream(ItemStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        createDBEnums("menuItemStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
     private void createOrderStatus(){
-        String[] enums = Arrays.stream(OrderStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        createDBEnums("orderStatus", enums, RepositoryConstantName.ORDER_STATUS_COLLECTION_NAME);
+        String[] enums = Arrays.stream(OrderStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        createDBEnums("orderStatusEnum", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
     private void createEmailStatus(){
-        String[] enums = Arrays.stream(EmailStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        createDBEnums("emailStatus", enums, RepositoryConstantName.EMAIL_STATUS_COLLECTION_NAME);
+        String[] enums = Arrays.stream(EmailStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        createDBEnums("emailStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
-
+    private void createUserStatus(){
+        String[] enums = Arrays.stream(UserStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        createDBEnums("userStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
+    }
 }

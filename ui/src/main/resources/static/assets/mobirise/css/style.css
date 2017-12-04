@@ -2049,6 +2049,9 @@ html {
 	padding: 0;
 }
 
+.h3Green{
+  color: darkolivegreen;
+}
 
 /* apple colors */
 [class*='-footer-dark'] {

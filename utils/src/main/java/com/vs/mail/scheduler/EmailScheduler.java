@@ -1,7 +1,7 @@
 package com.vs.mail.scheduler;
 
 import com.vs.model.email.Email;
-import com.vs.model.enums.EmailStatus;
+import com.vs.model.enums.EmailStatusEnum;
 import com.vs.repository.DBOperations;
 import com.vs.repository.EmailRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,13 +46,13 @@ public class EmailScheduler {
             try {
                 log.info("Sending Email To: {}", email.getTo());
                 mailSender.sendEmail(email);
-                email.setStatus(EmailStatus.SENT);
+                email.setStatus(EmailStatusEnum.SENT);
                 dbOperations.updateEmailStatus(email);
                 log.info("Updating Email Sent Status in DB: {},  Status: {}", email.get_id(), email.getStatus());
             } catch (Exception e) {
                 log.error(" Error while sending Email: {}", e);
 
-                email.setStatus(EmailStatus.FAILED);
+                email.setStatus(EmailStatusEnum.FAILED);
                 dbOperations.updateEmailStatus(email);
                 log.info("Updating Email Failed Status in DB: {},  Status: {}", email.get_id(), email.getStatus());
             }
@@ -62,8 +62,8 @@ public class EmailScheduler {
     @Scheduled(fixedDelayString = "${vs.email.timer.dbTable}")
     private synchronized void scanDatabase() {
         log.debug("Scanning emails to Send in DB: {}", dateFormat.format(new Date()));
-        List<Email> scheduled = emailRepository.findByStatus(EmailStatus.SCHEDULED.name());
-        List<Email> failed = emailRepository.findByStatus(EmailStatus.FAILED.name());
+        List<Email> scheduled = emailRepository.findByStatus(EmailStatusEnum.SCHEDULED.name());
+        List<Email> failed = emailRepository.findByStatus(EmailStatusEnum.FAILED.name());
         scheduled.forEach(e -> mailsToSend.add(e));
         failed.forEach(e -> mailsToSend.add(e));
     }

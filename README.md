@@ -73,3 +73,7 @@ No explict configuration required to set to run on your local machine
     
 ### CI/CD:
     https://semaphoreci.com/haigopi/vantashala    
+
+### USA ZipCodes
+    mongoimport ui\src\main\resources\zips.json --db "XXXXXX" --collection "XXXXXXX"    
+    

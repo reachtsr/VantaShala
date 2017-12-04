@@ -1,8 +1,7 @@
 package com.vs.model.email;
 
 
-import com.vs.model.enums.EmailStatus;
-import lombok.Data;
+import com.vs.model.enums.EmailStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -61,9 +59,9 @@ public class Email {
     private String attachment;
 
     @Indexed
-    private EmailStatus status = EmailStatus.SCHEDULED;
+    private EmailStatusEnum status = EmailStatusEnum.SCHEDULED;
 
-    public void setStatus(EmailStatus status) {
+    public void setStatus(EmailStatusEnum status) {
         this.status = status;
     }
 

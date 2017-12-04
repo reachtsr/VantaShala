@@ -1,7 +1,7 @@
 package com.vs.model.menu;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.enums.OrderCutOffHours;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class Menu {
 
     private Date createdDate = Calendar.getInstance().getTime();
 
-    public List<Item> getItems(ItemStatus status){
+    public List<Item> getItems(ItemStatusEnum status){
 
         if(items != null ) {
             return items.stream().filter(e -> e.getStatus() == status).collect(Collectors.toList());

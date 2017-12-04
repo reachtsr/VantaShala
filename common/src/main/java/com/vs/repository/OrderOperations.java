@@ -1,6 +1,6 @@
 package com.vs.repository;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.order.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class OrderOperations {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public List<Order> listCookSpecificOrders(String cookUserName, OrderStatus status) {
+    public List<Order> listCookSpecificOrders(String cookUserName, OrderStatusEnum status) {
 
-        Query query = Query.query(where("orderStatus").is(status).and("cookMenuItems.cookUserName").is(cookUserName));
+        Query query = Query.query(where("orderStatusEnum").is(status).and("cookMenuItems.cookUserName").is(cookUserName));
         List<Order> orders = mongoTemplate.find(query, Order.class);
         log.info("{}", orders);
 

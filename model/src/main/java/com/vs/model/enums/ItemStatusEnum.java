@@ -3,7 +3,7 @@ package com.vs.model.enums;
 /**
  * Created by GeetaKrishna on 12/24/2015.
  */
-public enum ItemStatus {
+public enum ItemStatusEnum {
 
     READY_FOR_ORDER, ORDER_IN_PLACE, ORDER_LIMIT_REACHED
 

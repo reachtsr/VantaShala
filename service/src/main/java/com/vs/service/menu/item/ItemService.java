@@ -2,7 +2,7 @@ package com.vs.service.menu.item;
 
 import com.vs.common.errorHandling.CustomReasonPhraseException;
 import com.vs.model.SaveFileModel;
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.repository.ItemOperations;
@@ -48,9 +48,9 @@ public class ItemService implements IItemservice {
     MenuService menuService;
 
     @Override
-    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatus status) throws Exception {
+    public void updateUserMenuItemStatus(ObjectId menuId, ObjectId itemId, ItemStatusEnum status) throws Exception {
         Item nItem = getMenuItem(menuId, itemId);
-        if (nItem.getStatus() != ItemStatus.READY_FOR_ORDER) {
+        if (nItem.getStatus() != ItemStatusEnum.READY_FOR_ORDER) {
             CustomReasonPhraseException exception = new CustomReasonPhraseException(Response.Status.BAD_REQUEST, "Not allowed to update, Orders are already in place.");
             throw exception;
         }
@@ -113,7 +113,7 @@ public class ItemService implements IItemservice {
     @Override
     public void updateMenuItem(ObjectId menuId, Item item) throws Exception {
         Item nItem = getMenuItem(menuId, item.getId());
-        if (nItem.getStatus() == ItemStatus.READY_FOR_ORDER) {
+        if (nItem.getStatus() == ItemStatusEnum.READY_FOR_ORDER) {
             itemOperations.updateExistingItem(
                     menuId, item
             );
@@ -126,7 +126,7 @@ public class ItemService implements IItemservice {
     @Override
     public void deleteMenuItem(ObjectId menuId, ObjectId itemId) throws Exception {
         Item nItem = getMenuItem(menuId, itemId);
-        if (nItem.getStatus() == ItemStatus.READY_FOR_ORDER) {
+        if (nItem.getStatus() == ItemStatusEnum.READY_FOR_ORDER) {
             itemOperations.deleteExistingItem(
                     menuId, itemId
             );

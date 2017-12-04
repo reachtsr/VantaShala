@@ -419,7 +419,7 @@
         var e = document.createElement("section");
         e.id = "top-1";
         e.className = "engine";
-        e.innerHTML = '<a href="http://mobirise.com">mobirise.com</a> Mobirise v2.6.1';
+        e.innerHTML = '<a href="http://VantaShala.com">VantaShala.com</a> VantaShala v2.6.1';
         document.body.insertBefore(e, document.body.childNodes[0]);
     }
 }();

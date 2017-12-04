@@ -1,6 +1,6 @@
 package com.vs.service.menu;
 
-import com.vs.model.enums.ItemStatus;
+import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.repository.DBOperations;
@@ -55,7 +55,7 @@ public class MenuService implements IMenuService {
         Preconditions.checkState(nMenu.getUserName().equals(userName), "Operation Not Allowed");
 
         Preconditions.checkState(
-                (nMenu.getItems(ItemStatus.ORDER_LIMIT_REACHED).size() == 0 || menu.getItems(ItemStatus.ORDER_IN_PLACE).size() == 0),
+                (nMenu.getItems(ItemStatusEnum.ORDER_LIMIT_REACHED).size() == 0 || menu.getItems(ItemStatusEnum.ORDER_IN_PLACE).size() == 0),
                 "Update NOT ALLOWED. USERS ALREADY PLACED ORDERS. ");
 
         repository.save(menu);
@@ -67,10 +67,10 @@ public class MenuService implements IMenuService {
         Menu menu = repository.findById(menuId);
         Preconditions.checkNotNull(menu, "Menu not found:" + menuId);
 
-        List<Item> items = menu.getItems(ItemStatus.ORDER_IN_PLACE);
+        List<Item> items = menu.getItems(ItemStatusEnum.ORDER_IN_PLACE);
         Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS.");
 
-        items = menu.getItems(ItemStatus.ORDER_LIMIT_REACHED);
+        items = menu.getItems(ItemStatusEnum.ORDER_LIMIT_REACHED);
         Preconditions.checkState((items.size() == 0), "DELETE NOT ALLOWED. USERS ALREADY PLACED ORDERS.");
 
         repository.delete(menuId);

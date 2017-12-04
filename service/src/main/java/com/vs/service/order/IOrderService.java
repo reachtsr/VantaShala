@@ -1,6 +1,6 @@
 package com.vs.service.order;
 
-import com.vs.model.enums.OrderStatus;
+import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.order.Order;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface IOrderService {
 
     public Order getOrderById(String id);
 
-    public List<Order> retrieveOrdersForCooks(String cookId,  final OrderStatus status);
+    public List<Order> retrieveOrdersForCooks(String cookId,  final OrderStatusEnum status);
     public List<Order> retrieveAllOrdersTypesForCooks(String cookId);
 
     public boolean exists(String orderId);
