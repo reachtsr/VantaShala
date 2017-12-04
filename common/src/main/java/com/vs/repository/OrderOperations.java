@@ -28,7 +28,7 @@ public class OrderOperations {
 
     public List<Order> listCookSpecificOrders(String cookUserName, OrderStatusEnum status) {
 
-        Query query = Query.query(where("orderStatusEnum").is(status).and("cookMenuItems.cookUserName").is(cookUserName));
+        Query query = Query.query(where("orderStatus").is(status).and("cookMenuItems.cookUserName").is(cookUserName));
         List<Order> orders = mongoTemplate.find(query, Order.class);
         log.info("{}", orders);
 

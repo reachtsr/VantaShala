@@ -1,11 +1,8 @@
 package com.vs.repository;
 
-import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
-import com.vs.model.order.Order;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 

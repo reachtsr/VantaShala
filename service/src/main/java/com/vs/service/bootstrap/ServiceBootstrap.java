@@ -20,7 +20,7 @@ import java.util.Arrays;
 @Component
 @Slf4j
 @ConfigurationProperties(prefix = "vs")
-public class ServiceBootstrap implements Bootstrap{
+public class ServiceBootstrap implements Bootstrap {
 
     @Autowired
     MongoTemplate template;
@@ -33,7 +33,7 @@ public class ServiceBootstrap implements Bootstrap{
 
 //    Todo Check unsent emails if there are any schedule them to send now and update the status in DB.
 
-    public void initialize(){
+    public void initialize() {
         checkAndCreateCollections();
     }
 
@@ -43,14 +43,17 @@ public class ServiceBootstrap implements Bootstrap{
         log.info("Checking Collection: {}", repo);
         boolean isCollectionExists = template.collectionExists(repo);
 
-        if(isCollectionExists) {
+        if (isCollectionExists) {
             log.info("Collection Available");
             // Check Super Admin
         } else {
             log.info("Collections not exists, Creating them now.");
             log.info("Reading Collections");
 
-            repoProperties.getRepos().forEach((k, v) -> template.createCollection(v));
+            repoProperties.getRepos().forEach((k, v) -> {
+                log.info("Creating collection: {}", v);
+                template.createCollection(v);
+            });
 
             createRoles();
             createMenuItemStatus();
@@ -60,30 +63,33 @@ public class ServiceBootstrap implements Bootstrap{
         }
     }
 
-    private void createDBEnums(String name, String[] enums, RepositoryConstantName repositoryName){
+    private void createDBEnums(String name, String[] enums, RepositoryConstantName repositoryName) {
         BasicDBObject obj = new BasicDBObject();
         obj.put(name, enums);
-        log.info("Enums {}, Repository Name: {}",enums.toString(), repositoryName.getName());
         template.insert(obj, repoProperties.getRepos().get(repositoryName.getName()));
     }
 
-    private void createRoles(){
+    private void createRoles() {
         String[] enums = Arrays.stream(Role.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("roles", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
-    private void createMenuItemStatus(){
+
+    private void createMenuItemStatus() {
         String[] enums = Arrays.stream(ItemStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("menuItemStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
-    private void createOrderStatus(){
+
+    private void createOrderStatus() {
         String[] enums = Arrays.stream(OrderStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("orderStatusEnum", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
-    private void createEmailStatus(){
+
+    private void createEmailStatus() {
         String[] enums = Arrays.stream(EmailStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("emailStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }
-    private void createUserStatus(){
+
+    private void createUserStatus() {
         String[] enums = Arrays.stream(UserStatusEnum.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         createDBEnums("userStatus", enums, RepositoryConstantName.ENUM_COLLECTION_NAME);
     }

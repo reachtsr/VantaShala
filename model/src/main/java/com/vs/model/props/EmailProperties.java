@@ -1,6 +1,7 @@
 package com.vs.model.props;
 
 import lombok.Data;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 @ConfigurationProperties(prefix = "vs")
 @Slf4j
 @Data
+@ToString(exclude = {"email"})
 public class EmailProperties {
 
     private HashMap<String, String> email;
@@ -35,6 +37,6 @@ public class EmailProperties {
 
     @PostConstruct
     public void init() {
-        log.info("Email Properties: {}", email);
+        log.debug("Email Properties: {}", email);
     }
 }

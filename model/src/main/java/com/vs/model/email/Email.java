@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-@ToString(exclude = "message")
+@ToString(exclude = {"message"})
 @Document
 public class Email {
 

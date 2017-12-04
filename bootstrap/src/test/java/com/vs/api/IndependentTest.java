@@ -10,6 +10,7 @@ import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
 import com.vs.repository.*;
+//import com.vs.repository.unused.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -52,8 +53,8 @@ public class IndependentTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
+//    @Autowired
+//    private ItemRepository itemRepository;
 
     @Autowired
     private MongoTemplate template;
@@ -66,7 +67,7 @@ public class IndependentTest {
         OrderStatusEnum status = OrderStatusEnum.PLACED;
         ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
 
-        Query query = Query.query(where("orderStatusEnum").is(status).and("cookMenuItems.cookUserName").is(loggedInCook));
+        Query query = Query.query(where("orderStatus").is(status).and("cookMenuItems.cookUserName").is(loggedInCook));
         List<Order> orders = mongoTemplate.find(query, Order.class);
         log.info("{}", orders);
 
@@ -95,8 +96,8 @@ public class IndependentTest {
 
         ObjectId menuId = new ObjectId("59ff81bc44b7922cc8946150");
         ObjectId itemId = new ObjectId("59ff81bc44b7922cc8946151");
-        Menu item = itemRepository.findByUserNameAndIdAndItems_Id("saradaKitchen", menuId, itemId);
-        log.info("{}", item);
+        //Menu item = itemRepository.findByUserNameAndIdAndItems_Id("saradaKitchen", menuId, itemId);
+        //log.info("{}", item);
 
     }
 

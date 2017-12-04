@@ -10,3 +10,4 @@ out
 out/*
 *.jar
 *.log
+build/
