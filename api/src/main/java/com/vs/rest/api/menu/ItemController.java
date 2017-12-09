@@ -105,6 +105,7 @@ public class ItemController extends BaseController {
         log.info("Uploading Item Pic with size: {}", fileDisposition.getSize());
 
         Preconditions.checkArgument(!(fileDisposition.getSize() > AppConstants.MAX_PROFILE_SIZE), "Too Big File. Must be less than an MB.");
+        Preconditions.checkArgument(!((fileDisposition.getType().contentEquals(".jpg"))||(fileDisposition.getType().contentEquals(".png"))||(fileDisposition.getType().contentEquals(".gif"))), "Input file type must be jpg,png or gif.");
         SaveFileModel saveFile = new SaveFileModel();
         saveFile.setContentDisposition(fileDisposition);
         saveFile.setInputStream(picture);
