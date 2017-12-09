@@ -6,6 +6,8 @@ import com.vs.common.constants.RepositoryConstantName;
 import com.vs.model.enums.*;
 import com.vs.model.props.ReadYML;
 import com.vs.model.props.RepoProperties;
+import com.vs.model.user.User;
+import com.vs.repository.MongoCollectionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -38,10 +40,8 @@ public class ServiceBootstrap implements Bootstrap {
     }
 
     private void checkAndCreateCollections() {
-        String repo = repoProperties.getRepos().values().iterator().next();
 
-        log.info("Checking Collection: {}", repo);
-        boolean isCollectionExists = template.collectionExists(repo);
+        boolean isCollectionExists = template.collectionExists(User.class);
 
         if (isCollectionExists) {
             log.info("Collection Available");
@@ -60,6 +60,8 @@ public class ServiceBootstrap implements Bootstrap {
             createOrderStatus();
             createEmailStatus();
             createUserStatus();
+
+            MongoCollectionManager.cleanAndFill(template.getDb(), "zips_old.json", "zip_codes_usa");
         }
     }
 

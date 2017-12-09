@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Slf4j
-@Document
+//@Document
 public class CookMenuItem {
 
     @Indexed

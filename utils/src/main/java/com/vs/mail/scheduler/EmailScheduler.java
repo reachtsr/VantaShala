@@ -70,7 +70,7 @@ public class EmailScheduler {
 
     @Scheduled(cron = "${vs.email.timer.dbArchive}")
     private synchronized void archiveEmailEntries() {
-        log.debug("Archiving Send emails to another document {}", dateFormat.format(new Date()));
+        log.debug("@ToDo Archiving Send emails to another Collection {}", dateFormat.format(new Date()));
 
         //@TODO Complete this. Should be written on mongo side. Write a Function or procedure on mongo db to move the sent items from
         // email document to emailArchive document.

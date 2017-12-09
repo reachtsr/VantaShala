@@ -1,6 +1,5 @@
 package com.vs.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.address.Address;
@@ -11,8 +10,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * Created by GeetaKrishna on 12/21/2015.

@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @Slf4j
-@Document
+//@Document
 public class Item {
 
     @Id
