@@ -27,7 +27,6 @@ public abstract class User {
     private String firstName;
     private String lastName;
     private double[] location;
-
     @Indexed(unique = true)
     @NotNull
     private String email;

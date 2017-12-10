@@ -67,7 +67,7 @@ public abstract class UserServiceImpl implements IUserService {
             Cook cook = (Cook) user;
             String kitchenName = cook.getKitchenName();
             ZipData zipData = geoSpatial.getCoOrdinates(cook.getBusinessAddress().getZipCode());
-            user.setLocation(zipData.getLocation());
+            user.setLocation(zipData.getLoc());
             List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
             if (existingCooks.size() == 0) {
                 userRepository.insert(user);
@@ -76,7 +76,7 @@ public abstract class UserServiceImpl implements IUserService {
             }
         } else {
             ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
-            user.setLocation(zipData.getLocation());
+            user.setLocation(zipData.getLoc());
             userRepository.insert(user);
         }
     }
