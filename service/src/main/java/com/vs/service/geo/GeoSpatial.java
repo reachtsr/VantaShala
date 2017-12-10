@@ -1,25 +1,46 @@
 package com.vs.service.geo;
 
-import com.google.common.collect.Lists;
+import com.vs.model.geo.ZipData;
+import com.vs.model.user.User;
+import com.vs.repository.USZipCodesRepository;
+import com.vs.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by GeetaKrishna on 03-Dec-17.
  **/
 @Component
+@Slf4j
 public class GeoSpatial {
 
+    @Autowired
+    USZipCodesRepository usZipCodesRepository;
 
-    public void findAllTownsWithinRadius10km() {
-        //GIVEN
-        int lowerLimit = 10 * 1000; //in meters
+    @Autowired
+    UserRepository userRepository;
 
-        //WHEN
-//        Lists<ZipData> results = Lists.newArrayList(zipCodes.find("{loc: {$near : {$geometry : {type: 'Point', " +
-//                "coordinates: [-122.252696, 37.900933] }, $maxDistance: # }}}", lowerLimit)
-//                .as(ZipData.class).iterator());
+    @Autowired
+    MongoTemplate template;
 
-        //THEN
-        // assertThat(results).hasSize(19);
+    public ZipData getCoOrdinates(String zipCode) {
+        return usZipCodesRepository.findBy_id(zipCode);
     }
+
+    public GeoResults<User> getUsersNearBy(User user, int miles) {
+        log.info("User: {} searching for cooks near by: {} miles");
+        Point point = new Point(user.getLocation()[0], user.getLocation()[1]);
+        NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
+        GeoResults<User> cooks = template.geoNear(query, User.class);
+        return cooks;
+    }
+
+
 }

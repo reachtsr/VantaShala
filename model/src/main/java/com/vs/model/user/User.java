@@ -26,6 +26,7 @@ public abstract class User {
     private Role role = Role.DEFAULT;
     private String firstName;
     private String lastName;
+    private double[] location;
 
     @Indexed(unique = true)
     @NotNull

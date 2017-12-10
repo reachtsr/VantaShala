@@ -39,7 +39,7 @@ public class MongoCollectionManager {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader( //
+            InputStreamReader inputStreamReader = new InputStreamReader(
                     MongoCollectionManager.class.getClassLoader().getResourceAsStream(collectionContentFilePath), "UTF-8");
             CharBuffer buf = CharBuffer.allocate(BUFFER_SIZE);
             for (int read = inputStreamReader.read(buf); read != EOF; read = inputStreamReader.read(buf)) {

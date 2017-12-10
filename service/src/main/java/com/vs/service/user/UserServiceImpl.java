@@ -6,6 +6,7 @@ import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
+import com.vs.model.geo.ZipData;
 import com.vs.model.user.Cook;
 import com.vs.model.user.CustomerToCookSubscription;
 import com.vs.model.user.User;
@@ -14,11 +15,11 @@ import com.vs.repository.DBOperations;
 import com.vs.repository.SubscriptionRepository;
 import com.vs.repository.UserRepository;
 import com.vs.service.SaveFile;
+import com.vs.service.geo.GeoSpatial;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,9 @@ public abstract class UserServiceImpl implements IUserService {
     @Autowired
     SubscriptionRepository subscriptionRepository;
 
+    @Autowired
+    GeoSpatial geoSpatial;
+
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
         if (this.role == null) {
@@ -58,22 +62,25 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public void createUser(User user) throws Exception {
-        if(user instanceof Cook) {
+
+        if (user instanceof Cook) {
             Cook cook = (Cook) user;
             String kitchenName = cook.getKitchenName();
-
+            ZipData zipData = geoSpatial.getCoOrdinates(cook.getBusinessAddress().getZipCode());
+            user.setLocation(zipData.getLocation());
             List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
             if (existingCooks.size() == 0) {
                 userRepository.insert(user);
             } else {
                 throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED");
             }
-        }
-        else {
+        } else {
+            ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
+            user.setLocation(zipData.getLocation());
             userRepository.insert(user);
         }
-
     }
+
 
     @Override
     public String saveFile(String userName, SaveFileModel saveFileModel) {
@@ -122,7 +129,7 @@ public abstract class UserServiceImpl implements IUserService {
     @Override
     public void enableOrDisableUser(String userName, UserStatusEnum userStatus) throws Exception {
         User user = userRepository.findOne(userName);
-        Preconditions.checkNotNull(user, "User Not Found: "+userName);
+        Preconditions.checkNotNull(user, "User Not Found: " + userName);
         user.setStatus(userStatus);
         userRepository.save(user);
     }
@@ -158,13 +165,12 @@ public abstract class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean subscribeCustomerToCook(String cookId, String customerId){
+    public boolean subscribeCustomerToCook(String cookId, String customerId) {
         User user = userRepository.findOne(cookId);
         Preconditions.checkNotNull(user);
         CustomerToCookSubscription customerToCookSubscription = subscriptionRepository.findByCook(cookId);
-        if(customerToCookSubscription!=null) {
-            if(!customerToCookSubscription.getCustomers().contains(customerId))
-            {
+        if (customerToCookSubscription != null) {
+            if (!customerToCookSubscription.getCustomers().contains(customerId)) {
                 customerToCookSubscription.getCustomers().add(customerId);
                 subscriptionRepository.save(customerToCookSubscription);
             }
