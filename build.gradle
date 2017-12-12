@@ -19,6 +19,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'project-report'
+    apply plugin: 'jacoco'
+
 
     test {
         def env_vars = ['contextName': 'VS', 'spring.profiles.active': 'dev']
@@ -90,6 +92,17 @@ subprojects {
     sourceSets {
         test.compileClasspath += configurations.compileOnly
         test.runtimeClasspath += configurations.compileOnly
+    }
+    jacoco {
+        toolVersion = '0.7.9'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled=false
+            csv.enabled=false
+            html.destination file("${buildDir}/reports/jacoco/jacocoHtml")
+        }
     }
 
 }
