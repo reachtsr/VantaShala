@@ -1,10 +1,7 @@
 package com.vs.api;
 
 import com.mongodb.MongoClient;
-import com.vs.model.enums.ItemStatusEnum;
-import com.vs.model.enums.Measurement;
-import com.vs.model.enums.OrderStatusEnum;
-import com.vs.model.enums.Role;
+import com.vs.model.enums.*;
 import com.vs.model.geo.ZipData;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
@@ -12,6 +9,7 @@ import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
 import com.vs.repository.*;
 //import com.vs.repository.unused.ItemRepository;
+import com.vs.service.geo.GeoSpatial;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -54,11 +52,12 @@ public class IndependentTest {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private USZipCodesRepository usZipCodesRepository;
 
 //    @Autowired
 //    private ItemRepository itemRepository;
+
+    @Autowired
+    private USZipCodesRepository usZipCodesRepository;
 
     @Autowired
     private MongoTemplate template;
@@ -69,6 +68,7 @@ public class IndependentTest {
 
         ZipData data = usZipCodesRepository.findBy_id("75024");
         log.info("{}", data);
+
     }
 
     public void m11() {

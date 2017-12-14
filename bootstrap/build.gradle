@@ -7,4 +7,5 @@ dependencies {
     compile project(':common')
     compile project(':service')
 
+    testCompile project(path: ':service', configuration: 'testOutput')
 }

@@ -56,9 +56,10 @@ public class GeoSpatial {
     }
 
     public List<Cook>  getCooksNearBy(Country country, String zipCode, int miles) {
-        log.info("User: {} searching for cooks near by: {} miles");
+        log.info("User: {} searching for cooks near by: {} miles", zipCode, miles);
         ZipData zipData = usZipCodesRepository.findBy_id(zipCode);
         Point point = new Point(zipData.getLoc()[0], zipData.getLoc()[1]);
+        log.info("ZipData: {} - Point: {}", zipData, point);
         NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
         GeoResults<User> cooks = template.geoNear(query, User.class);
         return filterUsers(cooks, country);
