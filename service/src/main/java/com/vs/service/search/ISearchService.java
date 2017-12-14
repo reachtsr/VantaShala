@@ -1,7 +1,10 @@
 package com.vs.service.search;
 
+import com.vs.model.enums.Country;
+import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
+import org.springframework.data.geo.GeoResults;
 
 import java.util.List;
 
@@ -10,8 +13,11 @@ import java.util.List;
  */
 public interface ISearchService {
 
-    public List<Cook> findCooksByZIP(String zipCode);
-    public List<Cook> findCooksByCurrentLocation(String zipCode);
-    public List<Cook> findCustomersByZIP(String zipCode);
-    public List<Cook> findCustomersByCurrentLocation(String zipCode);
+    public List<Cook> findUsersNearByLocation(Country country, double[] locations, int miles);
+
+    public List<Cook> findUsersNearByZipCode(Country country, String zipCode, int miles);
+
+    public List<Cook> findUsersNearByUserId(Country country, String userId, int miles);
+
+    public List findUsersByZIP(String zipCode, Country country, Role role);
 }

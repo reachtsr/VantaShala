@@ -2,6 +2,7 @@ package com.vs.model.geo;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -15,6 +16,8 @@ public class ZipData {
     @Id
     private String _id;
     private String city;
+
+    @GeoSpatialIndexed
     private double[] loc;
     private int pop;
     private String state;

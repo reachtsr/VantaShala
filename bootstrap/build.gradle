@@ -8,5 +8,3 @@ dependencies {
     compile project(':service')
 
 }
-
-

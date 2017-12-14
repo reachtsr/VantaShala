@@ -1,5 +1,6 @@
 package com.vs.repository;
 
+import com.vs.model.enums.Country;
 import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
@@ -13,6 +14,12 @@ import java.util.List;
  */
 
 public interface UserRepository extends MongoRepository<User, String> {
+
+
+    List<User> findAllByPersonalAddress_ZipCodeAndCountry(String zipCode, Country
+            country, Role role);
+
+    List<User> findAllByLocation(double[] location);
 
     public long countByRole(Role role);
 

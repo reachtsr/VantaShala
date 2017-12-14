@@ -1,5 +1,6 @@
 package com.vs.model.user;
 
+import com.vs.model.enums.Country;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.user.address.Address;
@@ -31,6 +32,7 @@ public abstract class User {
     @NotNull
     private String email;
     private String mobile;
+    private String country = Country.USA.name();
     private Address personalAddress;
     private UserStatusEnum status;
     private Boolean enableTextMessaging = false;

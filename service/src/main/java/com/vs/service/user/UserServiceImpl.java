@@ -20,10 +20,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by GeetaKrishna on 12/22/2015.
@@ -67,7 +64,9 @@ public abstract class UserServiceImpl implements IUserService {
             Cook cook = (Cook) user;
             String kitchenName = cook.getKitchenName();
             ZipData zipData = geoSpatial.getCoOrdinates(cook.getBusinessAddress().getZipCode());
-            user.setLocation(zipData.getLoc());
+            if (!Objects.isNull(zipData)) {
+                user.setLocation(zipData.getLoc());
+            }
             List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
             if (existingCooks.size() == 0) {
                 userRepository.insert(user);

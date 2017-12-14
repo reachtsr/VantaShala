@@ -21,7 +21,6 @@ subprojects {
     apply plugin: 'project-report'
     apply plugin: 'jacoco'
 
-
     test {
         def env_vars = ['contextName': 'VS', 'spring.profiles.active': 'dev']
         environment env_vars
@@ -30,7 +29,9 @@ subprojects {
         // println jvmArgs
     }
 
-    test.onlyIf { Boolean.getBoolean('withTests') }
+    test.onlyIf {
+        Boolean.getBoolean('withTests')
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -96,14 +97,25 @@ subprojects {
     jacoco {
         toolVersion = '0.7.9'
     }
-
-    jacocoTestReport {
+    jacocoTestReport{
+        additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
         reports {
-            xml.enabled=false
-            csv.enabled=false
+            xml.enabled false
+            csv.enabled false
             html.destination file("${buildDir}/reports/jacoco/jacocoHtml")
         }
+        executionData = files('build/jacoco/test.exec')
     }
 
+    task testJar(type: Jar, dependsOn: testClasses) {
+        baseName = "${project.archivesBaseName}-tests"
+        from sourceSets.test.output
+    }
+
+    artifacts {
+        archives testJar
+    }
+
+    tasks.uploadArchives.dependsOn testJar
 }
 

@@ -1,5 +1,6 @@
 package com.vs.model.user.address;
 
+import com.vs.model.enums.Country;
 import lombok.Data;
 
 /**
@@ -12,4 +13,5 @@ public class Address {
     private String city;
     private String state;
     private String zipCode;
+    private Country country = Country.USA;
 }
