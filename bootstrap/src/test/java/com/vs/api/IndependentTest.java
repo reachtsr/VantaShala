@@ -5,6 +5,7 @@ import com.vs.model.enums.ItemStatusEnum;
 import com.vs.model.enums.Measurement;
 import com.vs.model.enums.OrderStatusEnum;
 import com.vs.model.enums.Role;
+import com.vs.model.geo.ZipData;
 import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
@@ -53,13 +54,23 @@ public class IndependentTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private USZipCodesRepository usZipCodesRepository;
+
 //    @Autowired
 //    private ItemRepository itemRepository;
 
     @Autowired
     private MongoTemplate template;
 
+
     @Test
+    public void m12() {
+
+        ZipData data = usZipCodesRepository.findBy_id("75024");
+        log.info("{}", data);
+    }
+
     public void m11() {
 
         String orderedBy = "";
@@ -71,7 +82,7 @@ public class IndependentTest {
         List<Order> orders = mongoTemplate.find(query, Order.class);
         log.info("{}", orders);
 
-        orders = orderRepository.findByCookMenuItems_CookUserNameAndOrderStatus(loggedInCook, OrderStatusEnum.PLACED);
+        // orders = orderRepository.findByCookMenuItems_CookUserNameAndOrderStatus(loggedInCook, OrderStatusEnum.PLACED);
         log.info("{}", orders);
 
     }
@@ -87,7 +98,7 @@ public class IndependentTest {
         List<Menu> menus = menuRepository.findByUserName(userName);
 
 
-         menuRepository.findByUserNameAndName(userName, menuName);
+        menuRepository.findByUserNameAndName(userName, menuName);
 
 
     }
@@ -115,7 +126,6 @@ public class IndependentTest {
                 and("items.id").is(itemId)), mergeUserUpdate, Menu.class);
 
 
-
 //        mongoTemplate.findAndModify(
 //                Query.query(where("id").is(menuId).
 //                        and("items.id").is(itemId)), update("items.$.status", ItemStatusEnum.ORDER_IN_PLACE), Menu.class
@@ -140,7 +150,6 @@ public class IndependentTest {
 
         String menuId = "59f7da7b5bf6cf0588f3d8e5";
         String itemId = "59f7da7b5bf6cf0588f3d8e6";
-
 
 
         mongoTemplate.findAndModify(
@@ -184,8 +193,8 @@ public class IndependentTest {
 
         ArrayList l = new ArrayList();
         l.add("d3d01414-c416-431a-ab08-fc650054598f");
-      Menu item = null;// menuRepository.findByMenuIdAndItems_Id("e0fc5f20-86e1-456b-9515-b411c576c62f","d3d01414-c416-431a-ab08-fc650054598f");
-      log.info("List: {}", item);
+        Menu item = null;// menuRepository.findByMenuIdAndItems_Id("e0fc5f20-86e1-456b-9515-b411c576c62f","d3d01414-c416-431a-ab08-fc650054598f");
+        log.info("List: {}", item);
     }
 
     public void m2() {
@@ -227,10 +236,8 @@ public class IndependentTest {
 
         template.findAndModify(
                 Query.query(where("id").is("f972c125-792d-4f6d-b74b-ca8776da84a9").
-                and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatusEnum.ORDER_LIMIT_REACHED), Menu.class
+                        and("items.id").is("87a6b16b-db9f-4827-9ccd-7dc6d25918d1")), update("items.$.status", ItemStatusEnum.ORDER_LIMIT_REACHED), Menu.class
         );
-
-
 
 
 //        MongoConverter converter = template.getConverter();
