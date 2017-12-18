@@ -54,7 +54,7 @@ subprojects {
 
     dependencies {
 
-        compileOnly('org.projectlombok:lombok')
+        compile('org.projectlombok:lombok')
 
         compile('com.google.guava:guava:19.0')
 
@@ -85,7 +85,7 @@ subprojects {
         compile 'org.glassfish.jersey.media:jersey-media-multipart:2.+'
         compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '1.16'
 
-        testCompileOnly('org.projectlombok:lombok')
+        testCompile('org.projectlombok:lombok')
         testCompile('com.intuit.karate:karate-apache:0.6.0')
         testCompile('com.intuit.karate:karate-junit4:0.6.0')
         testCompile('com.jayway.restassured:rest-assured:2.8.0')
