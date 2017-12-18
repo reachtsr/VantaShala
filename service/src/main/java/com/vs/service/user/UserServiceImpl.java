@@ -65,17 +65,17 @@ public abstract class UserServiceImpl implements IUserService {
             String kitchenName = cook.getKitchenName();
             ZipData zipData = geoSpatial.getCoOrdinates(cook.getBusinessAddress().getZipCode());
             if (!Objects.isNull(zipData)) {
-                user.setLocation(zipData.getLoc());
+                user.setLoc(zipData.getLoc());
             }
             List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
             if (existingCooks.size() == 0) {
                 userRepository.insert(user);
             } else {
-                throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED");
+                throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED: "+((Cook) user).getKitchenName());
             }
         } else {
             ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
-            user.setLocation(zipData.getLoc());
+            user.setLoc(zipData.getLoc());
             userRepository.insert(user);
         }
     }

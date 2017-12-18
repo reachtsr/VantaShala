@@ -8,12 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,16 +29,21 @@ public class MongoCollectionManager {
     private static final int EOF = -1;
     private static final int START = 0;
 
-    public static void cleanAndFill(DB mongoDB, String location, String name) {
+    @Autowired
+    Environment env;
+
+    public void cleanAndFill(DB mongoDB, String location, String name) {
+
 
         if (mongoDB.collectionExists(name)) {
             mongoDB.getCollection(name).drop();
         }
+
         DBCollection collection = mongoDB.createCollection(name, new BasicDBObject());
         fill(collection, location);
     }
 
-    private static void fill(DBCollection collection, String collectionContentFilePath) {
+    private void fill(DBCollection collection, String collectionContentFilePath) {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         try {
@@ -50,7 +58,7 @@ public class MongoCollectionManager {
 
             String json = stringBuilder.toString();
             json = json.replaceAll("\n", ",");
-           // log.info("{}", json);
+            // log.info("{}", json);
 
             List<BasicDBObject> jsonList = new ArrayList<>();
 
@@ -59,7 +67,7 @@ public class MongoCollectionManager {
             for (int i = 0; i < jArr.length() - 1; i++) {
                 try {
                     JSONObject innerObj = jArr.getJSONObject(i);
-                   // log.info("{} - {}", i, innerObj.toString());
+                    // log.info("{} - {}", i, innerObj.toString());
                     BasicDBObject jsnObject = (BasicDBObject) JSON.parse(innerObj.toString());
                     jsonList.add(jsnObject);
                 } catch (JSONException e) {

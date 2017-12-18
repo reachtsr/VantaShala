@@ -7,6 +7,7 @@ import com.vs.model.user.address.Address;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,7 +28,8 @@ public abstract class User {
     private Role role = Role.DEFAULT;
     private String firstName;
     private String lastName;
-    private double[] location;
+    @GeoSpatialIndexed
+    private double[] loc;
     @Indexed(unique = true)
     @NotNull
     private String email;

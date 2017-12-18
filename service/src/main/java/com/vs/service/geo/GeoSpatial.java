@@ -49,7 +49,7 @@ public class GeoSpatial {
 
     public List<Cook> getCooksNearBy(Country country, User user, int miles) {
         log.info("User: {} searching for cooks near by: {} miles");
-        Point point = new Point(user.getLocation()[0], user.getLocation()[1]);
+        Point point = new Point(user.getLoc()[0], user.getLoc()[1]);
         NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
         GeoResults<User> cooks = template.geoNear(query, User.class);
         return filterUsers(cooks, country);
@@ -71,11 +71,12 @@ public class GeoSpatial {
         List<Cook> filteredCooks = new ArrayList<>();
 
         cooks.forEach( u -> {
+            User user = u.getContent();
+            if(user instanceof Cook ) {
             Cook cook = (Cook)u.getContent();
             if(cook.getBusinessAddress().getCountry() == country){
                 filteredCooks.add(cook);
-            }
-
+            }}
         });
 
         return filteredCooks;

@@ -46,13 +46,13 @@ public class ReadYML {
 //    private String baseLocation;
 //    private String profileLocation;
 //    private String menuItemLocation;
-//    private HashMap<String, String> location;
+//    private HashMap<String, String> loc;
 //
 //    @PostConstruct
 //    public void init() {
-//        baseLocation = location.get("base");
-//        profileLocation = location.get("profilePic");
-//        menuItemLocation = location.get("menuItemPic");
+//        baseLocation = loc.get("base");
+//        profileLocation = loc.get("profilePic");
+//        menuItemLocation = loc.get("menuItemPic");
 //    }
 //
 //    public String getPath(FileUploadTypeEnum fileUploadTypeEnum, String userName) {

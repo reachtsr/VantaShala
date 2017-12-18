@@ -5,8 +5,8 @@ spring:
       port: 27017
 vs:
   email:
-    host: smtp.gmail.com
-    port: 587
-    username: alertsoalerts@gmail.com
+    mail.smtp.host: smtp.gmail.com
+    mail.smtp.port: 587
+    mail.smtp.user: alertsoalerts@gmail.com
     password: ENC(IRjKmIYXiEkrPnUzMO+JSWuH2tigI8+R)
-    send: true
+    send: false

@@ -11,6 +11,7 @@ import com.vs.repository.MongoCollectionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,13 @@ public class ServiceBootstrap implements Bootstrap {
     @Autowired
     RepoProperties repoProperties;
 
+    @Autowired
+    Environment env;
+
+    @Autowired
+    MongoCollectionManager mongoCollectionManager;
+
+
 //    Todo Check unsent emails if there are any schedule them to send now and update the status in DB.
 
     public void initialize() {
@@ -40,6 +48,7 @@ public class ServiceBootstrap implements Bootstrap {
     }
 
     private void checkAndCreateCollections() {
+
 
         boolean isCollectionExists = template.collectionExists(User.class);
 
@@ -61,7 +70,7 @@ public class ServiceBootstrap implements Bootstrap {
             createEmailStatus();
             createUserStatus();
 
-            MongoCollectionManager.cleanAndFill(template.getDb(), "zips_old.json", "zip_codes_usa");
+            mongoCollectionManager.cleanAndFill(template.getDb(), "zips_old.json", "zip_codes_usa");
         }
     }
 

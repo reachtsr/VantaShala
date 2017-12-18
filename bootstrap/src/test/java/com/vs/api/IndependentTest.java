@@ -7,6 +7,7 @@ import com.vs.model.menu.Item;
 import com.vs.model.menu.Menu;
 import com.vs.model.order.Order;
 import com.vs.model.user.Cook;
+import com.vs.model.user.User;
 import com.vs.repository.*;
 //import com.vs.repository.unused.ItemRepository;
 import com.vs.service.geo.GeoSpatial;
@@ -17,8 +18,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -62,8 +68,31 @@ public class IndependentTest {
     @Autowired
     private MongoTemplate template;
 
+    @Test
+    public void  getCooksNearBy() {
+        log.info("User: {} searching for cooks near by: {} miles", "75024", 20);
+        ZipData zipData = usZipCodesRepository.findBy_id("75024");
+        Point point = new Point(zipData.getLoc()[0], zipData.getLoc()[1]);
+        log.info("ZipData: {} - Point: {}", zipData, point);
+        NearQuery query = NearQuery.near(point).maxDistance(new Distance(20, Metrics.MILES));
+        GeoResults<ZipData> cooks = template.geoNear(query, ZipData.class);
+        log.info("--> {}", cooks.getContent().size());
+    }
 
     @Test
+    public void  getCooksNearByUsersTable() {
+        log.info("User: {} searching for cooks near by: {} miles", "75024", 20);
+        ZipData zipData = usZipCodesRepository.findBy_id("75024");
+        Point point = new Point(zipData.getLoc()[0], zipData.getLoc()[1]);
+        log.info("ZipData: {} - Point: {}", zipData, point);
+        NearQuery query = NearQuery.near(point).maxDistance(new Distance(5, Metrics.MILES));
+        GeoResults<User> cooks = template.geoNear(query, User.class);
+        log.info("--> {}", cooks.getContent().size());
+    }
+
+
+
+
     public void m12() {
 
         ZipData data = usZipCodesRepository.findBy_id("75024");

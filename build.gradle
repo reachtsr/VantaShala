@@ -37,9 +37,9 @@ subprojects {
 
     artifacts { testOutput jarTest }
 
-    /*    test.onlyIf {
+    test.onlyIf {
         Boolean.getBoolean('withTests')
-    }*/
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

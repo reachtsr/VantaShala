@@ -25,7 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SpringMongoConfiguration.class})
 @Slf4j
-@ComponentScan(basePackages = "com.vs")
+
 public class GeoRepoTest {
 
     @Autowired
@@ -49,6 +49,7 @@ public class GeoRepoTest {
 }
 
 @EnableMongoRepositories({"com.vs.repository"})
+@ComponentScan(basePackages = "com.vs.service.geo")
 class SpringMongoConfiguration {
 
     @Bean

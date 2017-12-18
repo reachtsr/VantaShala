@@ -53,7 +53,7 @@ public class SearchController extends BaseController {
     }
 
     @GET
-    @Path("cooks/{country}/nearBy/location")
+    @Path("cooks/{country}/nearBy/loc")
     public Response findCooksByNearByLocation(@PathParam("country") Country country, @QueryParam("loc") List<Double> loc, @QueryParam("miles") int miles) {
         double[] location = new double[2];
         location[0] = loc.get(0);

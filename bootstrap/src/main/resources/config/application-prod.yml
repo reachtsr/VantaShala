@@ -1,18 +1,20 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      username: gopi
-      password: gopikrishna
-      uri: mongodb://gopi:gopikrishna@mongodb/VantaShala
+      uri: mongodb://vantashala:gopikrishna@cluster0-shard-00-00-s4yfe.mongodb.net:27017,cluster0-shard-00-01-s4yfe.mongodb.net:27017,cluster0-shard-00-02-s4yfe.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin
 
+#vs:
+#  email:
+#    mail.smtp.host: in.mailjet.com
+#    mail.smtp.port: 587
+#    mail.smtp.username: ENC(KRmdXpurm62F2vTYdHIS0rg/0HXXFv7MXsYwH/RMJiPlf5Oemyw2AuoZ8VmkoEt6)
+#    password: ENC(mTddymjBnjolbj/aPlL79orG+/AGisXEW28b08rnHaqpeVhchX58UoQelF49XcV9)
+#    send: true
 
 vs:
   email:
-    host: in.mailjet.com
-    port: 587
-    username: ENC(KRmdXpurm62F2vTYdHIS0rg/0HXXFv7MXsYwH/RMJiPlf5Oemyw2AuoZ8VmkoEt6)
-    password: ENC(mTddymjBnjolbj/aPlL79orG+/AGisXEW28b08rnHaqpeVhchX58UoQelF49XcV9)
-    send: true
-
+    mail.smtp.host: smtp.gmail.com
+    mail.smtp.port: 587
+    mail.smtp.user: alertsoalerts@gmail.com
+    password: ENC(IRjKmIYXiEkrPnUzMO+JSWuH2tigI8+R)
+    send: false

@@ -19,7 +19,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findAllByPersonalAddress_ZipCodeAndCountry(String zipCode, Country
             country, Role role);
 
-    List<User> findAllByLocation(double[] location);
+    List<User> findAllByLoc(double[] location);
 
     public long countByRole(Role role);
 
