@@ -3,7 +3,6 @@ package com.vs.rest.api.user;
 import com.google.common.base.Preconditions;
 import com.mongodb.DuplicateKeyException;
 import com.vs.common.errorHandling.CustomReasonPhraseException;
-import com.vs.model.enums.FileUploadTypeEnum;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.props.ReadYML;
@@ -11,14 +10,9 @@ import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +74,12 @@ public abstract class UserController extends BaseController {
         boolean status = userService.subscribeCustomerToCook(cookId, customerId);
         Preconditions.checkState(status);
         return buildOKResponse(status);
+    }
+
+    public Response getSubscriptions(String userId, Role role) {
+
+        List<User> list = userService.getSubscriptions(userId, role);
+        return build200Response(list);
 
     }
 

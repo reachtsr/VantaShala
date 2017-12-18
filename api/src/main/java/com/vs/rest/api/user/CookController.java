@@ -2,6 +2,7 @@ package com.vs.rest.api.user;
 
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.FileUploadTypeEnum;
+import com.vs.model.enums.Role;
 import com.vs.model.user.Cook;
 import com.vs.service.user.IUserService;
 import io.swagger.annotations.Api;
@@ -94,5 +95,13 @@ public class CookController extends UserController {
     public Response getCookByKitcheName(@PathParam("kitchenName") String kitchenName) {
         return super.getCookByKitchenName(kitchenName);
     }
+
+
+    @GET
+    @Path("/subscriptions")
+    public Response getSubscriptions(@HeaderParam("userName") String userName) {
+        return super.getSubscriptions(userName, Role.COOK);
+    }
+
 
 }

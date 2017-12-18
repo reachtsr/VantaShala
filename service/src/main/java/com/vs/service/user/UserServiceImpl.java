@@ -8,7 +8,7 @@ import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
 import com.vs.model.geo.ZipData;
 import com.vs.model.user.Cook;
-import com.vs.model.user.CustomerToCookSubscription;
+import com.vs.model.user.CustomerCookSubscription;
 import com.vs.model.user.User;
 import com.vs.repository.CookRepository;
 import com.vs.repository.DBOperations;
@@ -71,7 +71,7 @@ public abstract class UserServiceImpl implements IUserService {
             if (existingCooks.size() == 0) {
                 userRepository.insert(user);
             } else {
-                throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED: "+((Cook) user).getKitchenName());
+                throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED: " + ((Cook) user).getKitchenName());
             }
         } else {
             ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
@@ -165,23 +165,41 @@ public abstract class UserServiceImpl implements IUserService {
 
     @Override
     public boolean subscribeCustomerToCook(String cookId, String customerId) {
-        User user = userRepository.findOne(cookId);
+
+        storeSubscribersToDB(cookId, customerId);
+        storeSubscribersToDB(customerId, cookId);
+        return Boolean.TRUE;
+    }
+
+    private void storeSubscribersToDB(String requestToSubscribe, String requestFrom) {
+        User user = userRepository.findOne(requestToSubscribe);
         Preconditions.checkNotNull(user);
-        CustomerToCookSubscription customerToCookSubscription = subscriptionRepository.findByCook(cookId);
-        if (customerToCookSubscription != null) {
-            if (!customerToCookSubscription.getCustomers().contains(customerId)) {
-                customerToCookSubscription.getCustomers().add(customerId);
-                subscriptionRepository.save(customerToCookSubscription);
+        CustomerCookSubscription customerCookSubscription = subscriptionRepository.findByUserId(requestToSubscribe);
+        if (customerCookSubscription != null) {
+            if (!customerCookSubscription.getSubscribers().contains(requestFrom)) {
+                customerCookSubscription.getSubscribers().add(requestFrom);
+                subscriptionRepository.save(customerCookSubscription);
             }
         } else {
-            customerToCookSubscription = new CustomerToCookSubscription();
+            customerCookSubscription = new CustomerCookSubscription();
             ArrayList<String> list = new ArrayList<>();
-            list.add(customerId);
-            customerToCookSubscription.setCook(cookId);
-            customerToCookSubscription.setCustomers(list);
-            subscriptionRepository.insert(customerToCookSubscription);
+            list.add(requestFrom);
+            customerCookSubscription.setUserId(requestFrom);
+            customerCookSubscription.setSubscribers(list);
+            subscriptionRepository.insert(customerCookSubscription);
         }
-        return Boolean.TRUE;
+    }
+
+    @Override
+    public List getSubscriptions(String userId, Role role) {
+
+        Preconditions.checkNotNull(userId);
+        List<User> list = new ArrayList<>();
+
+        CustomerCookSubscription customerCookSubscription = subscriptionRepository.findByUserId(userId);
+        customerCookSubscription.getSubscribers().forEach(u -> list.add(userRepository.findOne(u)));
+
+        return list;
     }
 
 }

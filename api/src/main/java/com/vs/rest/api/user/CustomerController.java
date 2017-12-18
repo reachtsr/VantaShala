@@ -1,9 +1,12 @@
 package com.vs.rest.api.user;
 
+import com.vs.model.enums.Role;
+import com.vs.model.user.Cook;
 import com.vs.model.user.Customer;
 import com.vs.model.user.User;
 import com.vs.service.user.IUserService;
 import io.swagger.annotations.*;
+import io.swagger.jaxrs.PATCH;
 import jersey.repackaged.com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +66,16 @@ public class CustomerController extends UserController {
     }
 
     @POST
-    @Path("/subscribe/{cookId}/{customerId}")
-    public Response subscribeCustomerToCook(@NotNull @HeaderParam("userName") String userName,
-                                            @PathParam("cookId") String cookId, @PathParam("customerId") String customerId) {
+    @Path("/subscribe/{cookId}")
+    public Response subscribeCustomerToCook(@NotNull @HeaderParam("userName") String customerId,
+                                            @PathParam("cookId") String cookId, String emptyPayload) {
         return super.subscribeCustomerToCook(cookId, customerId);
+    }
+
+
+    @GET
+    @Path("/subscriptions")
+    public Response getSubscriptions(@HeaderParam("userName") String userName) {
+        return super.getSubscriptions(userName, Role.CUSTOMER);
     }
 }

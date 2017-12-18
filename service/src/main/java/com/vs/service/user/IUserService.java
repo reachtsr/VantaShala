@@ -45,5 +45,9 @@ public interface IUserService {
 
     public boolean subscribeCustomerToCook(String cookId, String customerId);
 
+    public List<User> getSubscriptions(String userId, Role role);
 
-}
+
+
+
+    }
