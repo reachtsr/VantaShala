@@ -104,10 +104,10 @@ subprojects {
         bootRun.enabled = true
     }
 
-    sourceSets {
-        test.compileClasspath += configurations.compileOnly
-        test.runtimeClasspath += configurations.compileOnly
-    }
+//    sourceSets {
+//        test.compileClasspath += configurations.compileOnly
+//        test.runtimeClasspath += configurations.compileOnly
+//    }
 
     jacocoTestReport {
         additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
