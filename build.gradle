@@ -12,6 +12,10 @@ allprojects {
     group = 'com.com.vs'
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+}
+
 subprojects {
 
     apply plugin: 'idea'
