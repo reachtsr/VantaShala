@@ -36,7 +36,7 @@ No explict configuration required to set to run on your local machine
 ```
 ##### Below one represents a successful context load:
 
-[![N|Solid](Context.png)](http://allibilli.com)
+[![N|Solid](docs/Context.png)](http://allibilli.com)
 
 
 ##### Below log represents a successful application start:
@@ -77,5 +77,6 @@ No explict configuration required to set to run on your local machine
 ### USA ZipCodes
     mongoimport ui\src\main\resources\zips.json --db "XXXXXX" --collection "XXXXXXX"    
 
-### Test Results
-    [![N|Solid](Context.png)](http://allibilli.com)        
+#####  Test Results
+
+    [![N|Solid](https://raw.githubusercontent.com/haigopi/VantaShala/master/docs/Cucumber%20Reports%20-%20Features%20Overview.jpg)](http://allibilli.com)        
