@@ -77,6 +77,6 @@ No explict configuration required to set to run on your local machine
 ### USA ZipCodes
     mongoimport ui\src\main\resources\zips.json --db "XXXXXX" --collection "XXXXXXX"    
 
-#####  Test Results
+##### Test Results:
 
-    [![N|Solid](https://raw.githubusercontent.com/haigopi/VantaShala/master/docs/Cucumber%20Reports%20-%20Features%20Overview.jpg)](http://allibilli.com)        
+[![N|Solid](docs/tests.jpg)](http://allibilli.com)        
