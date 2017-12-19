@@ -28,8 +28,6 @@ import javax.ws.rs.core.Response;
 @Path("/customer")
 @Slf4j
 @Api(value = "Customer Management", description = "Customer Controller")
-
-
 public class CustomerController extends UserController {
 
     @Autowired
@@ -56,19 +54,15 @@ public class CustomerController extends UserController {
     }
 
     @ApiOperation(value = "Update Customer", nickname = "updateCustomer")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "Failure")})
-
     @PUT
     public Response updateUser(@NotNull @HeaderParam("userName") String userName, @NotNull Customer user){
         return super.updateUser(userName, user);
     }
 
-    @POST
+    @GET
     @Path("/subscribe/{cookId}")
-    public Response subscribeCustomerToCook(@NotNull @HeaderParam("userName") String customerId,
-                                            @PathParam("cookId") String cookId, String emptyPayload) {
+    public Response subscribeCustomerToCookAPI(@NotNull @HeaderParam("userName") String customerId,
+                                            @PathParam("cookId") String cookId) {
         return super.subscribeCustomerToCook(cookId, customerId);
     }
 

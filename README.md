@@ -76,4 +76,6 @@ No explict configuration required to set to run on your local machine
 
 ### USA ZipCodes
     mongoimport ui\src\main\resources\zips.json --db "XXXXXX" --collection "XXXXXXX"    
-    
+
+### Test Results
+    [![N|Solid](Context.png)](http://allibilli.com)        

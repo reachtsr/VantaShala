@@ -75,7 +75,9 @@ public abstract class UserServiceImpl implements IUserService {
             }
         } else {
             ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
-            user.setLoc(zipData.getLoc());
+            if (!Objects.isNull(zipData)) {
+                user.setLoc(zipData.getLoc());
+            }
             userRepository.insert(user);
         }
     }
@@ -174,16 +176,16 @@ public abstract class UserServiceImpl implements IUserService {
     private void storeSubscribersToDB(String requestToSubscribe, String requestFrom) {
         User user = userRepository.findOne(requestToSubscribe);
         Preconditions.checkNotNull(user);
-        CustomerCookSubscription customerCookSubscription = subscriptionRepository.findByUserId(requestToSubscribe);
+        CustomerCookSubscription customerCookSubscription = subscriptionRepository.findByUserId(requestFrom);
         if (customerCookSubscription != null) {
-            if (!customerCookSubscription.getSubscribers().contains(requestFrom)) {
-                customerCookSubscription.getSubscribers().add(requestFrom);
+            if (!customerCookSubscription.getSubscribers().contains(requestToSubscribe)) {
+                customerCookSubscription.getSubscribers().add(requestToSubscribe);
                 subscriptionRepository.save(customerCookSubscription);
             }
         } else {
             customerCookSubscription = new CustomerCookSubscription();
             ArrayList<String> list = new ArrayList<>();
-            list.add(requestFrom);
+            list.add(requestToSubscribe);
             customerCookSubscription.setUserId(requestFrom);
             customerCookSubscription.setSubscribers(list);
             subscriptionRepository.insert(customerCookSubscription);
