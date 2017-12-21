@@ -1,4 +1,3 @@
-
 dependencies {
 
     compile project(':api')
@@ -8,4 +7,26 @@ dependencies {
     compile project(':service')
 
     testCompile project(path: ':service', configuration: 'testOutput')
+}
+
+bootRepackage {
+    mainClass = 'com.vs.bootstrap.ApplicationBootstrap'
+}
+
+bootRun {
+    addResources = true
+    jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
+}
+
+task copyFiles {
+    copy {
+        from('../ui/resources')
+        into 'build/resources/main'
+    }
+}
+task copyFilesOut {
+    copy {
+        from('../ui/resources')
+        into 'out/production/resources'
+    }
 }

@@ -34,38 +34,17 @@ If change needed provide the environment: -Dspring.profiles.active=dev -Djasypt.
 Configuration available under bootstrap resources.
 No explict configuration required to set to run on your local machine
 ```
-##### Below one represents a successful context load:
+##### Below log represents a successful context load:
 
 [![N|Solid](docs/Context.png)](http://allibilli.com)
-
-
-##### Below log represents a successful application start:
-````apple js
-[restartedMain] 2017-10-21 18:41:54 INFO  c.vs.bootstrap.VSServletInitializer - Configuring Springboot Servlet
-
-              A product of AlliBilli
-                               _          __ _           _
-             /\   /\__ _ _ __ | |_ __ _  / _\ |__   __ _| | __ _
-             \ \ / / _` | '_ \| __/ _` | \ \| '_ \ / _` | |/ _` |
-              \ V / (_| | | | | || (_| | _\ \ | | | (_| | | (_| |
-               \_/ \__,_|_| |_|\__\__,_| \__/_| |_|\__,_|_|\__,_|
-
-                                           Personal organic chef.
-........                                           
-[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   ****************************   ****
-[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   Hurray! Application Started.   ****
-[restartedMain] 2017-11-07 14:36:37 INFO  c.vs.bootstrap.ApplicationBootstrap -  ****   ****************************   ****                                           
-````
 
 ### Quick Technical Insights
 
     - gradle htmlDependencyReport
     - gradle build
-    - gradle war
     - gradle projectReport
-    - gradle :ui:bootRun - UI: http://localhost:8080/vs/index.html
+    - gradle bootRun - UI: http://localhost:8080/vs/index.html
     
-
 ### Swagger(BootRun)
     
     - http://localhost:8080/vs/rest/swagger.json

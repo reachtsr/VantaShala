@@ -94,7 +94,7 @@ subprojects {
         testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
     }
 
-    if (!project.name.startsWith('ui')) {
+    if (!project.name.startsWith('bootstrap')) {
         println "Disabling BootRepackage for : " + project.name
         bootRepackage.enabled = false
         bootRun.enabled = false
