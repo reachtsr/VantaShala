@@ -13,5 +13,5 @@ public class Address {
     private String city;
     private String state;
     private String zipCode;
-    private Country country = Country.USA;
+    private Country country = Country.US;
 }

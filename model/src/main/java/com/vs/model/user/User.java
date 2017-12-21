@@ -34,7 +34,7 @@ public abstract class User {
     @NotNull
     private String email;
     private String mobile;
-    private String country = Country.USA.name();
+    private String country = Country.US.name();
     private Address personalAddress;
     private UserStatusEnum status;
     private Boolean enableTextMessaging = false;

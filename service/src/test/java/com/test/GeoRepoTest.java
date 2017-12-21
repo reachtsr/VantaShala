@@ -3,9 +3,6 @@ package com.test;
 import com.mongodb.MongoClient;
 import com.vs.model.enums.Country;
 import com.vs.model.geo.ZipData;
-import com.vs.repository.CookRepository;
-import com.vs.repository.MenuRepository;
-import com.vs.repository.OrderRepository;
 import com.vs.repository.USZipCodesRepository;
 import com.vs.service.geo.GeoSpatial;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +39,7 @@ public class GeoRepoTest {
 
         ZipData data = usZipCodesRepository.findBy_id("75024");
         log.info("{}", data);
-        geoSpatial.getCooksNearBy(Country.USA, "75024", 10);
+        geoSpatial.getCooksNearBy(Country.US, "75024", 10);
         log.info("{}", data);
     }
 
