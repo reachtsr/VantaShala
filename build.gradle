@@ -118,7 +118,5 @@ subprojects {
         }
         executionData = files('build/jacoco/test.exec')
     }
-
-
 }
 

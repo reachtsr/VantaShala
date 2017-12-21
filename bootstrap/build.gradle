@@ -18,13 +18,21 @@ bootRun {
     jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
 }
 
-task copyFiles {
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.vs.bootstrap.ApplicationBootstrap'
+        )
+    }
+}
+
+task copyFilesOut {
+    println '-> COPYING THE TEST UI COMPONENTS'
     copy {
         from('../ui/resources')
         into 'build/resources/main'
     }
-}
-task copyFilesOut {
     copy {
         from('../ui/resources')
         into 'out/production/resources'

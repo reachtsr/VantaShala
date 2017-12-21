@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Document(collection="user")
+@EqualsAndHashCode(callSuper=false)
 public final class Customer extends User {
 
     public Customer(){

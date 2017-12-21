@@ -3,6 +3,7 @@ package com.vs.model.user;
 import com.vs.model.enums.Role;
 import com.vs.model.user.address.Address;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Document(collection = "user")
+@EqualsAndHashCode(callSuper=false)
 public final class Cook extends User {
 
     public Cook() {
