@@ -18,6 +18,15 @@ bootRun {
     jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
 }
 
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "../ui/resources"
+        }
+    }
+}
+
 jar {
     manifest {
         attributes(
@@ -27,14 +36,4 @@ jar {
     }
 }
 
-task copyFilesOut {
-    println '-> COPYING THE TEST UI COMPONENTS'
-    copy {
-        from('../ui/resources')
-        into 'build/resources/main'
-    }
-    copy {
-        from('../ui/resources')
-        into 'out/production/resources'
-    }
-}
+
