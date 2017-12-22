@@ -18,7 +18,6 @@ bootRun {
     jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
 }
 
-
 sourceSets {
     main {
         resources {
