@@ -1,0 +1,3 @@
+docker login --username=<username>
+docker tag <localImageId> <username>/<repo>:<customeTag>
+docker push <username>/repo

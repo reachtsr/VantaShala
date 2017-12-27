@@ -50,6 +50,9 @@ No explict configuration required to set to run on your local machine
     - http://localhost:8080/vs/rest/swagger.json
     - UI:  http://localhost:8080/vs/swagger/index.html
     
+### DOCKER BUILD:
+    gradle docker -i
+    
 ### CI/CD:
     https://semaphoreci.com/haigopi/vantashala    
 

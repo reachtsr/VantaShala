@@ -1,3 +1,6 @@
+apply plugin: 'application'
+apply plugin: 'com.palantir.docker'
+
 dependencies {
 
     compile project(':api')
@@ -18,15 +21,8 @@ bootRun {
     jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources", "../ui/resources"
-        }
-    }
-}
-
 jar {
+    baseName = projectName
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
@@ -34,5 +30,20 @@ jar {
         )
     }
 }
+distTar {
+    archiveName "$projectName-$version-bin.tar"
+    doLast {
+        copy {
+            from "build/distributions/$archiveName"
+            into "build/docker"
+        }
+    }
+}
 
+docker {
+    dockerfile file('build/resources/main/Dockerfile')
+    name projectName.toLowerCase()
+    tags rootProject.version
+    files tasks.distTar.outputs
+}
 
