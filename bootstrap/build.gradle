@@ -1,5 +1,5 @@
 apply plugin: 'application'
-apply plugin: 'com.palantir.docker'
+//apply plugin: 'com.palantir.docker'
 
 dependencies {
 
