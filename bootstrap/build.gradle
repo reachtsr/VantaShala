@@ -39,7 +39,7 @@ distTar {
         }
     }
 }
-applicationDefaultJvmArgs = ["-Djasypt.encryptor.password=gopikrishna"]
+applicationDefaultJvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=prod"]
 docker {
     dockerfile file('build/resources/main/Dockerfile')
     name projectName.toLowerCase()
