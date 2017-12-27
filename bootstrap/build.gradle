@@ -31,7 +31,7 @@ jar {
     }
 }
 distTar {
-    archiveName "$projectName-$version-bin.tar"
+    archiveName "$projectName-bin.tar"
     doLast {
         copy {
             from "build/distributions/$archiveName"
@@ -39,7 +39,7 @@ distTar {
         }
     }
 }
-
+applicationDefaultJvmArgs = ["-Djasypt.encryptor.password=gopikrishna"]
 docker {
     dockerfile file('build/resources/main/Dockerfile')
     name projectName.toLowerCase()
