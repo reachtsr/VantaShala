@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar ui/build/libs/ROOT.war
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar bootstrap/build/libs/VanataShala*.jar
