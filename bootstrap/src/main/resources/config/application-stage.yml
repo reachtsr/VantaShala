@@ -1,8 +1,7 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      uri: mongodb://heroku_2xdpqsvc:2pc70q7v61ji37dj2sfk45pr10@ds133547.mlab.com:33547/heroku_2xdpqsvc
 vs:
   email:
     mail.smtp.host: smtp.gmail.com
