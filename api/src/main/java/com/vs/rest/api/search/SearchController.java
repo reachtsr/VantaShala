@@ -7,6 +7,7 @@ import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.search.ISearchService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.GeoResults;
@@ -39,6 +40,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/{country}/{zip}")
+    @ApiOperation(value = "Search Cook by ZIPcode", nickname = "findCooksByZIP")
     public Response findCooksByZIP(@PathParam("country") Country country, @PathParam("zip") String zip) {
 
         List users = searchService.findUsersByZIP(zip, country, Role.COOK);
@@ -47,6 +49,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("customers/{country}/{zip}")
+    @ApiOperation(value = "Search customer by ZIPcode", nickname = "findCustomersByZIP")
     public Response findCustomersByZIP(@PathParam("country") Country country, @PathParam("zip") String zip) {
         List users = searchService.findUsersByZIP(zip, country, Role.CUSTOMER);
         return Response.status(200).entity(users).build();
@@ -54,6 +57,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/{country}/nearBy/loc")
+    @ApiOperation(value = "Find Cook by nearby Location", nickname = "findCooksByNearByLocation")
     public Response findCooksByNearByLocation(@PathParam("country") Country country, @QueryParam("loc") List<Double> loc, @QueryParam("miles") int miles) {
         double[] location = new double[2];
         location[0] = loc.get(0);
@@ -64,6 +68,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/{country}/nearBy/zip")
+    @ApiOperation(value = "Find Cook by nearby ZIP", nickname = "findCooksNearByZip")
     public Response findCooksNearByZip(@PathParam("country") Country country, @QueryParam("zip") String zipCode, @QueryParam("miles") int miles) {
         List<Cook> users = searchService.findUsersNearByZipCode(country, zipCode, miles);
         return Response.status(200).entity(users).build();
@@ -71,6 +76,7 @@ public class SearchController extends BaseController {
 
     @GET
     @Path("cooks/{country}/nearBy/{userId}")
+    @ApiOperation(value = "Find Cook by nearbyUser", nickname = "findCooksNearByUser")
     public Response findCooksNearByUser(@PathParam("country") Country country, @QueryParam("userId") String userId, @QueryParam("miles") int miles) {
         List<Cook> users = searchService.findUsersNearByUserId(country, userId, miles);
         return Response.status(200).entity(users).build();
