@@ -49,7 +49,7 @@ public class CookController extends UserController {
         log.info("{} Initiated.", this.getClass().getName());
     }
 
-
+    @ApiOperation(value = "Find Cook", nickname = "FindCook")
     @GET
     public Response getCook(@HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(userName, "User Not found:" + userName);
@@ -96,7 +96,7 @@ public class CookController extends UserController {
         return super.getCookByKitchenName(kitchenName);
     }
 
-
+    @ApiOperation(value = "Get Subscription for Cook", nickname = "getsubscriptionsforcook")
     @GET
     @Path("/subscriptions")
     public Response getSubscriptions(@HeaderParam("userName") String userName) {

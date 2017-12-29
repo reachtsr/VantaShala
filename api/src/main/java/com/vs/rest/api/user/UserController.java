@@ -9,6 +9,7 @@ import com.vs.model.props.ReadYML;
 import com.vs.model.user.User;
 import com.vs.rest.api.BaseController;
 import com.vs.service.user.IUserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,6 +35,7 @@ public abstract class UserController extends BaseController {
     }
 
     // List Specific type of users
+    @ApiOperation(value = "List Specific type of users by role", nickname = "addItem")
     public Response listUsers(Role role) {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers(role);
@@ -41,12 +43,14 @@ public abstract class UserController extends BaseController {
     }
 
     // List all Users
+    @ApiOperation(value = "List all users", nickname = "listUsers")
     public Response listUsers() {
         log.info(" Listing all cooks ");
         List<User> users = userService.listUsers();
         return build200Response(users);
     }
 
+    @ApiOperation(value = "find User by Search String", nickname = "findUserBySearchString")
     public Response findUserBySearchString(String search, Role role) {
         log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search, role);
@@ -54,6 +58,7 @@ public abstract class UserController extends BaseController {
         return build200Response(users);
     }
 
+    @ApiOperation(value = "find User by Search String", nickname = "findUserBySearchString")
     public Response findUserBySearchString(String search) {
         log.info(" Searching User based on: {}", search);
         List<User> users = userService.findUser(search);
@@ -61,6 +66,7 @@ public abstract class UserController extends BaseController {
         return build200Response(users);
     }
 
+    @ApiOperation(value = "find Cook by Kitchenname", nickname = "getCookByKitchenName")
     public Response getCookByKitchenName(String kitchenName) {
         log.info(" Retrieving User: {}", kitchenName);
         User user = userService.getUserByKitchenName(kitchenName);
@@ -69,6 +75,7 @@ public abstract class UserController extends BaseController {
     }
 
     // @Todo send an email when a cook pub
+    @ApiOperation(value = "Customer Subscription to Cook", nickname = "subscribeCustomerToCook")
     public Response subscribeCustomerToCook(String cookId, String customerId) {
 
         boolean status = userService.subscribeCustomerToCook(cookId, customerId);
@@ -76,6 +83,7 @@ public abstract class UserController extends BaseController {
         return buildOKResponse(status);
     }
 
+    @ApiOperation(value = "List Subscriptions of User", nickname = "getSubscriptions")
     public Response getSubscriptions(String userId, Role role) {
 
         List<User> list = userService.getSubscriptions(userId, role);
@@ -83,6 +91,7 @@ public abstract class UserController extends BaseController {
 
     }
 
+    @ApiOperation(value = "find User by First Name and Role", nickname = "findUserByFirstName")
     public Response findUserByFirstName(String name, Role role) {
         log.info(" Searching User by FirstName : {}", name);
 
@@ -95,6 +104,7 @@ public abstract class UserController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "find User by Username", nickname = "getUserByUserName")
     public Response getUserByUserName(String userName) {
         log.info(" Retrieving User: {}", userName);
         User user = userService.getUserByUserName(userName);
@@ -102,6 +112,7 @@ public abstract class UserController extends BaseController {
         return build200Response(user);
     }
 
+    @ApiOperation(value = "Create User, if User does not exist", nickname = "createUser")
     public Response createUser(User user) throws Exception {
 
         try {
@@ -116,22 +127,26 @@ public abstract class UserController extends BaseController {
 
     }
 
+    @ApiOperation(value = "Update User Details", nickname = "updateUser")
     public Response updateUser(String userName, User user) {
         log.info("Update User: {} - User Details: {}", userName, user);
         return build200Response(userService.updateUser(user));
     }
 
+    @ApiOperation(value = "enable or Disable User", nickname = "enableOrDisableUser")
     public void enableOrDisableUser(String userName, UserStatusEnum userStatusEnum) throws Exception {
 
         log.info("Disabling User : {}", userName);
         userService.enableOrDisableUser(userName, userStatusEnum);
     }
 
+    @ApiOperation(value = "get User Count", nickname = "getAllUserCount")
     public Response getAllUserCount() {
         long count = userService.getUserCount();
         return Response.status(200).entity(getCountMap(count)).build();
     }
 
+    @ApiOperation(value = "get user count by role", nickname = "getUserCount")
     public Response getUserCount(Role role) {
         long count = userService.getUserCount(role);
         return Response.status(200).entity(getCountMap(count)).build();
