@@ -41,6 +41,7 @@ public class CustomerController extends UserController {
     }
 
     @GET
+    @ApiOperation(value = "Find Customer", nickname = "FindCustomer")
     public Response getCustomer(@HeaderParam("userName") String userName) {
         Preconditions.checkNotNull(userName, "User Not found:" + userName);
         return super.getUserByUserName(userName);
@@ -61,6 +62,7 @@ public class CustomerController extends UserController {
 
     @GET
     @Path("/subscribe/{cookId}")
+    @ApiOperation(value = "Subscribe to Cook", nickname = "subscribeCustomerToCook")
     public Response subscribeCustomerToCookAPI(@NotNull @HeaderParam("userName") String customerId,
                                             @PathParam("cookId") String cookId) {
         return super.subscribeCustomerToCook(cookId, customerId);
@@ -69,6 +71,7 @@ public class CustomerController extends UserController {
 
     @GET
     @Path("/subscriptions")
+    @ApiOperation(value = "get Subscription for Customer", nickname = "getsubscriptionsforcustomer")
     public Response getSubscriptions(@HeaderParam("userName") String userName) {
         return super.getSubscriptions(userName, Role.CUSTOMER);
     }
