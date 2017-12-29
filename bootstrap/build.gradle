@@ -18,7 +18,7 @@ bootRepackage {
 
 bootRun {
     addResources = true
-    jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=prod"]
+    jvmArgs = ["-Djasypt.encryptor.password=gopikrishna", "-Dspring.profiles.active=dev"]
 }
 
 jar {

@@ -7,20 +7,29 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.Path;
+import java.util.Map;
 
 /**
  * Created by GeetaKrishna on 12/18/2015.
  */
 @Slf4j
-@Configuration
+@Component
 public class JerseyConfig extends ResourceConfig {
 
-    public JerseyConfig() {
+    @Autowired
+    ApplicationContext appCtx;
+
+    @PostConstruct
+    public void setup() {
         log.info("Registering Jersey & Multipart Configuration");
 
-        packages("com.vs");
+        //packages("com.vs");
         register(RequestContextFilter.class);
         register(MultiPartFeature.class);
 
@@ -28,9 +37,13 @@ public class JerseyConfig extends ResourceConfig {
         register(SwaggerSerializers.class);
         register(WadlResource.class);
 
-
+        log.info("Rest classes found:");
+        Map<String,Object> beans = appCtx.getBeansWithAnnotation(Path.class);
+        for (Object o : beans.values()) {
+            log.info(" -> " + o.getClass().getName());
+            register(o);
+        }
     }
-
 }
 
 
