@@ -37,10 +37,9 @@ public class JerseyConfig extends ResourceConfig {
         register(SwaggerSerializers.class);
         register(WadlResource.class);
 
-        log.info("Rest classes found:");
         Map<String,Object> beans = appCtx.getBeansWithAnnotation(Path.class);
         for (Object o : beans.values()) {
-            log.info(" -> " + o.getClass().getName());
+            log.info("Registering: {}" ,o.getClass().getName());
             register(o);
         }
     }
