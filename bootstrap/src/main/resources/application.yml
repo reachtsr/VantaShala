@@ -27,8 +27,7 @@ spring:
      metrics:
        enabled: true
 server:
-  context-path: /vs
-  server.servlet-path: /
+  context-path: /
 
 vs:
   mongo:
