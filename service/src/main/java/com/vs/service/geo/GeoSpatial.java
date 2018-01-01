@@ -1,17 +1,13 @@
 package com.vs.service.geo;
 
+import com.google.maps.model.LatLng;
 import com.vs.model.enums.Country;
-import com.vs.model.geo.ZipData;
 import com.vs.model.user.Cook;
 import com.vs.model.user.User;
-import com.vs.repository.USZipCodesRepository;
 import com.vs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
+import org.springframework.data.geo.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.stereotype.Component;
@@ -26,8 +22,8 @@ import java.util.List;
 @Slf4j
 public class GeoSpatial {
 
-    @Autowired
-    USZipCodesRepository usZipCodesRepository;
+//    @Autowired
+//    USZipCodesRepository usZipCodesRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -35,13 +31,16 @@ public class GeoSpatial {
     @Autowired
     MongoTemplate template;
 
-    public ZipData getCoOrdinates(String zipCode) {
-        return usZipCodesRepository.findBy_id(zipCode);
-    }
+    @Autowired
+    GoogleLonLatService googleLonLatService;
 
-    public List<Cook>  getCooksNearBy(Country country, double[] location, int miles) {
+//    //public ZipData getCoOrdinates(String zipCode) {
+//        return usZipCodesRepository.findBy_id(zipCode);
+//    }
+
+    public List<Cook> getCooksNearBy(Country country, double[] location, int miles) {
         log.info("User: {} searching for cooks near by: {} miles");
-        Point point = new Point(location[0], location[1]);
+        Point point = new Point(location[1], location[0]);
         NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
         GeoResults<User> cooks = template.geoNear(query, User.class);
         return filterUsers(cooks, country);
@@ -49,34 +48,36 @@ public class GeoSpatial {
 
     public List<Cook> getCooksNearBy(Country country, User user, int miles) {
         log.info("User: {} searching for cooks near by: {} miles");
-        Point point = new Point(user.getLoc()[0], user.getLoc()[1]);
+        Point point = new Point(user.getLoc().getX(), user.getLoc().getY());
         NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
         GeoResults<User> cooks = template.geoNear(query, User.class);
         return filterUsers(cooks, country);
     }
 
-    public List<Cook>  getCooksNearBy(Country country, String zipCode, int miles) {
-        log.info("User: {} searching for cooks near by: {} miles", zipCode, miles);
-        ZipData zipData = usZipCodesRepository.findBy_id(zipCode);
-        Point point = new Point(zipData.getLoc()[0], zipData.getLoc()[1]);
-        log.info("ZipData: {} - Point: {}", zipData, point);
+    public List<Cook> getCooksNearBy(Country country, String zipCode, int miles) {
+        log.info("ZIP: {} searching for cooks near by: {} miles", zipCode, miles);
+        LatLng latLng = googleLonLatService.getLatLonByZip(zipCode);
+        //ZipData zipData = usZipCodesRepository.findBy_id(zipCode);
+        Point point = new Point(latLng.lng, latLng.lat);
+        log.info("Point: {}", point);
         NearQuery query = NearQuery.near(point).maxDistance(new Distance(miles, Metrics.MILES));
         GeoResults<User> cooks = template.geoNear(query, User.class);
         return filterUsers(cooks, country);
 
     }
 
-    private List<Cook>  filterUsers(GeoResults<User> cooks, Country country){
+    private List<Cook> filterUsers(GeoResults<User> cooks, Country country) {
 
         List<Cook> filteredCooks = new ArrayList<>();
 
-        cooks.forEach( u -> {
+        cooks.forEach(u -> {
             User user = u.getContent();
-            if(user instanceof Cook ) {
-            Cook cook = (Cook)u.getContent();
-            if(cook.getBusinessAddress().getCountry() == country){
-                filteredCooks.add(cook);
-            }}
+            if (user instanceof Cook) {
+                Cook cook = (Cook) u.getContent();
+                if (cook.getBusinessAddress().getCountry() == country) {
+                    filteredCooks.add(cook);
+                }
+            }
         });
 
         return filteredCooks;

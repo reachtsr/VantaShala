@@ -1,5 +1,6 @@
 package com.vs.model.user;
 
+import com.google.maps.model.LatLng;
 import com.vs.model.enums.Country;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
@@ -7,6 +8,7 @@ import com.vs.model.user.address.Address;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,8 +30,10 @@ public abstract class User {
     private Role role = Role.DEFAULT;
     private String firstName;
     private String lastName;
+
     @GeoSpatialIndexed
-    private double[] loc;
+    private Point loc;
+
     @Indexed(unique = true)
     @NotNull
     private String email;

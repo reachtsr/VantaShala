@@ -2,8 +2,7 @@ package com.test;
 
 import com.mongodb.MongoClient;
 import com.vs.model.enums.Country;
-import com.vs.model.geo.ZipData;
-import com.vs.repository.USZipCodesRepository;
+import com.vs.model.user.Cook;
 import com.vs.service.geo.GeoSpatial;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -16,6 +15,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 /**
  * Created by GeetaKrishna on 13-Dec-17.
  **/
@@ -24,10 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Slf4j
 
 public class GeoRepoTest {
-
-    @Autowired
-    private USZipCodesRepository usZipCodesRepository;
-
     @Autowired
     private MongoTemplate template;
 
@@ -36,11 +33,8 @@ public class GeoRepoTest {
 
     @Test
     public void m12() {
-
-        ZipData data = usZipCodesRepository.findBy_id("75024");
-        log.info("{}", data);
-        geoSpatial.getCooksNearBy(Country.US, "75024", 10);
-        log.info("{}", data);
+        List<Cook> cooks = geoSpatial.getCooksNearBy(Country.US, "75034", 10);
+        log.info("{}", cooks);
     }
 
 }

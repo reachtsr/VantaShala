@@ -70,7 +70,7 @@ public class ServiceBootstrap implements Bootstrap {
             createEmailStatus();
             createUserStatus();
 
-            mongoCollectionManager.cleanAndFill(template.getDb(), "zips_old.json", "zip_codes_usa");
+//            mongoCollectionManager.cleanAndFill(template.getDb(), "zips_old.json", "zip_codes_usa");
         }
     }
 

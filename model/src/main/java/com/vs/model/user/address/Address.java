@@ -14,4 +14,14 @@ public class Address {
     private String state;
     private String zipCode;
     private Country country = Country.US;
+
+
+    public String getPrintedAddress() {
+        return
+                address1 + "," + address2 + ", " + city + ", " +
+                        state + ", " +
+                        zipCode + ", " +
+                        country;
+
+    }
 }

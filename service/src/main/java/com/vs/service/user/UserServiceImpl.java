@@ -1,12 +1,12 @@
 package com.vs.service.user;
 
 import com.google.common.base.Preconditions;
+import com.google.maps.model.LatLng;
 import com.vs.common.filters.AppConstants;
 import com.vs.model.AddNewFiledsToCollection;
 import com.vs.model.SaveFileModel;
 import com.vs.model.enums.Role;
 import com.vs.model.enums.UserStatusEnum;
-import com.vs.model.geo.ZipData;
 import com.vs.model.user.Cook;
 import com.vs.model.user.CustomerCookSubscription;
 import com.vs.model.user.User;
@@ -15,10 +15,11 @@ import com.vs.repository.DBOperations;
 import com.vs.repository.SubscriptionRepository;
 import com.vs.repository.UserRepository;
 import com.vs.service.SaveFile;
-import com.vs.service.geo.GeoSpatial;
+import com.vs.service.geo.GoogleLonLatService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 
 import java.util.*;
 
@@ -46,8 +47,21 @@ public abstract class UserServiceImpl implements IUserService {
     @Autowired
     SubscriptionRepository subscriptionRepository;
 
+//    @Autowired
+//    GeoSpatial geoSpatial;
+
     @Autowired
-    GeoSpatial geoSpatial;
+    GoogleLonLatService googleLonLatService;
+
+    private double[] convertGoogleLatLngToDouble(LatLng latLng) {
+        double[] point = { latLng.lat, latLng.lng};
+        return point;
+    }
+
+
+    private Point convertGoogleLatLngToPoint(LatLng latLng) {
+        return new Point(latLng.lat, latLng.lng);
+    }
 
     public UserServiceImpl(Role role) throws Exception {
         this.role = role;
@@ -63,9 +77,10 @@ public abstract class UserServiceImpl implements IUserService {
         if (user instanceof Cook) {
             Cook cook = (Cook) user;
             String kitchenName = cook.getKitchenName();
-            ZipData zipData = geoSpatial.getCoOrdinates(cook.getBusinessAddress().getZipCode());
-            if (!Objects.isNull(zipData)) {
-                user.setLoc(zipData.getLoc());
+
+            LatLng latLng = googleLonLatService.getLatLon(cook.getBusinessAddress());
+            if (!Objects.isNull(latLng)) {
+                user.setLoc(new Point(latLng.lng, latLng.lat));
             }
             List<Cook> existingCooks = cookRepository.findByKitchenName(kitchenName, Role.COOK);
             if (existingCooks.size() == 0) {
@@ -74,9 +89,9 @@ public abstract class UserServiceImpl implements IUserService {
                 throw new Exception("DUPLICATE KITCHEN NAME NOT ALLOWED: " + ((Cook) user).getKitchenName());
             }
         } else {
-            ZipData zipData = geoSpatial.getCoOrdinates(user.getPersonalAddress().getZipCode());
-            if (!Objects.isNull(zipData)) {
-                user.setLoc(zipData.getLoc());
+            LatLng latLng = googleLonLatService.getLatLon(user.getPersonalAddress());
+            if (!Objects.isNull(latLng)) {
+                user.setLoc(new Point(latLng.lng, latLng.lng));
             }
             userRepository.insert(user);
         }

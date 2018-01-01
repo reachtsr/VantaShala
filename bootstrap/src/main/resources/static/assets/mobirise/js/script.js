@@ -412,13 +412,13 @@
 
 })(jQuery);
 !function() {
-	document.getElementsByClassName('engine')[0].getElementsByTagName('a')[0].removeAttribute('rel');
+	/*document.getElementsByClassName('engine')[0].getElementsByTagName('a')[0].removeAttribute('rel');
 
     if(!document.getElementById('top-1')) {
         var e = document.createElement("section");
         e.id = "top-1";
         e.className = "engine";
-        e.innerHTML = '<a href="http://VantaShala.com">VantaShala.com</a> VantaShala v2.6.1';
+        e.innerHTML = '<a href="http://VantaShala.com">VantaShala.com</a> v1.0.0';
         document.body.insertBefore(e, document.body.childNodes[0]);
-    }
+    }*/
 }();

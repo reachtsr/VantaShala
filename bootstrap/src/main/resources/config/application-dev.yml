@@ -11,4 +11,3 @@ vs:
     mail.smtp.user: alertsoalerts@gmail.com
     password: ENC(IRjKmIYXiEkrPnUzMO+JSWuH2tigI8+R)
     send: false
-

@@ -2052,7 +2052,10 @@ html {
 .h3Green{
   color: darkolivegreen;
 }
-
+#map-canvas{
+  width:500px;
+  height:300px;
+  padding-bottom:5px}
 
 /* apple colors */
 [class*='-footer-dark'] {

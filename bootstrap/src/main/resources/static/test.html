@@ -1,0 +1,92 @@
+<html>
+<head>
+    <style>
+        #map{
+            height:200px;
+
+        // PopUp (info window)
+        .gm-style-iw{
+            text-align:center;
+        }
+        }
+    </style>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script>
+
+        #
+        # * Google Map with multiple markers
+  #
+  initializeMap = (id) ->
+    ### Settings ###
+        # Custom image marker
+    #image = "assets/img/custom_icon.png"
+
+    # Map Options
+        mapOptions =
+            zoom: 10
+        center: new google.maps.LatLng(-33.92, 151.25)
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        scrollwheel: false
+
+    # Markers
+        locations = [
+            [
+                "<h5>Marker 1</h5> Your address<br/> Your town" # Popup text
+        -33.890542 # Coordinates
+        151.274856
+        100 # Z-index position of the marker
+        ]
+        [
+            "<h5>Marker 2</h5> Your address<br/> Your town"
+            -33.923036
+            151.259052
+            100
+        ]
+            [
+        "<h5>Marker 3</h5> Your address<br/> Your town"
+        -34.028249
+        151.157507
+        100
+        ]
+        ]
+        ### End Settings ###
+
+        # Initialize the map with options (inside #map element)
+        map = new google.maps.Map(document.getElementById(id), mapOptions)
+
+    # Initialize the pop up
+        infowindow = new google.maps.InfoWindow()
+
+    # Add a marker and a popup for each locations
+        marker = undefined
+        i = 0
+        while i < locations.length
+            # Marker
+        marker = new google.maps.Marker(
+            position: new google.maps.LatLng(locations[i][1], locations[i][2])
+        zIndex: locations[i][3]
+        map: map
+        #icon: image
+        )
+        # Popup
+        google.maps.event.addListener marker, "click", ((marker, i) ->
+            ->
+            infowindow.setContent locations[i][0]
+        infowindow.open map, marker
+        return
+        )(marker, i)
+        i++
+
+  # Display the map into the element ID (if it exists) passed to the initializeMap function (in this case into element #map)
+        if $("#map").length
+            google.maps.event.addDomListener window, "load", initializeMap("map")
+
+    # You can also show the map into another element
+    # google.maps.event.addDomListener window, "load", initializeMap("map-2")
+
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
