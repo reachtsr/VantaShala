@@ -93,7 +93,6 @@ public class ItemController extends BaseController {
         return build204Response();
     }
 
-    //Todo -- Reject those other than jpg, png, gif
     @POST
     @Path("/{itemId}/uploadItemPicture")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

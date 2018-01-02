@@ -1,5 +1,6 @@
-package com.vs.utils;
+package com.vs.common.errorHandling;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ValidationException;
@@ -7,11 +8,14 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  * Created by GeetaKrishna on 12/1/2015.
  */
 @Component
+@Provider
+@Slf4j
 public class DefaultExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override

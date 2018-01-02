@@ -1,6 +1,8 @@
 package com.vs.common.errorHandling;
 
 import com.vs.common.filters.AppConstants;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,7 +14,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 
+@Component
 @Provider
+@Slf4j
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
  
 	public Response toResponse(Throwable ex) {

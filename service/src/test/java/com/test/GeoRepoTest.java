@@ -25,6 +25,7 @@ import java.util.List;
 @Slf4j
 
 public class GeoRepoTest {
+
     @Autowired
     private MongoTemplate template;
 

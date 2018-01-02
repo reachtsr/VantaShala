@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Path;
+import javax.ws.rs.ext.Provider;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class JerseyConfig extends ResourceConfig {
+public class JerseyExceptionConfig extends ResourceConfig {
 
     @Autowired
     ApplicationContext appCtx;
@@ -42,6 +43,14 @@ public class JerseyConfig extends ResourceConfig {
             log.info("Registering: {}" ,o.getClass().getName());
             register(o);
         }
+
+        Map<String,Object> exceptions = appCtx.getBeansWithAnnotation(Provider.class);
+        for (Object o : exceptions.values()) {
+            log.info("Registering Exception Mapper --> {}" ,o.getClass().getName());
+            register(o);
+        }
+
+
     }
 }
 
