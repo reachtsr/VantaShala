@@ -7,11 +7,14 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,11 +38,24 @@ public class Menu {
     @Indexed
     private String name;
     private List<Item> items;
+    @Transient
     private Date endDate;
     private OrderCutOffHours cutOffHours = OrderCutOffHours.TWENTY_FOUR;
 
+    @Transient
     private Date createdDate = Calendar.getInstance().getTime();
 
+    @Transient
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("0yy-MM-dd HH:mm:ss");
+
+    @JsonIgnore
+    private String formattedCreatedDate;
+    @JsonIgnore
+    private String formattedEndDate;
+
+    Menu() {
+        formattedCreatedDate = dateFormat.format(createdDate);
+    }
     public List<Item> getItems(ItemStatusEnum status){
 
         if(items != null ) {
@@ -48,5 +64,41 @@ public class Menu {
 
         return new ArrayList<>();
     }
+
+    public Date getCreatedDate() {
+
+        try {
+            createdDate = dateFormat.parse(formattedCreatedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return createdDate;
+    }
+
+    public Date getEndDate() {
+
+        try {
+            endDate = dateFormat.parse(formattedEndDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        setFormattedEndDate( dateFormat.format(endDate) );
+    }
+
+    public String getFormattedEndDate() {
+
+        return formattedEndDate;
+    }
+
+    public void setFormattedEndDate(String formattedEndDate) {
+
+        this.formattedEndDate = formattedEndDate;
+    }
+
 }
 
