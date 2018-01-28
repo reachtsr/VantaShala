@@ -85,6 +85,7 @@ public class Menu {
     }
 
     public void setEndDate(Date endDate) {
+        this.endDate = endDate;
         setFormattedEndDate( dateFormat.format(endDate) );
     }
 
