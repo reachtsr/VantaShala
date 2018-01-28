@@ -38,11 +38,9 @@ public class Menu {
     @Indexed
     private String name;
     private List<Item> items;
-    @Transient
     private Date endDate;
     private OrderCutOffHours cutOffHours = OrderCutOffHours.TWENTY_FOUR;
 
-    @Transient
     private Date createdDate = Calendar.getInstance().getTime();
 
     @Transient
